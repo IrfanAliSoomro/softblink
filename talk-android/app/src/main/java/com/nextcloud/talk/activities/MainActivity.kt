@@ -91,6 +91,8 @@ class MainActivity :
 
         // Set the default theme to replace the launch screen theme.
         setTheme(R.style.AppTheme)
+        // Ensure light theme is applied on first launch
+        NextcloudTalkApplication.setAppTheme("night_no")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -442,6 +444,17 @@ class MainActivity :
 
     private fun handleIntent(intent: Intent) {
         handleActionFromContact(intent)
+        
+        // Handle Nextcloud Talk URLs
+        if (intent.action == Intent.ACTION_VIEW && intent.data != null) {
+            val url = intent.data.toString()
+            Log.d(TAG, "Handling URL: $url")
+            
+            if (url.contains("/call/")) {
+                handleTalkUrl(url)
+                return
+            }
+        }
 
         val internalUserId = intent.extras?.getLong(BundleKeys.KEY_INTERNAL_USER_ID)
 
@@ -499,6 +512,42 @@ class MainActivity :
                     ).show()
                 }
             })
+        }
+    }
+
+    private fun handleTalkUrl(url: String) {
+        Log.d(TAG, "Processing Talk URL: $url")
+        
+        try {
+            // Extract room token from URL
+            // URL format: https://nc.softblinktech.com/call/6yzrcnch
+            val roomToken = url.substringAfterLast("/call/")
+            
+            if (roomToken.isNotEmpty()) {
+                Log.d(TAG, "Extracted room token: $roomToken")
+                
+                // Check if user is logged in
+                val users = userManager.users.blockingGet()
+                if (users.isNotEmpty()) {
+                    // User is logged in, navigate to chat
+                    val chatIntent = Intent(this, ChatActivity::class.java)
+                    chatIntent.putExtra(BundleKeys.KEY_ROOM_TOKEN, roomToken)
+                    chatIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(chatIntent)
+                } else {
+                    // User not logged in, show login screen
+                    Log.d(TAG, "No users found, launching server selection")
+                    launchServerSelection()
+                }
+            } else {
+                Log.w(TAG, "Could not extract room token from URL: $url")
+                Toast.makeText(this, "Invalid Talk URL", Toast.LENGTH_SHORT).show()
+                openHomeScreen()
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error handling Talk URL: $url", e)
+            Toast.makeText(this, "Error processing Talk URL", Toast.LENGTH_SHORT).show()
+            openHomeScreen()
         }
     }
 

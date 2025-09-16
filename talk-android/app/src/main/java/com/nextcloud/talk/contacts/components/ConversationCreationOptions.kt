@@ -34,59 +34,70 @@ import com.nextcloud.talk.conversationcreation.ConversationCreationActivity
 import com.nextcloud.talk.openconversations.ListOpenConversationsActivity
 
 @Composable
-fun ConversationCreationOptions() {
+fun ConversationCreationOptions(tabSource: String = "default") {
     val context = LocalContext.current
     Column {
-        Row(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
-                .clickable {
-                    val intent = Intent(context, ConversationCreationActivity::class.java)
-                    context.startActivity(intent)
-                },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_chat_bubble_outline_24),
+        // For chat tab, hide both options (show only contacts)
+        // For groups tab, show only "Create new conversation"
+        // For default, show both options
+        
+        if (tabSource != "chat") {
+            // Show "Create new conversation" for groups tab and default
+            Row(
                 modifier = Modifier
-                    .width(40.dp)
-                    .height(40.dp)
-                    .padding(8.dp),
-                contentDescription = null
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                text = stringResource(R.string.nc_create_new_conversation),
-                maxLines = 1,
-                fontSize = 16.sp
-            )
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
+                    .clickable {
+                        val intent = Intent(context, ConversationCreationActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_chat_bubble_outline_24),
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                        .padding(8.dp),
+                    contentDescription = null
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    text = stringResource(R.string.nc_create_new_conversation),
+                    maxLines = 1,
+                    fontSize = 16.sp
+                )
+            }
         }
-        Row(
-            modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                .clickable {
-                    val intent = Intent(context, ListOpenConversationsActivity::class.java)
-                    context.startActivity(intent)
-                },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                Icons.AutoMirrored.Filled.List,
+        
+        // Show "Join open conversations" only for default tab
+        if (tabSource == "default") {
+            Row(
                 modifier = Modifier
-                    .width(40.dp)
-                    .height(40.dp)
-                    .padding(8.dp),
-                contentDescription = null
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(),
-                text = stringResource(R.string.nc_join_open_conversations),
-                fontSize = 16.sp
-            )
+                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                    .clickable {
+                        val intent = Intent(context, ListOpenConversationsActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.AutoMirrored.Filled.List,
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                        .padding(8.dp),
+                    contentDescription = null
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    text = stringResource(R.string.nc_join_open_conversations),
+                    fontSize = 16.sp
+                )
+            }
         }
     }
 }

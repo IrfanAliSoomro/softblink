@@ -16,6 +16,7 @@ import android.content.Intent
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.nextcloud.talk.data.user.model.User
 import androidx.work.Data
 import com.nextcloud.talk.R
@@ -25,7 +26,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nextcloud.talk.databinding.ActivityConversationsBinding
 import com.nextcloud.talk.ui.HomeFragment
-import com.nextcloud.talk.ui.SettingsFragment
+import com.nextcloud.talk.settings.SettingsActivity
 import com.nextcloud.talk.ui.GroupFragment
 import com.nextcloud.talk.ui.CallsFragment
 import com.google.android.material.snackbar.Snackbar
@@ -58,6 +59,8 @@ class HomeScreen : BaseActivity() {
     private lateinit var binding: ActivityConversationsBinding
     private var searchQuery: String? = null
     private var currentUser: User? = null
+    private var newChatMenuItem: MenuItem? = null
+    private var settingsMenuItem: MenuItem? = null
     private var actionIconMenuItem: MenuItem? = null
     
     @Inject
@@ -66,6 +69,8 @@ class HomeScreen : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NextcloudTalkApplication.sharedApplication!!.componentApplication.inject(this)
+        // Ensure light theme is applied
+        NextcloudTalkApplication.setAppTheme("night_no")
         currentUser = currentUserProvider.currentUser.blockingGet()
         
         // Check server status when HomeScreen starts
@@ -88,25 +93,23 @@ class HomeScreen : BaseActivity() {
             when (it.itemId) {
                 R.id.nav_chat -> {
                     loadFragment(HomeFragment())
+                    updateMenuVisibility()
                     true
                 }
 
                 R.id.nav_group -> {
                     loadFragment(GroupFragment())
+                    updateMenuVisibility()
                     true
                 }
 
                 R.id.nav_calls -> {
                     loadFragment(CallsFragment())
+                    updateMenuVisibility()
                     true
                 }
 
-                R.id.nav_settings -> {
-                    loadFragment(SettingsFragment())
-                    true
-                }
-
-                else -> false // add this
+                else -> false
             }
         }
 
@@ -117,6 +120,9 @@ class HomeScreen : BaseActivity() {
         } else {
             bottomNav.selectedItemId = R.id.nav_chat // or your default
         }
+        
+        // Update menu and FAB visibility based on initial tab
+        updateMenuVisibility()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleLarge)
@@ -146,21 +152,20 @@ class HomeScreen : BaseActivity() {
         when (fragment) {
             is HomeFragment -> {
                 supportActionBar?.title = "Chat"
-                actionIconMenuItem?.isVisible = true // Show icon
+                showFloatingActionButton(true)
             }
             is GroupFragment -> {
-                supportActionBar?.title = "Group"
-                actionIconMenuItem?.isVisible = true // Show icon
+                supportActionBar?.title = "Meetings"
+                showFloatingActionButton(true)
             }
             is CallsFragment -> {
                 supportActionBar?.title = "Calls"
-                actionIconMenuItem?.isVisible = false // Hide icon for calls
-            }
-            is SettingsFragment -> {
-                supportActionBar?.title = "Settings"
-                actionIconMenuItem?.isVisible = false // Hide icon for settings
+                showFloatingActionButton(true)
             }
         }
+        
+        // Update menu visibility based on current tab
+        updateMenuVisibility()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -348,25 +353,72 @@ class HomeScreen : BaseActivity() {
             }
     }
 
+    private fun updateMenuVisibility() {
+        // Get the current fragment to determine which tab is active
+        val currentFragment = supportFragmentManager.fragments.find { it.isVisible }
+        
+        when (currentFragment) {
+            is HomeFragment -> {
+                // Chat tab: Show both New Chat and Settings, and show FAB
+                newChatMenuItem?.isVisible = true
+                settingsMenuItem?.isVisible = true
+                showFloatingActionButton(true)
+            }
+            is GroupFragment -> {
+                // Group tab: Show only Settings, show FAB
+                newChatMenuItem?.isVisible = false
+                settingsMenuItem?.isVisible = true
+                showFloatingActionButton(true)
+            }
+            is CallsFragment -> {
+                // Calls tab: Show only Settings, hide FAB
+                newChatMenuItem?.isVisible = false
+                settingsMenuItem?.isVisible = true
+                showFloatingActionButton(false)
+            }
+            else -> {
+                // Default: Show only Settings, hide FAB
+                newChatMenuItem?.isVisible = false
+                settingsMenuItem?.isVisible = true
+                showFloatingActionButton(true)
+            }
+        }
+    }
+
+    private fun showFloatingActionButton(show: Boolean) {
+        // Find the FAB in the current fragment
+        val currentFragment = supportFragmentManager.fragments.find { it.isVisible }
+        currentFragment?.view?.let { fragmentView ->
+            val fab = fragmentView.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
+            fab?.visibility = if (show) android.view.View.VISIBLE else android.view.View.GONE
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
-        actionIconMenuItem = menu.findItem(R.id.action_icon)
-
-        val menuItem = menu.findItem(R.id.action_icon)
-        val actionView = menuItem.actionView
-        actionView?.findViewById<ImageView>(R.id.action_icon_image)?.setOnClickListener {
-            showNewConversationsScreen()
-        }
+        
+        // Store references to menu items for visibility control
+        newChatMenuItem = menu.findItem(R.id.action_new_chat)
+        settingsMenuItem = menu.findItem(R.id.action_settings)
+        
+        // Set initial menu visibility based on current tab
+        updateMenuVisibility()
         
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_icon -> {
-                // showNewConversationsScreen()
-                val intent = Intent(context, ConversationCreationActivity::class.java)
-                context.startActivity(intent)
+            R.id.action_new_chat -> {
+                // Open same screen as home tab FAB - ContactsActivity with chat tab source
+                val intent = Intent(this, ContactsActivity::class.java)
+                intent.putExtra("tab_source", "chat")
+                startActivity(intent)
+                true
+            }
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)

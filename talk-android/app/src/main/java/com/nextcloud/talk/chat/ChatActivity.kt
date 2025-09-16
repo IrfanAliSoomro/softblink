@@ -3518,6 +3518,19 @@ class ChatActivity :
         return chatMessageMap.values.toList()
     }
 
+    private fun isCallRelatedMessage(currentMessage: MutableMap.MutableEntry<String, ChatMessage>): Boolean {
+        val chatMessage = currentMessage.value
+        return chatMessage.systemMessageType in listOf(
+            ChatMessage.SystemMessageType.CALL_STARTED,
+            ChatMessage.SystemMessageType.CALL_JOINED,
+            ChatMessage.SystemMessageType.CALL_LEFT,
+            ChatMessage.SystemMessageType.CALL_ENDED,
+            ChatMessage.SystemMessageType.CALL_ENDED_EVERYONE,
+            ChatMessage.SystemMessageType.CALL_MISSED,
+            ChatMessage.SystemMessageType.CALL_TRIED
+        )
+    }
+
     private fun handleExpandableSystemMessages(chatMessageList: List<ChatMessage>): List<ChatMessage> {
         val chatMessageMap = chatMessageList.associateBy { it.id }.toMutableMap()
         val chatMessageIterator = chatMessageMap.iterator()

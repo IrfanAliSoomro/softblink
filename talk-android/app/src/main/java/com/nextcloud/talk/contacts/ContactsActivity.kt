@@ -61,13 +61,17 @@ class ContactsActivity : BaseActivity() {
             }.toSet().toMutableList()
             contactsViewModel.updateSelectedParticipants(selectedParticipants)
 
+            // Get tab source from intent
+            val tabSource = intent?.getStringExtra("tab_source") ?: "default"
+
             MaterialTheme(
                 colorScheme = colorScheme
             ) {
                 ColoredStatusBar()
                 ContactsScreen(
                     contactsViewModel = contactsViewModel,
-                    uiState = uiState.value
+                    uiState = uiState.value,
+                    tabSource = tabSource
                 )
             }
         }

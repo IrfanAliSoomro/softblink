@@ -7,6 +7,7 @@
 
 package com.nextcloud.talk.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -15,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nextcloud.talk.databinding.ItemCallHistoryBinding
 import com.nextcloud.talk.models.CallHistoryItem
 import com.nextcloud.talk.utils.DisplayUtils
+import com.nextcloud.talk.extensions.loadUserAvatar
+import com.nextcloud.talk.extensions.loadDefaultAvatar
+import com.nextcloud.talk.extensions.loadDefaultGroupCallAvatar
+import com.nextcloud.talk.extensions.loadFirstLetterAvatar
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -46,12 +51,13 @@ class CallsAdapter(
                 conversationName.text = callItem.conversationName
                 
                 // Set call type and duration
-                callTypeAndDuration.text = "${getCallTypeText(callItem.callType)} • ${callItem.duration}"
+                // callTypeAndDuration.text = "${getCallTypeText(callItem.callType)} • ${callItem.duration}"
+                callTypeAndDuration.text = "${getCallTypeText(callItem.callType)}"
                 
                 // Set timestamp
                 timestamp.text = callItem.getFormattedTimestamp()
                 
-                // Set call type icon
+                // Set call type icon (arrow)
                 callTypeIcon.setImageResource(callItem.getCallTypeIcon())
                 
                 // Set call type color
@@ -61,10 +67,19 @@ class CallsAdapter(
                 // Set video call indicator
                 videoCallIndicator.visibility = if (callItem.isVideoCall) ViewGroup.VISIBLE else ViewGroup.GONE
                 
+                // Debug logging for video call indicator
+                if (callItem.isVideoCall) {
+                    Log.d("CallsAdapter", "Showing video call indicator for: ${callItem.conversationName}")
+                }
+                
                 // Set missed call indicator
                 if (callItem.isMissed) {
                     callTypeAndDuration.setTextColor(color)
+                    conversationName.setTextColor(color)
                 }
+                
+                // Load profile image
+                loadProfileImage(callItem)
                 
                 // Set click listeners
                 root.setOnClickListener { onCallItemClick(callItem) }
@@ -76,6 +91,12 @@ class CallsAdapter(
                     else android.R.drawable.ic_menu_call
                 )
             }
+        }
+        
+        private fun loadProfileImage(callItem: CallHistoryItem) {
+            // For now, just load a default avatar since we don't have access to ViewThemeUtils
+            // and the avatar URL is not available in ConversationEntity
+            binding.profileImage.loadFirstLetterAvatar(callItem.conversationName)
         }
 
         private fun getCallTypeText(callType: CallHistoryItem.CallType): String {

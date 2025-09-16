@@ -113,10 +113,16 @@ class ConversationCreationActivity : BaseActivity() {
         setContent {
             val colorScheme = viewThemeUtils.getColorScheme(this)
             val context = LocalContext.current
+            val hideParticipantsList = intent.getStringExtra("tab_source") == "groups"
             MaterialTheme(
                 colorScheme = colorScheme
             ) {
-                ConversationCreationScreen(conversationCreationViewModel, context, pickImage)
+                ConversationCreationScreen(
+                    conversationCreationViewModel = conversationCreationViewModel,
+                    context = context,
+                    pickImage = pickImage,
+                    hideParticipantsList = hideParticipantsList
+                )
             }
         }
     }
@@ -127,7 +133,8 @@ class ConversationCreationActivity : BaseActivity() {
 fun ConversationCreationScreen(
     conversationCreationViewModel: ConversationCreationViewModel,
     context: Context,
-    pickImage: PickImage
+    pickImage: PickImage,
+    hideParticipantsList: Boolean = false
 ) {
     val selectedImageUri = conversationCreationViewModel.selectedImageUri.collectAsState().value
 
@@ -208,7 +215,9 @@ fun ConversationCreationScreen(
                 )
 
                 ConversationNameAndDescription(conversationCreationViewModel)
-                AddParticipants(launcher, context, conversationCreationViewModel)
+                if (!hideParticipantsList) {
+                    AddParticipants(launcher, context, conversationCreationViewModel)
+                }
                 RoomCreationOptions(conversationCreationViewModel)
                 CreateConversation(conversationCreationViewModel, context)
             }
@@ -691,6 +700,13 @@ fun ShowPasswordDialog(onDismiss: () -> Unit, conversationCreationViewModel: Con
 @Composable
 fun CreateConversation(conversationCreationViewModel: ConversationCreationViewModel, context: Context) {
     val selectedParticipants by conversationCreationViewModel.selectedParticipants.collectAsState()
+    val roomViewState by conversationCreationViewModel.roomViewState.collectAsState()
+    val roomName by conversationCreationViewModel.roomName.collectAsState()
+    
+    // Check if room name is empty or contains only whitespace
+    val isRoomNameEmpty = roomName.trim().isEmpty()
+    val isButtonEnabled = roomViewState !is RoomUIState.Loading && !isRoomNameEmpty
+    
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -699,21 +715,41 @@ fun CreateConversation(conversationCreationViewModel: ConversationCreationViewMo
     ) {
         Button(
             onClick = {
-                conversationCreationViewModel.createRoomAndAddParticipants(
-                    roomType = CompanionClass.ROOM_TYPE_GROUP,
-                    conversationName = conversationCreationViewModel.roomName.value,
-                    participants = selectedParticipants.toSet()
-                ) { roomToken ->
-                    val bundle = Bundle()
-                    bundle.putString(BundleKeys.KEY_ROOM_TOKEN, roomToken)
-                    val chatIntent = Intent(context, ChatActivity::class.java)
-                    chatIntent.putExtras(bundle)
-                    chatIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    context.startActivity(chatIntent)
+                // Additional validation before processing
+                if (roomName.trim().isNotEmpty()) {
+                    conversationCreationViewModel.createRoomAndAddParticipants(
+                        roomType = CompanionClass.ROOM_TYPE_GROUP,
+                        conversationName = conversationCreationViewModel.roomName.value,
+                        participants = selectedParticipants.toSet()
+                    ) { roomToken ->
+                        val bundle = Bundle()
+                        bundle.putString(BundleKeys.KEY_ROOM_TOKEN, roomToken)
+                        val chatIntent = Intent(context, ChatActivity::class.java)
+                        chatIntent.putExtras(bundle)
+                        chatIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        context.startActivity(chatIntent)
+                        // Finish the ConversationCreationActivity to prevent it from showing on back press
+                        (context as? Activity)?.finish()
+                    }
                 }
-            }
+            },
+            enabled = isButtonEnabled
         ) {
-            Text(text = stringResource(id = R.string.create_conversation))
+            if (roomViewState is RoomUIState.Loading) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    androidx.compose.material3.CircularProgressIndicator(
+                        modifier = Modifier.size(16.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(id = R.string.creating_conversation))
+                }
+            } else {
+                Text(text = stringResource(id = R.string.create_conversation))
+            }
         }
     }
 }

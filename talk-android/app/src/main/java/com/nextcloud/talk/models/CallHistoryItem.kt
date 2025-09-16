@@ -10,6 +10,7 @@ package com.nextcloud.talk.models
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.util.Date
+import com.nextcloud.talk.R
 
 @Parcelize
 data class CallHistoryItem(
@@ -23,7 +24,9 @@ data class CallHistoryItem(
     val isMissed: Boolean,
     val callFlag: Int = 0,
     val callStartTime: Long = 0,
-    val hasCall: Boolean = false
+    val hasCall: Boolean = false,
+    val profileImageUrl: String? = null,
+    val isGroupCall: Boolean = false
 ) : Parcelable {
 
     enum class CallType {
@@ -41,20 +44,21 @@ data class CallHistoryItem(
 
     fun getCallTypeIcon(): Int {
         return when (callType) {
-            CallType.INCOMING_AUDIO, CallType.OUTGOING_AUDIO, CallType.ONGOING_AUDIO -> android.R.drawable.ic_menu_call
-            CallType.INCOMING_VIDEO, CallType.OUTGOING_VIDEO, CallType.ONGOING_VIDEO -> android.R.drawable.ic_menu_camera
-            CallType.MISSED_AUDIO, CallType.REJECTED_AUDIO -> android.R.drawable.ic_menu_call
-            CallType.MISSED_VIDEO, CallType.REJECTED_VIDEO -> android.R.drawable.ic_menu_camera
+            CallType.INCOMING_AUDIO, CallType.INCOMING_VIDEO -> R.drawable.ic_call_received
+            CallType.OUTGOING_AUDIO, CallType.OUTGOING_VIDEO -> R.drawable.ic_call_made
+            CallType.MISSED_AUDIO, CallType.MISSED_VIDEO -> R.drawable.ic_call_missed
+            CallType.REJECTED_AUDIO, CallType.REJECTED_VIDEO -> R.drawable.ic_call_missed
+            CallType.ONGOING_AUDIO, CallType.ONGOING_VIDEO -> R.drawable.ic_call_received
         }
     }
 
     fun getCallTypeColor(): Int {
         return when (callType) {
-            CallType.INCOMING_AUDIO, CallType.INCOMING_VIDEO -> android.R.color.holo_green_dark
-            CallType.OUTGOING_AUDIO, CallType.OUTGOING_VIDEO -> android.R.color.holo_blue_dark
-            CallType.MISSED_AUDIO, CallType.MISSED_VIDEO -> android.R.color.holo_red_dark
-            CallType.REJECTED_AUDIO, CallType.REJECTED_VIDEO -> android.R.color.holo_orange_dark
-            CallType.ONGOING_AUDIO, CallType.ONGOING_VIDEO -> android.R.color.holo_green_light
+            CallType.INCOMING_AUDIO, CallType.INCOMING_VIDEO -> R.color.call_incoming_color
+            CallType.OUTGOING_AUDIO, CallType.OUTGOING_VIDEO -> R.color.call_outgoing_color
+            CallType.MISSED_AUDIO, CallType.MISSED_VIDEO -> R.color.call_missed_color
+            CallType.REJECTED_AUDIO, CallType.REJECTED_VIDEO -> R.color.call_missed_color
+            CallType.ONGOING_AUDIO, CallType.ONGOING_VIDEO -> R.color.call_incoming_color
         }
     }
 
@@ -65,13 +69,27 @@ data class CallHistoryItem(
         val diffInHours = diffInMinutes / 60
         val diffInDays = diffInHours / 24
 
+        val timeFormat = java.text.SimpleDateFormat("h:mm a", java.util.Locale.getDefault())
+        val timeString = timeFormat.format(timestamp)
+
         return when {
             diffInMinutes < 1 -> "Just now"
             diffInMinutes < 60 -> "$diffInMinutes min ago"
-            diffInHours < 24 -> "$diffInHours hr ago"
-            diffInDays < 7 -> "$diffInDays day ago"
+            diffInHours < 24 -> {
+                if (diffInHours < 1) {
+                    "$diffInMinutes min ago"
+                } else {
+                    "$diffInHours hr ago"
+                }
+            }
+            diffInDays == 1L -> "Yesterday $timeString"
+            diffInDays < 7 -> {
+                val dayFormat = java.text.SimpleDateFormat("EEEE", java.util.Locale.getDefault())
+                val dayName = dayFormat.format(timestamp)
+                "$dayName $timeString"
+            }
             else -> {
-                val dateFormat = java.text.SimpleDateFormat("MMM dd", java.util.Locale.getDefault())
+                val dateFormat = java.text.SimpleDateFormat("MMM dd h:mm a", java.util.Locale.getDefault())
                 dateFormat.format(timestamp)
             }
         }
@@ -110,7 +128,9 @@ data class CallHistoryItem(
                 isMissed = conversation.callStartTime == 0L,
                 callFlag = conversation.callFlag,
                 callStartTime = conversation.callStartTime,
-                hasCall = conversation.hasCall
+                hasCall = conversation.hasCall,
+                profileImageUrl = null, // Avatar URL not available in ConversationEntity
+                isGroupCall = conversation.actorType != "users"
             )
         }
     }

@@ -7,13 +7,10 @@
     <item
         android:id="@+id/nav_group"
         android:icon="@drawable/ic_people_group_black_24px"
-        android:title="Group" />
+        android:title="Meetings" />
     <item
         android:id="@+id/nav_calls"
         android:icon="@drawable/ic_call_black_24dp"
         android:title="Calls" />
-    <item
-        android:id="@+id/nav_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="Settings" />
+
 </menu> 

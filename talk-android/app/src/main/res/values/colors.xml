@@ -111,4 +111,9 @@
     <color name="colorGray">#9E9E9E</color>
     <color name="light_grey">#838485</color>
 
+    <!-- Call history colors -->
+    <color name="call_incoming_color">#4CAF50</color>
+    <color name="call_outgoing_color">#2196F3</color>
+    <color name="call_missed_color">#F44336</color>
+
 </resources>

@@ -116,6 +116,24 @@
                 <data android:scheme="content" />
                 <data android:scheme="file" />
             </intent-filter>
+
+            <!-- Intent filter for Nextcloud Talk URLs -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:pathPattern="/call/.*" />
+            </intent-filter>
+
+            <!-- Intent filter for HTTP URLs (for testing) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" />
+                <data android:pathPattern="/call/.*" />
+            </intent-filter>
         </activity>
 
         <activity

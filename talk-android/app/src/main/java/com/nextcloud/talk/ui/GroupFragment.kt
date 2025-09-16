@@ -95,6 +95,7 @@ import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.viewmodels.ChatViewModel
 import com.nextcloud.talk.contacts.ContactsActivity
+import com.nextcloud.talk.conversationcreation.ConversationCreationActivity
 import com.nextcloud.talk.contacts.ContactsUiState
 import com.nextcloud.talk.contacts.ContactsViewModel
 import com.nextcloud.talk.contacts.RoomUiState
@@ -345,6 +346,9 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
 
         initObservers()
         // setHasOptionsMenu(true)
+        
+        // Setup floating action button
+        setupFloatingActionButton()
 
     }
 
@@ -1369,6 +1373,17 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
     }
 
     /**
+     * Setup floating action button click listener
+     */
+    private fun setupFloatingActionButton() {
+        binding.floatingActionButton.setOnClickListener {
+            // Navigate to conversation creation
+            val intent = Intent(requireContext(), ConversationCreationActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    /**
      * Check EventBus registration status
      */
     fun checkEventBusStatus() {
@@ -1598,9 +1613,15 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
         binding.emptyLayout.setOnClickListener { showNewConversationsScreen() }
         binding.floatingActionButton.setOnClickListener {
             run(requireActivity())
-            showNewConversationsScreen()
+            // Navigate to conversation creation with participants list visible
+            val intent = Intent(context, ConversationCreationActivity::class.java)
+            startActivity(intent)
         }
-        binding.floatingActionButton.let { viewThemeUtils.material.themeFAB(it) }
+        binding.floatingActionButton.let { 
+            viewThemeUtils.material.themeFAB(it)
+            // Set meeting icon for groups tab
+            it.setImageResource(R.drawable.ic_people_group_black_24px)
+        }
 
         binding.switchAccountButton.setOnClickListener {
             if (resources != null && resources!!.getBoolean(R.bool.multiaccount_support)) {
@@ -1944,27 +1965,25 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
                     selectedConversation!!.displayName
                 )
             }
-            binding.floatingActionButton.let {
-                val dialogBuilder = MaterialAlertDialogBuilder(it.context)
-                    .setIcon(viewThemeUtils.dialog.colorMaterialAlertDialogIcon(requireActivity(), R.drawable.upload))
-                    .setTitle(confirmationQuestion)
-                    .setMessage(fileNamesWithLineBreaks.toString())
-                    .setPositiveButton(R.string.nc_yes) { _, _ ->
-                        upload()
-                        openConversation()
-                    }
-                    .setNegativeButton(R.string.nc_no) { _, _ ->
-                        Log.d(TAG, "sharing files aborted, going back to share-to screen")
-                    }
+            val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
+                .setIcon(viewThemeUtils.dialog.colorMaterialAlertDialogIcon(requireActivity(), R.drawable.upload))
+                .setTitle(confirmationQuestion)
+                .setMessage(fileNamesWithLineBreaks.toString())
+                .setPositiveButton(R.string.nc_yes) { _, _ ->
+                    upload()
+                    openConversation()
+                }
+                .setNegativeButton(R.string.nc_no) { _, _ ->
+                    Log.d(TAG, "sharing files aborted, going back to share-to screen")
+                }
 
-                viewThemeUtils.dialog
-                    .colorMaterialAlertDialogBackground(it.context, dialogBuilder)
-                val dialog = dialogBuilder.show()
-                viewThemeUtils.platform.colorTextButtons(
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE),
-                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                )
-            }
+            viewThemeUtils.dialog
+                .colorMaterialAlertDialogBackground(requireContext(), dialogBuilder)
+            val dialog = dialogBuilder.show()
+            viewThemeUtils.platform.colorTextButtons(
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE),
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            )
         } else {
             UploadAndShareFilesWorker.requestStoragePermission(requireActivity())
         }
@@ -2444,8 +2463,7 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
 
 
     fun showDeleteConversationDialog(conversation: ConversationModel) {
-        binding.floatingActionButton.let {
-            val dialogBuilder = MaterialAlertDialogBuilder(it.context)
+        val dialogBuilder = MaterialAlertDialogBuilder(requireContext())
                 .setIcon(
                     viewThemeUtils.dialog
                         .colorMaterialAlertDialogIcon(requireActivity(), R.drawable.ic_delete_black_24dp)
@@ -2459,46 +2477,47 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
                 }
 
             viewThemeUtils.dialog
-                .colorMaterialAlertDialogBackground(it.context, dialogBuilder)
+                .colorMaterialAlertDialogBackground(requireContext(), dialogBuilder)
             val dialog = dialogBuilder.show()
             viewThemeUtils.platform.colorTextButtons(
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE),
                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
             )
-        }
+
     }
 
     private fun showUnauthorizedDialog() {
         binding.floatingActionButton.let {
             val dialogBuilder = MaterialAlertDialogBuilder(it.context)
-                .setIcon(
-                    viewThemeUtils.dialog.colorMaterialAlertDialogIcon(
-                        requireActivity(),
-                        R.drawable.ic_delete_black_24dp
+                    .setIcon(
+                        viewThemeUtils.dialog.colorMaterialAlertDialogIcon(
+                            requireActivity(),
+                            R.drawable.ic_delete_black_24dp
+                        )
                     )
-                )
-                .setTitle(R.string.nc_dialog_invalid_password)
-                .setMessage(R.string.nc_dialog_reauth_or_delete)
-                .setCancelable(false)
-                .setPositiveButton(R.string.nc_settings_remove_account) { _, _ ->
-                    deleteUserAndRestartApp()
-                }
-                .setNegativeButton(R.string.nc_settings_reauthorize) { _, _ ->
-                    val intent = Intent(context, WebViewLoginActivity::class.java)
-                    val bundle = Bundle()
-                    bundle.putString(BundleKeys.KEY_BASE_URL, currentUser!!.baseUrl!!)
-                    bundle.putBoolean(BundleKeys.KEY_REAUTHORIZE_ACCOUNT, true)
-                    intent.putExtras(bundle)
-                    startActivity(intent)
-                }
+                    .setTitle(R.string.nc_dialog_invalid_password)
+                    .setMessage(R.string.nc_dialog_reauth_or_delete)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.nc_settings_remove_account) { _, _ ->
+                        deleteUserAndRestartApp()
+                    }
+                    .setNegativeButton(R.string.nc_settings_reauthorize) { _, _ ->
+                        val intent = Intent(context, WebViewLoginActivity::class.java)
+                        val bundle = Bundle()
+                        bundle.putString(BundleKeys.KEY_BASE_URL, currentUser!!.baseUrl!!)
+                        bundle.putBoolean(BundleKeys.KEY_REAUTHORIZE_ACCOUNT, true)
+                        intent.putExtras(bundle)
+                        startActivity(intent)
+                    }
 
-            viewThemeUtils.dialog.colorMaterialAlertDialogBackground(it.context, dialogBuilder)
-            val dialog = dialogBuilder.show()
-            viewThemeUtils.platform.colorTextButtons(
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE),
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            )
+                viewThemeUtils.dialog.colorMaterialAlertDialogBackground(it.context, dialogBuilder)
+                val dialog = dialogBuilder.show()
+                viewThemeUtils.platform.colorTextButtons(
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE),
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                )
         }
+
     }
 
     @SuppressLint("CheckResult")
@@ -2550,26 +2569,26 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
     private fun showOutdatedClientDialog() {
         binding.floatingActionButton.let {
             val dialogBuilder = MaterialAlertDialogBuilder(it.context)
-                .setIcon(
-                    viewThemeUtils.dialog.colorMaterialAlertDialogIcon(
-                        requireActivity(),
-                        R.drawable.ic_info_white_24dp
+                    .setIcon(
+                        viewThemeUtils.dialog.colorMaterialAlertDialogIcon(
+                            requireActivity(),
+                            R.drawable.ic_info_white_24dp
+                        )
                     )
-                )
-                .setTitle(R.string.nc_dialog_outdated_client)
-                .setMessage(R.string.nc_dialog_outdated_client_description)
-                .setCancelable(false)
-                .setPositiveButton(R.string.nc_dialog_outdated_client_option_update) { _, _ ->
-                    try {
-                        startActivity(
-                            Intent(Intent.ACTION_VIEW, (CLIENT_UPGRADE_MARKET_LINK + requireActivity().packageName).toUri())
-                        )
-                    } catch (e: ActivityNotFoundException) {
-                        startActivity(
-                            Intent(Intent.ACTION_VIEW, (CLIENT_UPGRADE_GPLAY_LINK + requireActivity().packageName).toUri())
-                        )
+                    .setTitle(R.string.nc_dialog_outdated_client)
+                    .setMessage(R.string.nc_dialog_outdated_client_description)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.nc_dialog_outdated_client_option_update) { _, _ ->
+                        try {
+                            startActivity(
+                                Intent(Intent.ACTION_VIEW, (CLIENT_UPGRADE_MARKET_LINK + requireActivity().packageName).toUri())
+                            )
+                        } catch (e: ActivityNotFoundException) {
+                            startActivity(
+                                Intent(Intent.ACTION_VIEW, (CLIENT_UPGRADE_GPLAY_LINK + requireActivity().packageName).toUri())
+                            )
+                        }
                     }
-                }
 
             if (resources!!.getBoolean(R.bool.multiaccount_support) && userManager.users.blockingGet().size > 1) {
                 dialogBuilder.setNegativeButton(R.string.nc_switch_account) { _, _ ->
@@ -2577,7 +2596,6 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
                     newFragment.show(requireActivity().supportFragmentManager, ChooseAccountDialogFragment.TAG)
                 }
             }
-
 
             if (resources!!.getBoolean(R.bool.multiaccount_support)) {
                 dialogBuilder.setNeutralButton(R.string.nc_account_chooser_add_account) { _, _ ->
@@ -2600,14 +2618,14 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
     private fun showServerEOLDialog() {
         binding.floatingActionButton.let {
             val dialogBuilder = MaterialAlertDialogBuilder(it.context)
-                .setIcon(viewThemeUtils.dialog.colorMaterialAlertDialogIcon(requireContext(), R.drawable
-                    .ic_warning_white))
-                .setTitle(R.string.nc_settings_server_eol_title)
-                .setMessage(R.string.nc_settings_server_eol)
-                .setCancelable(false)
-                .setPositiveButton(R.string.nc_settings_remove_account) { _, _ ->
-                    deleteUserAndRestartApp()
-                }
+                    .setIcon(viewThemeUtils.dialog.colorMaterialAlertDialogIcon(it.context, R.drawable
+                        .ic_warning_white))
+                    .setTitle(R.string.nc_settings_server_eol_title)
+                    .setMessage(R.string.nc_settings_server_eol)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.nc_settings_remove_account) { _, _ ->
+                        deleteUserAndRestartApp()
+                    }
 
             if (resources!!.getBoolean(R.bool.multiaccount_support) && userManager.users.blockingGet().size > 1) {
                 dialogBuilder.setNegativeButton(R.string.nc_switch_account) { _, _ ->
@@ -2751,7 +2769,6 @@ class GroupFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleA
         const val LONG_1000: Long = 1000
         private const val NOTE_TO_SELF_SHORTCUT_ID = "NOTE_TO_SELF_SHORTCUT_ID"
     }
-
 
 }
 

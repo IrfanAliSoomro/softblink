@@ -180,37 +180,6 @@ class SettingsFragment :
 
 
 
-    fun onCreate1(savedInstanceState: Bundle?) {
-        // super.onCreate(savedInstanceState)
-        NextcloudTalkApplication.sharedApplication!!.componentApplication.inject(this)
-
-
-        // setupActionBar()
-        // setContentView(binding.root)
-        // initSystemBars()
-
-        binding.avatarImage.let { ViewCompat.setTransitionName(it, "userAvatar.transitionTag") }
-
-        getCurrentUser()
-        // handleIntent(intent)
-
-        setupLicenceSetting()
-
-        binding.settingsScreenLockSummary.text = String.format(
-            Locale.getDefault(),
-            resources!!.getString(R.string.nc_settings_screen_lock_desc),
-            resources!!.getString(R.string.nc_app_product_name)
-        )
-
-        setupDiagnose()
-        setupPrivacyUrl()
-        setupSourceCodeUrl()
-        binding.settingsVersionSummary.text = String.format("v" + BuildConfig.VERSION_NAME)
-
-        setupPhoneBookIntegration()
-
-        setupClientCertView()
-    }
 
     private fun handleIntent(intent: Intent) {
         val extras: Bundle? = intent.extras

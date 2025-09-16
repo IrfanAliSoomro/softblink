@@ -115,6 +115,7 @@ class NextcloudTalkApplication :
 
     //endregion
 
+
     //region Overridden methods
     override fun onCreate() {
         Log.d(TAG, "onCreate")
@@ -135,7 +136,14 @@ class NextcloudTalkApplication :
         componentApplication.inject(this)
 
         Coil.setImageLoader(buildDefaultImageLoader())
-        setAppTheme(appPreferences.theme)
+        // Ensure default theme is set to light mode on first install
+        val currentTheme = appPreferences.theme
+        if (currentTheme.isEmpty() || currentTheme == "follow_system") {
+            appPreferences.setTheme("night_no")
+            setAppTheme("night_no")
+        } else {
+            setAppTheme(currentTheme)
+        }
         super.onCreate()
 
         ClosedInterfaceImpl().providerInstallerInstallIfNeededAsync()

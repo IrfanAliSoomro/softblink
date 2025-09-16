@@ -3,8 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_icon"
-        app:actionLayout="@layout/toolbar_action_icon"
-        android:title="test"
-        app:showAsAction="always" />
+        android:id="@+id/action_new_chat"
+
+        android:title="New Chat"
+        app:showAsAction="never" />
+
+<!--    android:icon="@drawable/ic_add"-->
+    <item
+        android:id="@+id/action_settings"
+        android:title="Settings"
+        app:showAsAction="never" />
+
+<!--    android:icon="@drawable/ic_settings"-->
 </menu>

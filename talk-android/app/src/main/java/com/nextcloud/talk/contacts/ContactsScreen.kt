@@ -26,7 +26,7 @@ import com.nextcloud.talk.contacts.components.ContactsSearchAppBar
 import com.nextcloud.talk.contacts.components.ConversationCreationOptions
 
 @Composable
-fun ContactsScreen(contactsViewModel: ContactsViewModel, uiState: ContactsUiState) {
+fun ContactsScreen(contactsViewModel: ContactsViewModel, uiState: ContactsUiState, tabSource: String = "default") {
     val searchQuery by contactsViewModel.searchQuery.collectAsStateWithLifecycle()
     val isSearchActive by contactsViewModel.isSearchActive.collectAsStateWithLifecycle()
     val isAddParticipants by contactsViewModel.isAddParticipantsView.collectAsStateWithLifecycle()
@@ -68,7 +68,7 @@ fun ContactsScreen(contactsViewModel: ContactsViewModel, uiState: ContactsUiStat
                     .background(colorResource(id = R.color.bg_default))
             ) {
                 if (!isAddParticipants) {
-                    ConversationCreationOptions()
+                    ConversationCreationOptions(tabSource = tabSource)
                 }
 
                 ContactsList(

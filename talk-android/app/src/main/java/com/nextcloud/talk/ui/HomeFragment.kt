@@ -97,6 +97,7 @@ import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.viewmodels.ChatViewModel
 import com.nextcloud.talk.contacts.ContactsActivity
+import com.nextcloud.talk.conversationcreation.ConversationCreationActivity
 import com.nextcloud.talk.contacts.ContactsUiState
 import com.nextcloud.talk.contacts.ContactsViewModel
 import com.nextcloud.talk.contacts.RoomUiState
@@ -347,6 +348,9 @@ class HomeFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleAd
 
          initObservers()
         // setHasOptionsMenu(true)
+        
+        // Setup floating action button
+        setupFloatingActionButton()
 
     }
 
@@ -1371,6 +1375,17 @@ class HomeFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleAd
     }
 
     /**
+     * Setup floating action button click listener
+     */
+    private fun setupFloatingActionButton() {
+        binding.floatingActionButton.setOnClickListener {
+            // Navigate to conversation creation
+            val intent = Intent(requireContext(), ConversationCreationActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    /**
      * Check EventBus registration status
      */
     fun checkEventBusStatus() {
@@ -1605,7 +1620,10 @@ class HomeFragment : Fragment(), FlexibleAdapter.OnItemClickListener, FlexibleAd
         binding.emptyLayout.setOnClickListener { showNewConversationsScreen() }
         binding.floatingActionButton.setOnClickListener {
             run(requireActivity())
-            showNewConversationsScreen()
+            // Pass extra to indicate this is from chat tab - show only contacts
+            val intent = Intent(context, ContactsActivity::class.java)
+            intent.putExtra("tab_source", "chat")
+            startActivity(intent)
         }
         binding.floatingActionButton.let { viewThemeUtils.material.themeFAB(it) }
 

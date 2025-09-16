@@ -114,6 +114,7 @@ import com.nextcloud.talk.utils.NotificationUtils.getCallRingtoneUri
 import com.nextcloud.talk.utils.ReceiverFlag
 import com.nextcloud.talk.utils.SpreedFeatures
 import com.nextcloud.talk.utils.VibrationUtils.vibrateShort
+import com.nextcloud.talk.utils.VideoCallTracker
 import com.nextcloud.talk.utils.animations.PulseAnimation
 import com.nextcloud.talk.utils.bundle.BundleKeys.KEY_CALL_VOICE_ONLY
 import com.nextcloud.talk.utils.bundle.BundleKeys.KEY_CALL_WITHOUT_NOTIFICATION
@@ -236,6 +237,7 @@ class CallActivity : CallBaseActivity() {
     private var microphoneOn = false
     private var isVoiceOnlyCall = false
     private var isCallWithoutNotification = false
+    private lateinit var videoCallTracker: VideoCallTracker
     private var isIncomingCallFromNotification = false
     private val callControlHandler = Handler()
     private val callInfosHandler = Handler()
@@ -386,6 +388,9 @@ class CallActivity : CallBaseActivity() {
         conversationUser = currentUserProvider.currentUser.blockingGet()
 
         credentials = ApiUtils.getCredentials(conversationUser!!.username, conversationUser!!.token)
+        
+        // Initialize video call tracker
+        videoCallTracker = VideoCallTracker(this)
         if (TextUtils.isEmpty(baseUrl)) {
             baseUrl = conversationUser!!.baseUrl
         }
@@ -1725,6 +1730,15 @@ class CallActivity : CallBaseActivity() {
         if (!isVoiceOnlyCall && canPublishVideoStream) {
             inCallFlag += Participant.InCallFlags.WITH_VIDEO
         }
+        
+        // Track video calls for call history detection
+        val isVideoCall = !isVoiceOnlyCall && canPublishVideoStream
+        if (isVideoCall && roomToken != null) {
+            val currentTimestamp = System.currentTimeMillis()
+            videoCallTracker.markCallAsVideoCall(roomToken!!, currentTimestamp, true)
+            Log.d(TAG, "Marked call as video call for room: $roomToken at $currentTimestamp")
+        }
+        
         callParticipantList = CallParticipantList(signalingMessageReceiver)
         callParticipantList!!.addObserver(callParticipantListObserver)
 

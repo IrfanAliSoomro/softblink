@@ -136,6 +136,7 @@ class SettingsActivity :
     private var profileQueryDisposable: Disposable? = null
     private var dbQueryDisposable: Disposable? = null
     private var openedByNotificationWarning: Boolean = false
+    private var listenersSetup: Boolean = false
 
     @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -180,40 +181,56 @@ class SettingsActivity :
         supportActionBar?.show()
         dispose(null)
 
+        // Only load capabilities if needed
         loadCapabilitiesAndUpdateSettings()
 
-        binding.settingsVersion.setOnClickListener {
-            sendLogs()
+        // Update dynamic content that might have changed
+        updateDynamicContent()
+
+        // Only setup listeners once
+        if (!listenersSetup) {
+            setupAllListeners()
+            listenersSetup = true
         }
 
-        if (!TextUtils.isEmpty(currentUser!!.clientCertificate)) {
+        // Apply theming
+        themeTitles()
+        themeSwitchPreferences()
+
+        // Handle notification warning scroll if needed
+        if (openedByNotificationWarning) {
+            scrollToNotificationCategory()
+        }
+    }
+
+    private fun updateDynamicContent() {
+        // Update content that might change between resume cycles
+        currentUser?.let { user ->
+            user.baseUrl?.let { baseUrl ->
+                binding.domainText.text = baseUrl.toUri().host
+            }
+            setupServerAgeWarning()
+            user.displayName?.let { displayName ->
+                binding.nameText.text = displayName
+            }
+            DisplayUtils.loadAvatarImage(user, binding.avatarImage, false)
+        }
+        
+        // Update client certificate status
+        if (!TextUtils.isEmpty(currentUser?.clientCertificate)) {
             binding.settingsClientCertTitle.setText(R.string.nc_client_cert_change)
         } else {
             binding.settingsClientCertTitle.setText(R.string.nc_client_cert_setup)
         }
-
-        setupCheckables()
-        setupScreenLockSetting()
-        setupNotificationSettings()
-        setupProxyTypeSettings()
-        setupProxyCredentialSettings()
-        registerChangeListeners()
-
-        if (currentUser != null) {
-            binding.domainText.text = currentUser!!.baseUrl!!.toUri().host
-            setupServerAgeWarning()
-            if (currentUser!!.displayName != null) {
-                binding.nameText.text = currentUser!!.displayName
-            }
-            DisplayUtils.loadAvatarImage(currentUser, binding.avatarImage, false)
-
-            setupProfileQueryDisposable()
-
-            binding.settingsRemoveAccount.setOnClickListener {
-                showRemoveAccountWarning()
-            }
-        }
+        
         setupMessageView()
+    }
+
+    private fun setupAllListeners() {
+        // Setup all click listeners once
+        binding.settingsVersion.setOnClickListener {
+            sendLogs()
+        }
 
         binding.settingsName.visibility = View.VISIBLE
         binding.settingsName.setOnClickListener {
@@ -221,12 +238,19 @@ class SettingsActivity :
             startActivity(intent)
         }
 
-        themeTitles()
-        themeSwitchPreferences()
-
-        if (openedByNotificationWarning) {
-            scrollToNotificationCategory()
+        currentUser?.let {
+            binding.settingsRemoveAccount.setOnClickListener {
+                showRemoveAccountWarning()
+            }
         }
+
+        // Setup all other listeners
+        setupCheckables()
+        setupScreenLockSetting()
+        setupNotificationSettings()
+        setupProxyTypeSettings()
+        setupProxyCredentialSettings()
+        registerChangeListeners()
     }
 
     @Suppress("MagicNumber")
@@ -255,15 +279,15 @@ class SettingsActivity :
     }
 
     private fun setupActionBar() {
-        setSupportActionBar(binding.settingsToolbar)
-        binding.settingsToolbar.setNavigationOnClickListener {
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setIcon(resources!!.getColor(android.R.color.transparent, null).toDrawable())
         supportActionBar?.title = context.getString(R.string.nc_settings)
-        viewThemeUtils.material.themeToolbar(binding.settingsToolbar)
+        viewThemeUtils.material.themeToolbar(binding.toolbar)
     }
 
     private fun getCurrentUser() {
@@ -1260,8 +1284,16 @@ class SettingsActivity :
     private fun observeTheme() {
         CoroutineScope(Dispatchers.Main).launch {
             var state = appPreferences.theme
+            var isFirstEmission = true
+            
             themeFlow.collect { newString ->
-                if (newString != state) {
+                // Skip the first emission to prevent theme change during initial load
+                if (isFirstEmission) {
+                    isFirstEmission = false
+                    return@collect
+                }
+                
+                if (newString != state && newString.isNotEmpty()) {
                     state = newString
                     setAppTheme(newString)
                 }
