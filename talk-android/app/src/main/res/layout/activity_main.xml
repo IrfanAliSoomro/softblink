@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Nextcloud Talk - Android Client
+  ~
+  ~ SPDX-FileCopyrightText: 2021 Andy Scherzinger <info@andy-scherzinger.de>
+  ~ SPDX-FileCopyrightText: 2017-2020 Mario Danic <mario@lovelyhq.com>
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainActivityCoordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorPrimary"
+    tools:context=".activities.MainActivity">
+
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/bg_default"-->
+<!--        android:elevation="0dp"-->
+<!--        android:clipChildren="true"-->
+<!--        android:clipToPadding="false"-->
+<!--        android:windowContentOverlay="@null"-->
+<!--        app:elevation="0dp">-->
+
+<!--        <com.google.android.material.appbar.MaterialToolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            android:background="@color/appbar"-->
+<!--            android:theme="?attr/actionBarPopupTheme"-->
+<!--            app:layout_scrollFlags="enterAlwaysCollapsed|noScroll"-->
+<!--            app:navigationIconTint="@color/fontAppbar"-->
+<!--            app:popupTheme="@style/appActionBarPopupMenu"-->
+<!--            app:titleTextColor="@color/fontAppbar"-->
+<!--            tools:title="@string/nc_app_product_name">-->
+
+<!--        </com.google.android.material.appbar.MaterialToolbar>-->
+
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+    <!-- Centered Icon -->
+    <ImageView
+        android:id="@+id/centerIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/nc_app_product_name"
+        android:scaleType="fitCenter" />
+
+    <!-- Loading Text -->
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Connecting to your secure server... 🔐"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:maxLines="3"
+        android:visibility="gone"
+        android:padding="24dp" />
+
+    <!-- Network Warning Banner -->
+    <LinearLayout
+        android:id="@+id/networkWarningBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/grey"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_signal_wifi_off_white_24dp"
+            android:contentDescription="No Internet"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Internet required for login. Please check your connection."
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/retryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retry"
+            android:textColor="@android:color/white"
+            android:minHeight="36dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

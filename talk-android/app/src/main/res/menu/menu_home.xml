@@ -1,0 +1,10 @@
+<!-- res/menu/menu_home.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_icon"
+        app:actionLayout="@layout/toolbar_action_icon"
+        android:title="test"
+        app:showAsAction="always" />
+</menu>
