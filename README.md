@@ -13,12 +13,6 @@
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/packages/com.softblink.talk2/)
 
-Please note that Notifications won't work with the F-Droid version due to missing Google Play Services.
-
-|||||||
-|---|---|---|---|---|---|
-|![Conversation list](/fastlane/metadata/android/en-US/images/phoneScreenshots/conversationList_light.png "Conversation list")|![Participant search](/fastlane/metadata/android/en-US/images/phoneScreenshots/searchParticipant_light.png "Participant search")|![Voice call](/fastlane/metadata/android/en-US/images/phoneScreenshots/voiceCall.png "Voice call")|![Voice recording](/fastlane/metadata/android/en-US/images/phoneScreenshots/voiceRecord_light.png "Voice recording")|![Markdown view](/fastlane/metadata/android/en-US/images/phoneScreenshots/markdown_light.png "Markdown view")|![Settings](/fastlane/metadata/android/en-US/images/phoneScreenshots/settings_light.png "Settings")|
-
 **Video & audio calls through SoftBlink on Android**
 
 SoftBlink Talk is a fully on-premises audio/video and chat communication service. It features web and mobile apps and is designed to offer the highest degree of security while being easy to use.
