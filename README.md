@@ -4,8 +4,6 @@
 -->
 # [SoftBlink](https://softblink.com) Talk for Android :speech_balloon:
 
-[![Build Status](https://drone.softblink.com/api/badges/softblink/talk-android/status.svg)](https://drone.softblink.com/softblink/talk-android) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b89a720efbd24754984a776804913bca)](https://www.codacy.com/gh/softblink/talk-android/dashboard) [![Releases](https://img.shields.io/github/release/softblink/talk-android.svg)](https://github.com/softblink/talk-android/releases/latest) [![REUSE status](https://api.reuse.software/badge/github.com/softblink/talk-android)](https://api.reuse.software/info/github.com/softblink/talk-android)
-
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" 
       alt="Download from Google Play" 
       height="80">](https://play.google.com/store/apps/details?id=com.softblink.talk2)
