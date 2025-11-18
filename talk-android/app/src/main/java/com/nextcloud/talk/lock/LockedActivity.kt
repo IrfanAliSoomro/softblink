@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.lock
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
@@ -20,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import autodagger.AutoInjector
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityLockedBinding
 import com.nextcloud.talk.utils.BrandingUtils
 import com.nextcloud.talk.utils.SecurityUtils

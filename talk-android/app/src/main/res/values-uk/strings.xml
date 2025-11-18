@@ -5,6 +5,7 @@
     <string name="add_to_notes">Додати до нотаток</string>
     <string name="added_to_favorites">Додано розмову %1$s до обраного</string>
     <string name="appbar_search_in">Пошук у %s</string>
+    <string name="appear_offline">Перебуваю поза мережею</string>
     <string name="archive_conversation">Архівна розмова</string>
     <string name="archive_hint">Після архівування розмова буде прихована за замовчуванням. Виберіть фільтр «Архів» для перегляду архівних розмов. Прямі згадки все одно будуть надходити.</string>
     <string name="archived">Заархівовані</string>
@@ -22,6 +23,7 @@
     <string name="ban">Заборона</string>
     <string name="ban_participant">Забанити учасника</string>
     <string name="bans_list">Список заборон</string>
+    <string name="busy">Зайнято</string>
     <string name="calendar">Календар</string>
     <string name="call_more_actions_dialog_headline">Розширені опції дзвінка</string>
     <string name="call_running_since_one_hour">Дзвінок триває вже годину.</string>
@@ -61,6 +63,7 @@
     <string name="error_loading_chats">Виникла проблема під час завантаження ваших чатів</string>
     <string name="error_unbanning">Виникла помилка при знятті бану з учасника</string>
     <string name="failed_to_save">Не вдалося зберегти %1$s</string>
+    <string name="fifteenMinutes">15 хвилин</string>
     <string name="file_list_folder">каталог</string>
     <string name="file_list_loading">Завантаження …</string>
     <string name="filename_progress">%1$s (%2$d)</string>
@@ -76,6 +79,10 @@
     <string name="left_conversation">Ви покинули розмову %1$s</string>
     <string name="load_more_results">Завантажити більше результатів</string>
     <string name="local_time">Місцевий час: %1$s</string>
+    <string name="location_permission_denied">Відмовлено в дозволі на розміщення</string>
+    <string name="location_permission_denied_msg">Будь ласка, увімкніть її в налаштуваннях програми</string>
+    <string name="location_services_disabled">Служби визначення місцезнаходження відключені</string>
+    <string name="location_services_disabled_msg">Щоб скористатися цією функцією, увімкніть службу визначення місцезнаходження (GPS)</string>
     <string name="lock_conversation">Заблокувати розмову</string>
     <string name="lock_symbol">Символ блокування</string>
     <string name="lower_hand">Опустити руку</string>
@@ -89,6 +96,7 @@
     <string name="menu_item_sort_by_size_biggest_first">Найбільші за розміром спочатку</string>
     <string name="menu_item_sort_by_size_smallest_first">Найменші за розміром спочатку</string>
     <string name="message_copied">Повідомлення скопійовано</string>
+    <string name="message_delete_are_you_sure">Ви дійсно хочете видалити це повідомлення?</string>
     <string name="message_deleted_by_you">Ви вилучили повідомлення</string>
     <string name="message_last_edited_by">За редакцією %1$s</string>
     <string name="message_poll_tap_to_open">Натисніть, щоб відкрити опитування</string>
@@ -96,7 +104,7 @@
     <string name="message_search_begin_typing">Що шукаємо?</string>
     <string name="message_search_hint">Пошук …</string>
     <string name="messages">Повідомлення</string>
-    <string name="messages_could_not_be_loaded">Не вдалося отримати повідомлення</string>
+    <string name="mute_all_notifications">Вимкнути всі сповіщення</string>
     <string name="nc_Server_account_imported">Обраний обліковий запис імпортовано і він доступний</string>
     <string name="nc_about">Про застосунок</string>
     <string name="nc_account_chooser_active_user">Активний користувач</string>
@@ -181,7 +189,7 @@
     <string name="nc_delete_all">Вилучити все</string>
     <string name="nc_delete_call">Вилучити розмову</string>
     <string name="nc_delete_conversation_more">Якщо ви вилучите розмову, її буде вилучено у всіх інших учасників цієї розмови.</string>
-    <string name="nc_delete_message">Вилучити</string>
+    <string name="nc_delete_message">Вилучити повідомлення</string>
     <string name="nc_delete_message_leaked_to_matterbridge">Повідомлення вилучено, але воно могло потрапити до інших сервісів</string>
     <string name="nc_delete_now">Видалити зараз</string>
     <string name="nc_deleted_user">Користувача %1$s було видалено</string>
@@ -286,7 +294,6 @@
     <string name="nc_guest_access_resend_invitations_successful">Запрошення було розіслано повторно.</string>
     <string name="nc_guest_access_share_link">Поділитися посиланням на бесіду</string>
     <string name="nc_hint_enter_a_message">Введіть повідомлення ...</string>
-    <string name="nc_ignore_battery_optimization_dialog_text">Оптимізація батареї не ігнорується. Це слід змінити, щоб повідомлення працювали у фоновому режимі! Натисніть «OK» і виберіть «Усі програми» -> %1$s -> Не оптимізувати.</string>
     <string name="nc_ignore_battery_optimization_dialog_title">Ігнорувати оптимізацію акумулятора</string>
     <string name="nc_important_conversation">Важлива розмова</string>
     <string name="nc_important_conversation_desc">Статус користувача \"Не турбувати\" ігнорується для важливих розмов</string>
@@ -426,7 +433,6 @@
     <string name="nc_sent_deck_card" formatted="true">%1$s надіслав карту колоди</string>
     <string name="nc_server_connect">Перевірка з\'єднання з сервером</string>
     <string name="nc_server_db_upgrade_needed">Будь ласка, оновіть вашу %1$s базу даних</string>
-    <string name="nc_server_down">Не вдалося з\'єднатися з сервером</string>
     <string name="nc_server_failed_to_import_account">Не вдалося імпортувати обраний акаунт.</string>
     <string name="nc_server_helper_text">Посилання на ваш веб-інтерфейс %1$s, коли ви відкриєте його у веб-переглядачі.</string>
     <string name="nc_server_import_account">Імпортувати обліковий запис із застосунку %1$s</string>
@@ -546,6 +552,11 @@
     <string name="no_conversations_archived">Розмови не архівуються</string>
     <string name="no_offline_messages_saved">Не збережено жодного офлайн-повідомлення</string>
     <string name="no_phone_book_integration_due_to_permissions">Відсутні дозволи на інтеграцію номера телефону</string>
+    <string name="notification_all_messages">Всі повідомлення</string>
+    <string name="notification_mention_only">\@-згадки тільки</string>
+    <string name="notification_off">Вимкнено</string>
+    <string name="notifications_default">Типово</string>
+    <string name="notifications_default_description">Слідкувати за налаштуваннями розмови</string>
     <string name="oneHour">1 година</string>
     <string name="online">Онлайн</string>
     <string name="online_status">Статус онлайну</string>
@@ -555,7 +566,6 @@
     <string name="open_thread">Перейти до теми</string>
     <string name="play_pause_voice_message">Відтворення/пауза голосового повідомлення</string>
     <string name="playback_speed_control">Регулювання швидкості відтворення</string>
-    <string name="please_continue_the_login_process_in_the_browser">Будь ласка, продовжте процес входу в браузері</string>
     <string name="polls_add_option">Додати варіант</string>
     <string name="polls_edit_vote">Змінити голос</string>
     <string name="polls_end_poll">Завершити опитування</string>
@@ -633,10 +643,9 @@
     <string name="shared_items_voice">Голос</string>
     <string name="show_ban_reason">Показати причину бану</string>
     <string name="show_banned_participants">Показати заборонених учасників</string>
-    <string name="show_threads_overview">Показати теми</string>
     <string name="starred">Із зірочкою</string>
     <string name="startCallForbidden">Ви не маєте права починати розмову</string>
-    <string name="start_thread">Почніть тему</string>
+    <string name="start_thread">Створіть тему</string>
     <string name="started_a_call">почала дзвонити.</string>
     <string name="status_message">Повідомлення про статус</string>
     <string name="status_reverted">Статус скасовано</string>
@@ -656,8 +665,11 @@
     <string name="this_is_a_test_message">Це тестове повідомлення</string>
     <string name="this_weekend">Цими вихідними</string>
     <string name="thread_cancel">Відхилити створення гілки</string>
-    <string name="thread_replies_amount">%1$d відповідей</string>
+    <string name="thread_notifications">Сповіщення про потоки</string>
+    <string name="thread_reply">Відповісти</string>
     <string name="thread_title">Назва гілки</string>
+    <string name="threads">Нитки</string>
+    <string name="threads_list_empty">Ниток не знайдено</string>
     <string name="today">Сьогодні</string>
     <string name="tomorrow">Завтра</string>
     <string name="translate">Перекласти</string>

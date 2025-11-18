@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.translate.ui
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -23,7 +26,6 @@ import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityTranslateBinding
 import com.nextcloud.talk.translate.repositories.model.Language
 import com.nextcloud.talk.translate.viewmodels.TranslateViewModel

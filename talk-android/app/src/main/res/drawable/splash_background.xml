@@ -1,0 +1,15 @@
+<!--
+  ~ Nextcloud Talk - Android Client
+  ~
+  ~ SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/colorPrimary" /> <!-- background color -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/ic_launcher_splash" /> <!-- centered icon -->
+    </item>
+</layer-list>

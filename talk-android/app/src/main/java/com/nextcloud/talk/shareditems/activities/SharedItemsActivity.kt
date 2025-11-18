@@ -9,6 +9,9 @@
  */
 package com.nextcloud.talk.shareditems.activities
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -21,7 +24,6 @@ import autodagger.AutoInjector
 import com.google.android.material.tabs.TabLayout
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivitySharedItemsBinding
 import com.nextcloud.talk.shareditems.adapters.SharedItemsAdapter

@@ -10,6 +10,9 @@
 
 package com.nextcloud.talk.conversationcreation
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -29,12 +32,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -82,7 +87,6 @@ import autodagger.AutoInjector
 import coil.compose.AsyncImage
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.components.ColoredStatusBar
 import com.nextcloud.talk.contacts.ContactsActivity
@@ -113,16 +117,10 @@ class ConversationCreationActivity : BaseActivity() {
         setContent {
             val colorScheme = viewThemeUtils.getColorScheme(this)
             val context = LocalContext.current
-            val hideParticipantsList = intent.getStringExtra("tab_source") == "groups"
             MaterialTheme(
                 colorScheme = colorScheme
             ) {
-                ConversationCreationScreen(
-                    conversationCreationViewModel = conversationCreationViewModel,
-                    context = context,
-                    pickImage = pickImage,
-                    hideParticipantsList = hideParticipantsList
-                )
+                ConversationCreationScreen(conversationCreationViewModel, context, pickImage)
             }
         }
     }
@@ -133,8 +131,7 @@ class ConversationCreationActivity : BaseActivity() {
 fun ConversationCreationScreen(
     conversationCreationViewModel: ConversationCreationViewModel,
     context: Context,
-    pickImage: PickImage,
-    hideParticipantsList: Boolean = false
+    pickImage: PickImage
 ) {
     val selectedImageUri = conversationCreationViewModel.selectedImageUri.collectAsState().value
 
@@ -180,6 +177,9 @@ fun ConversationCreationScreen(
 
     ColoredStatusBar()
     Scaffold(
+        modifier = Modifier
+            .statusBarsPadding()
+            .displayCutoutPadding(),
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.nc_new_conversation)) },
@@ -198,8 +198,8 @@ fun ConversationCreationScreen(
         content = { paddingValues ->
             Column(
                 modifier = Modifier
-                    .padding(0.dp, paddingValues.calculateTopPadding(), 0.dp, 0.dp)
                     .background(colorResource(id = R.color.bg_default))
+                    .padding(0.dp, paddingValues.calculateTopPadding(), 0.dp, paddingValues.calculateBottomPadding())
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
@@ -215,9 +215,7 @@ fun ConversationCreationScreen(
                 )
 
                 ConversationNameAndDescription(conversationCreationViewModel)
-                if (!hideParticipantsList) {
-                    AddParticipants(launcher, context, conversationCreationViewModel)
-                }
+                AddParticipants(launcher, context, conversationCreationViewModel)
                 RoomCreationOptions(conversationCreationViewModel)
                 CreateConversation(conversationCreationViewModel, context)
             }
@@ -269,49 +267,74 @@ fun UploadAvatar(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
             onClick = {
                 pickImage.takePicture(cameraLauncher)
-            }
+            },
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(colorResource(id = R.color.colorPrimary))
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_photo_camera_24),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp),
+                tint = Color.White
             )
         }
 
-        IconButton(onClick = {
-            pickImage.selectLocal(imagePickerLauncher)
-        }) {
+        IconButton(
+            onClick = {
+                pickImage.selectLocal(imagePickerLauncher)
+            },
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(Color(0xFF4CAF50)) // Green color
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.upload),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp),
+                tint = Color.White
             )
         }
         IconButton(
             onClick = {
                 pickImage.selectRemote(remoteFilePickerLauncher)
-            }
+            },
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(Color(0xFFFF9800)) // Orange color
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_folder),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp),
+                tint = Color.White
             )
         }
 
         if (selectedImageUri != null) {
-            IconButton(onClick = {
-                onDeleteImage()
-            }) {
+            IconButton(
+                onClick = {
+                    onDeleteImage()
+                },
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFFF44336)) // Red color
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_delete_grey600_24dp),
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(20.dp),
+                    tint = Color.White
                 )
             }
         }
@@ -433,11 +456,21 @@ fun AddParticipants(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (participants.isEmpty()) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_account_plus),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(Color(0xFF2196F3)) // Blue color
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_account_plus),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .align(Alignment.Center),
+                        tint = Color.White
+                    )
+                }
                 Text(
                     text = stringResource(id = R.string.nc_add_participants),
                     modifier = Modifier.padding(start = 16.dp)
@@ -551,11 +584,27 @@ fun ConversationOptions(
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (icon != null) {
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(when (icon) {
+                        R.drawable.ic_avatar_link -> Color(0xFF2196F3) // Blue
+                        R.drawable.baseline_lock_open_24 -> Color(0xFF9C27B0) // Purple
+                        R.drawable.ic_lock_grey600_24px -> Color(0xFF607D8B) // Blue-gray
+                        R.drawable.baseline_format_list_bulleted_24 -> Color(0xFF4CAF50) // Green
+                        else -> Color(0xFF757575) // Gray
+                    })
+            ) {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .align(Alignment.Center),
+                    tint = Color.White
+                )
+            }
             Spacer(modifier = Modifier.width(16.dp))
         } else {
             Spacer(modifier = Modifier.width(40.dp))
@@ -700,12 +749,10 @@ fun ShowPasswordDialog(onDismiss: () -> Unit, conversationCreationViewModel: Con
 @Composable
 fun CreateConversation(conversationCreationViewModel: ConversationCreationViewModel, context: Context) {
     val selectedParticipants by conversationCreationViewModel.selectedParticipants.collectAsState()
-    val roomViewState by conversationCreationViewModel.roomViewState.collectAsState()
     val roomName by conversationCreationViewModel.roomName.collectAsState()
     
-    // Check if room name is empty or contains only whitespace
-    val isRoomNameEmpty = roomName.trim().isEmpty()
-    val isButtonEnabled = roomViewState !is RoomUIState.Loading && !isRoomNameEmpty
+    // Check if conversation name is valid (not empty or only whitespace)
+    val isConversationNameValid = roomName.trim().isNotEmpty()
     
     Box(
         modifier = Modifier
@@ -715,11 +762,10 @@ fun CreateConversation(conversationCreationViewModel: ConversationCreationViewMo
     ) {
         Button(
             onClick = {
-                // Additional validation before processing
-                if (roomName.trim().isNotEmpty()) {
+                if (isConversationNameValid) {
                     conversationCreationViewModel.createRoomAndAddParticipants(
                         roomType = CompanionClass.ROOM_TYPE_GROUP,
-                        conversationName = conversationCreationViewModel.roomName.value,
+                        conversationName = roomName.trim(),
                         participants = selectedParticipants.toSet()
                     ) { roomToken ->
                         val bundle = Bundle()
@@ -728,28 +774,12 @@ fun CreateConversation(conversationCreationViewModel: ConversationCreationViewMo
                         chatIntent.putExtras(bundle)
                         chatIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         context.startActivity(chatIntent)
-                        // Finish the ConversationCreationActivity to prevent it from showing on back press
-                        (context as? Activity)?.finish()
                     }
                 }
             },
-            enabled = isButtonEnabled
+            enabled = isConversationNameValid
         ) {
-            if (roomViewState is RoomUIState.Loading) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    androidx.compose.material3.CircularProgressIndicator(
-                        modifier = Modifier.size(16.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = stringResource(id = R.string.creating_conversation))
-                }
-            } else {
-                Text(text = stringResource(id = R.string.create_conversation))
-            }
+            Text(text = stringResource(id = R.string.create_conversation))
         }
     }
 }

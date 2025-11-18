@@ -7,6 +7,8 @@
  */
 package com.nextcloud.talk.ui.dialog;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Typeface;
@@ -19,7 +21,6 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.databinding.SortingOrderFragmentBinding;
 import com.nextcloud.talk.ui.theme.ViewThemeUtils;
 import com.nextcloud.talk.utils.FileSortOrder;

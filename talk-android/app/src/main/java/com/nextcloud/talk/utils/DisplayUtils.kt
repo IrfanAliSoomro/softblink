@@ -9,6 +9,9 @@
  */
 package com.nextcloud.talk.utils
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -56,7 +59,6 @@ import coil.transform.CircleCropTransformation
 import com.google.android.material.chip.ChipDrawable
 import com.nextcloud.talk.PhoneUtils.isPhoneNumber
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.events.UserMentionClickEvent
 import com.nextcloud.talk.extensions.loadUserAvatar

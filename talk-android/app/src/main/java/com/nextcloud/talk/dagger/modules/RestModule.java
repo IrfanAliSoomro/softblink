@@ -6,6 +6,8 @@
  */
 package com.nextcloud.talk.dagger.modules;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +17,6 @@ import com.nextcloud.talk.BuildConfig;
 import com.nextcloud.talk.R;
 import com.nextcloud.talk.api.NcApi;
 import com.nextcloud.talk.api.NcApiCoroutines;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.users.UserManager;
 import com.nextcloud.talk.utils.ApiUtils;
 import com.nextcloud.talk.utils.LoggingUtils;
@@ -34,8 +35,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -49,7 +48,6 @@ import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Authenticator;
 import okhttp3.Cache;
-import okhttp3.ConnectionSpec;
 import okhttp3.Credentials;
 import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
@@ -218,16 +216,6 @@ public class RestModule {
         }
 
         httpClient.addInterceptor(new HeadersInterceptor());
-
-        List<ConnectionSpec> specs = new ArrayList<>();
-        if (BuildConfig.DEBUG) {
-            specs.add(ConnectionSpec.COMPATIBLE_TLS);
-            specs.add(ConnectionSpec.CLEARTEXT);
-            httpClient.connectionSpecs(specs);
-        } else {
-            specs.add(ConnectionSpec.COMPATIBLE_TLS);
-            httpClient.connectionSpecs(specs);
-        }
 
         if (BuildConfig.DEBUG && !context.getResources().getBoolean(R.bool.nc_is_debug)) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

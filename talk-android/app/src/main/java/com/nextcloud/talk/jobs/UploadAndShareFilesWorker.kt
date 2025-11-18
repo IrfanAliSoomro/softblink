@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.jobs
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.Manifest
 import android.app.Activity
 import android.app.NotificationManager
@@ -30,7 +33,6 @@ import autodagger.AutoInjector
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.MainActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.upload.chunked.ChunkedFileUploader
 import com.nextcloud.talk.upload.chunked.OnDataTransferProgressListener

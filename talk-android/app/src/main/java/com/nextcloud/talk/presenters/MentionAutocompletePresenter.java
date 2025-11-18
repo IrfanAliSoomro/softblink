@@ -8,6 +8,8 @@
  */
 package com.nextcloud.talk.presenters;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
@@ -16,7 +18,6 @@ import android.view.ViewGroup;
 
 import com.nextcloud.talk.adapters.items.MentionAutocompleteItem;
 import com.nextcloud.talk.api.NcApi;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.data.user.model.User;
 import com.nextcloud.talk.models.json.mention.Mention;
 import com.nextcloud.talk.models.json.mention.MentionOverall;

@@ -9,12 +9,22 @@
   ~
   ~ Adapted from https://github.com/stfalcon-studio/ChatKit/blob/master/chatkit/src/main/res/layout/item_dialog.xml
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/double_margin_between_elements">
+    android:background="@drawable/rounded_background"
+    android:layout_marginLeft="@dimen/margin_between_elements"
+    android:layout_marginRight="@dimen/margin_between_elements"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/double_margin_between_elements">
 
     <FrameLayout
         android:id="@+id/dialogAvatarFrameLayout"
@@ -131,5 +141,5 @@
         android:textColor="@color/conversation_item_header"
         android:textSize="@dimen/two_line_primary_text_size"
         tools:text="Best conversation" />
-
-</RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

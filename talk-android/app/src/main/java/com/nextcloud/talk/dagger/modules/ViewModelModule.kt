@@ -9,10 +9,11 @@ package com.nextcloud.talk.dagger.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.nextcloud.talk.account.viewmodels.WebViewLoginActivityViewModel
+import com.nextcloud.talk.account.viewmodels.BrowserLoginActivityViewModel
 import com.nextcloud.talk.chat.viewmodels.ChatViewModel
 import com.nextcloud.talk.chat.viewmodels.MessageInputViewModel
 import com.nextcloud.talk.contacts.ContactsViewModel
+import com.nextcloud.talk.contextchat.ContextChatViewModel
 import com.nextcloud.talk.conversationcreation.ConversationCreationViewModel
 import com.nextcloud.talk.conversationinfo.viewmodel.ConversationInfoViewModel
 import com.nextcloud.talk.conversationinfoedit.viewmodel.ConversationInfoEditViewModel
@@ -164,6 +165,11 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(WebViewLoginActivityViewModel::class)
-    abstract fun WebViewLoginActivityViewModel(viewModel: WebViewLoginActivityViewModel): ViewModel
+    @ViewModelKey(BrowserLoginActivityViewModel::class)
+    abstract fun browserLoginActivityViewModel(viewModel: BrowserLoginActivityViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ContextChatViewModel::class)
+    abstract fun contextChatViewModel(viewModel: ContextChatViewModel): ViewModel
 }

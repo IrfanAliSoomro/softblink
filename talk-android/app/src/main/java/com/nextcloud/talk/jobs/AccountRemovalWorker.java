@@ -7,13 +7,14 @@
  */
 package com.nextcloud.talk.jobs;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.app.NotificationManager;
 import android.content.Context;
 import android.util.Log;
 
 import com.nextcloud.talk.R;
 import com.nextcloud.talk.api.NcApi;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager;
 import com.nextcloud.talk.data.database.dao.ChatBlocksDao;
 import com.nextcloud.talk.data.database.dao.ChatMessagesDao;

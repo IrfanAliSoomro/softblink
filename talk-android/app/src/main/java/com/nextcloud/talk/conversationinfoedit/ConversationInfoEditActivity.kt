@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.conversationinfoedit
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.os.Bundle
 import android.text.InputFilter
@@ -27,7 +30,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.conversationinfoedit.viewmodel.ConversationInfoEditViewModel
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivityConversationInfoEditBinding

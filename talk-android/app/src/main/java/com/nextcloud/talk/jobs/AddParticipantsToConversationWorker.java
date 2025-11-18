@@ -6,10 +6,11 @@
  */
 package com.nextcloud.talk.jobs;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.content.Context;
 
 import com.nextcloud.talk.api.NcApi;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.data.user.model.User;
 import com.nextcloud.talk.models.RetrofitBucket;
 import com.nextcloud.talk.users.UserManager;

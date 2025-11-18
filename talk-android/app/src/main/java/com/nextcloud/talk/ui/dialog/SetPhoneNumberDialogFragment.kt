@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -20,7 +23,6 @@ import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.DialogSetPhoneNumberBinding
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
 import javax.inject.Inject

@@ -7,11 +7,13 @@
  */
 package com.nextcloud.talk.shareditems.repositories
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.util.Log
 import androidx.core.net.toUri
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.models.json.chat.ChatShareOverall
 import com.nextcloud.talk.shareditems.model.SharedDeckCardItem
 import com.nextcloud.talk.shareditems.model.SharedFileItem

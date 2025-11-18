@@ -33,17 +33,6 @@ interface ChatMessagesDao {
         """
         SELECT *
         FROM ChatMessages
-        WHERE systemMessage IN ('CALL_STARTED', 'CALL_JOINED', 'CALL_LEFT', 'CALL_ENDED', 'CALL_MISSED', 'CALL_TRIED')
-        AND isTemporary = 0
-        ORDER BY timestamp DESC, id DESC
-        """
-    )
-    fun getCallMessages(): Flow<List<ChatMessageEntity>>
-
-    @Query(
-        """
-        SELECT *
-        FROM ChatMessages
         WHERE internalConversationId = :internalConversationId
         AND isTemporary = 1
         ORDER BY timestamp DESC, id DESC
@@ -218,4 +207,18 @@ interface ChatMessagesDao {
         """
     )
     fun deleteMessagesOlderThan(internalConversationId: String, messageId: Long)
+
+    @Query(
+        """
+        SELECT COUNT(*)
+        FROM ChatMessages AS child
+        INNER JOIN ChatMessages AS parent
+        ON child.parent = parent.id
+        WHERE child.internalConversationId = :internalConversationId
+        AND child.isTemporary = 0
+        AND child.messageType = 'comment'
+        AND parent.threadId = :threadId
+    """
+    )
+    fun getNumberOfThreadReplies(internalConversationId: String, threadId: Long): Int
 }

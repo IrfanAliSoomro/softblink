@@ -7,6 +7,9 @@
 
 package com.nextcloud.talk.chat
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.LayoutInflater
@@ -20,8 +23,6 @@ import androidx.lifecycle.lifecycleScope
 import autodagger.AutoInjector
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.data.io.AudioFocusRequestManager
 import com.nextcloud.talk.databinding.FragmentMessageInputVoiceRecordingBinding
 import com.nextcloud.talk.ui.theme.ViewThemeUtils

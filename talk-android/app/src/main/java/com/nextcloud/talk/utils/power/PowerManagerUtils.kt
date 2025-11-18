@@ -11,6 +11,9 @@
  */
 package com.nextcloud.talk.utils.power
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.POWER_SERVICE
@@ -20,8 +23,6 @@ import android.net.wifi.WifiManager.WifiLock
 import android.os.PowerManager
 import android.provider.Settings
 import autodagger.AutoInjector
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import javax.inject.Inject
 
 @AutoInjector(NextcloudTalkApplication::class)

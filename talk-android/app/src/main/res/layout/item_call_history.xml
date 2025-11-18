@@ -1,114 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="6dp">
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:gravity="center_vertical"
+    android:background="@drawable/rounded_background"
+    android:layout_marginStart="@dimen/margin_between_elements"
+    android:layout_marginEnd="@dimen/margin_between_elements"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp">
 
-    <!-- Profile Image -->
+    <!-- Profile Picture/Avatar -->
     <ImageView
-        android:id="@+id/profileImage"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:src="@drawable/ic_person_black_24dp"
-        android:background="@drawable/circular_avatar_background"
+        android:id="@+id/profile_picture"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/account_circle_48dp"
         android:scaleType="centerCrop"
-        android:contentDescription="Profile image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        tools:src="@drawable/account_circle_48dp" />
 
-    <!-- Call Type Icon (Arrow) -->
-    <ImageView
-        android:id="@+id/callTypeIcon"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="12dp"
-        android:src="@drawable/ic_call_received"
-        android:contentDescription="Call type"
-        app:layout_constraintStart_toEndOf="@id/profileImage"
-        app:layout_constraintTop_toTopOf="@id/profileImage"
-        app:layout_constraintBottom_toBottomOf="@id/profileImage" />
-
-    <!-- Video Call Indicator -->
-    <ImageView
-        android:id="@+id/videoCallIndicator"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginStart="4dp"
-        android:src="@drawable/ic_videocam"
-        android:visibility="gone"
-        android:contentDescription="Video call"
-        app:layout_constraintStart_toEndOf="@id/callTypeIcon"
-        app:layout_constraintTop_toTopOf="@id/callTypeIcon" />
-
-    <!-- Conversation Name -->
-    <TextView
-        android:id="@+id/conversationName"
+    <!-- Contact Name and Call Details -->
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Conversation Name"
-        android:textSize="16sp"
-        android:textColor="@color/high_emphasis_text"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@id/callTypeIcon"
-        app:layout_constraintEnd_toStartOf="@id/callButton"
-        app:layout_constraintTop_toTopOf="@id/profileImage" />
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <!-- Call Type and Duration -->
-    <TextView
-        android:id="@+id/callTypeAndDuration"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="2dp"
-        android:text="Incoming • 5:32"
-        android:textSize="14sp"
-        android:visibility="gone"
-        android:textColor="@color/medium_emphasis_text"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@id/callTypeIcon"
-        app:layout_constraintEnd_toStartOf="@id/callButton"
-        app:layout_constraintTop_toBottomOf="@id/conversationName" />
+        <!-- Contact Name -->
+        <TextView
+            android:id="@+id/contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/fontAppbar"
+            tools:text="hassan-mehmood" />
 
-    <!-- Timestamp -->
-    <TextView
-        android:id="@+id/timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="2dp"
-        android:text="2 hr ago"
-        android:textSize="12sp"
-        android:textColor="@color/medium_emphasis_text"
-        app:layout_constraintStart_toEndOf="@id/callTypeIcon"
-        app:layout_constraintTop_toBottomOf="@id/callTypeAndDuration" />
+        <!-- Call Status and Timestamp -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
 
-    <!-- Call Button -->
-    <ImageButton
-        android:id="@+id/callButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_call_black_24dp"
-        android:background="@drawable/circular_button_background"
-        android:contentDescription="Call"
-        android:scaleType="centerInside"
-        android:tint="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            <!-- Call Status Icon -->
+            <ImageView
+                android:id="@+id/call_status_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/ic_call_received"
+                android:tint="@color/nc_darkGreen"
+                tools:src="@drawable/ic_call_received"
+                tools:tint="@color/nc_darkGreen" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Timestamp -->
+            <TextView
+                android:id="@+id/call_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/fontAppbar"
+                tools:text="6 Feb, 07:53 PM" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Phone Action Icon -->
+    <ImageView
+        android:id="@+id/phone_action_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_call_grey_600_24dp"
+        android:tint="@color/fontAppbar"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        tools:src="@drawable/ic_call_grey_600_24dp" />
+
+</LinearLayout>

@@ -6,11 +6,13 @@
  */
 package com.nextcloud.talk.polls.adapters
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.widget.ImageView
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.PollResultVoterItemBinding
 import com.nextcloud.talk.extensions.loadFederatedUserAvatar

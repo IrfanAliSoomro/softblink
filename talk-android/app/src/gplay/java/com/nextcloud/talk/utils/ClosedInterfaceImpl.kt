@@ -19,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.security.ProviderInstaller
 import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.interfaces.ClosedInterface
 import com.nextcloud.talk.jobs.GetFirebasePushTokenWorker
 import java.util.concurrent.TimeUnit

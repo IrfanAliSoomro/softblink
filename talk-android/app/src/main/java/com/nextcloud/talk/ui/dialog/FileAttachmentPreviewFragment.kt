@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +18,6 @@ import androidx.fragment.app.DialogFragment
 import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.DialogFileAttachmentPreviewBinding
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
 import com.nextcloud.talk.utils.permissions.PlatformPermissionUtil

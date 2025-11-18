@@ -6,9 +6,14 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -24,10 +29,9 @@ import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.MainActivity
 import com.nextcloud.talk.api.NcApi
 import com.nextcloud.talk.api.NcApiCoroutines
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.conversation.RenameConversationDialogFragment
 import com.nextcloud.talk.conversationinfo.viewmodel.ConversationInfoViewModel
-import com.nextcloud.talk.activities.HomeScreen
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.DialogConversationOperationsBinding
 import com.nextcloud.talk.jobs.LeaveConversationWorker
@@ -54,7 +58,7 @@ import javax.inject.Inject
 
 @AutoInjector(NextcloudTalkApplication::class)
 class ConversationsListBottomDialog(
-    val activity: HomeScreen,
+    val activity: ConversationsListActivity,
     val currentUser: User,
     val conversation: ConversationModel
 ) : BottomSheetDialog(activity) {
@@ -241,7 +245,10 @@ class ConversationsListBottomDialog(
                 dismiss()
             }
         }
-        activity.fetchRooms()
+        // Force refresh the conversation list with a slight delay to ensure server has updated
+        Handler(Looper.getMainLooper()).postDelayed({
+            activity.fetchRooms()
+        }, 500)
     }
 
     @Suppress("Detekt.TooGenericExceptionCaught")

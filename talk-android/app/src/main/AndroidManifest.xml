@@ -81,6 +81,7 @@
     <uses-permission android:name="${applicationId}.${broadcastPermission}" />
 
     <application
+
         android:name=".application.NextcloudTalkApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_config"
@@ -112,27 +113,31 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.com.nextcloud.talk2.chat" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.com.nextcloud.talk.chat" />
                 <data android:scheme="content" />
                 <data android:scheme="file" />
             </intent-filter>
 
-            <!-- Intent filter for Nextcloud Talk URLs -->
+            <!-- Deep link for call URLs: https://nc.softblinktech.com/call/TOKEN -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="https" />
-                <data android:pathPattern="/call/.*" />
+                <data android:host="nc.softblinktech.com" />
+                <data android:pathPrefix="/call/" />
             </intent-filter>
 
-            <!-- Intent filter for HTTP URLs (for testing) -->
-            <intent-filter>
+            <!-- Deep link for index.php call URLs: https://nc.softblinktech.com/index.php/call/TOKEN -->
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" />
-                <data android:pathPattern="/call/.*" />
+
+                <data android:scheme="https" />
+                <data android:host="nc.softblinktech.com" />
+                <data android:pathPrefix="/index.php/call/" />
             </intent-filter>
         </activity>
 
@@ -159,7 +164,7 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".activities.HomeScreen"
+            android:name=".conversationlist.ConversationsListActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
 

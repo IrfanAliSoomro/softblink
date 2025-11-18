@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.adapters.items
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
@@ -18,7 +21,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nextcloud.talk.R
 import com.nextcloud.talk.adapters.items.ParticipantItem.ParticipantItemViewHolder
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.RvItemConversationInfoParticipantBinding
 import com.nextcloud.talk.extensions.loadDefaultAvatar
@@ -275,6 +277,10 @@ class ParticipantItem(
         if (model.status != null && model.status == StatusType.DND.string) {
             if (model.statusMessage == null || model.statusMessage!!.isEmpty()) {
                 holder.binding.conversationInfoStatusMessage.setText(R.string.dnd)
+            }
+        } else if (model.status != null && model.status == StatusType.BUSY.string) {
+            if (model.statusMessage == null || model.statusMessage!!.isEmpty()) {
+                holder.binding.conversationInfoStatusMessage.setText(R.string.busy)
             }
         } else if (model.status != null && model.status == StatusType.AWAY.string) {
             if (model.statusMessage == null || model.statusMessage!!.isEmpty()) {

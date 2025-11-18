@@ -9,7 +9,7 @@
 
     <item android:drawable="@color/colorPrimary" />
     <item
-        android:drawable="@mipmap/ic_launcher"
+        android:drawable="@drawable/ic_logo"
         android:gravity="center" />
 
 </layer-list>

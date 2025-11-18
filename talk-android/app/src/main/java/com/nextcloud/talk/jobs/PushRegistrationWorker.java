@@ -8,6 +8,8 @@
  */
 package com.nextcloud.talk.jobs;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -21,7 +23,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 import com.nextcloud.talk.api.NcApi;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.utils.ClosedInterfaceImpl;
 import com.nextcloud.talk.utils.PushUtils;
 

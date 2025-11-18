@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.account
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.Manifest
 import android.accounts.Account
 import android.annotation.SuppressLint
@@ -32,8 +35,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.databinding.ActivityServerSelectionBinding
 import com.nextcloud.talk.models.json.capabilities.CapabilitiesOverall
 import com.nextcloud.talk.models.json.generic.Status

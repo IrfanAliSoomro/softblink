@@ -6,10 +6,11 @@
  */
 package com.nextcloud.talk.webrtc;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.data.user.model.User;
 import com.nextcloud.talk.models.json.signaling.NCSignalingMessage;
 import com.nextcloud.talk.models.json.signaling.settings.FederationSettings;

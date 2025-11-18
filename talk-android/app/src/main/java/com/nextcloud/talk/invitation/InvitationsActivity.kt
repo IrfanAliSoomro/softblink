@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.invitation
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -17,9 +20,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
-import com.nextcloud.talk.activities.HomeScreen
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivityInvitationsBinding
 import com.nextcloud.talk.invitation.adapters.InvitationsAdapter
@@ -48,7 +50,7 @@ class InvitationsActivity : BaseActivity() {
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            val intent = Intent(this@InvitationsActivity, HomeScreen::class.java)
+            val intent = Intent(this@InvitationsActivity, ConversationsListActivity::class.java)
             startActivity(intent)
         }
     }

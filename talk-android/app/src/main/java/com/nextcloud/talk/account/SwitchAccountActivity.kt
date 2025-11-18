@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.account
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.accounts.Account
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -20,8 +23,6 @@ import autodagger.AutoInjector
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.adapters.items.AdvancedUserItem
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivitySwitchAccountBinding
 import com.nextcloud.talk.models.ImportAccount

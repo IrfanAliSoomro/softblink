@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/bg_default"
     android:keepScreenOn="true">
 
     <ProgressBar
@@ -22,7 +22,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:indeterminate="true"
-        android:indeterminateTint="@color/white"
+        android:indeterminateTint="@color/colorPrimary"
         android:indeterminateTintMode="src_in"
         android:keepScreenOn="true" />
 
@@ -40,7 +40,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:textColor="@color/white"
-        tools:text="Preparing your private chat environment... 💬" />
+        android:textColor="@color/fg_default"
+        tools:text="Verifying..." />
 
 </RelativeLayout>

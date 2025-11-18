@@ -7,12 +7,14 @@
 
 package com.nextcloud.talk.ui
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.content.Context
 import android.util.AttributeSet
 import autodagger.AutoInjector
 import com.google.android.material.button.MaterialButton
 import java.util.Locale
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
 import javax.inject.Inject
 

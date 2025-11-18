@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -25,8 +28,6 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemCustomOutcomingLocationMessageBinding
@@ -238,7 +239,11 @@ class OutcomingLocationMessageViewHolder(incomingView: View) :
                         )
                     viewThemeUtils.talk.colorOutgoingQuoteText(binding.messageQuote.quotedMessage)
                     viewThemeUtils.talk.colorOutgoingQuoteAuthorText(binding.messageQuote.quotedMessageAuthor)
-                    viewThemeUtils.talk.colorOutgoingQuoteBackground(binding.messageQuote.quoteColoredView)
+                    viewThemeUtils.talk.themeParentMessage(
+                        parentChatMessage,
+                        message,
+                        binding.messageQuote.quotedChatMessageView
+                    )
 
                     binding.messageQuote.quotedChatMessageView.visibility =
                         if (!message.isDeleted &&

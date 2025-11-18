@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.jobs
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
@@ -17,7 +20,6 @@ import androidx.work.impl.utils.futures.SettableFuture
 import autodagger.AutoInjector
 import com.google.common.util.concurrent.ListenableFuture
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.models.json.generic.GenericOverall
 import com.nextcloud.talk.users.UserManager
 import com.nextcloud.talk.utils.ApiUtils

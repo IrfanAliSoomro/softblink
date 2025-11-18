@@ -5,6 +5,7 @@
     <string name="add_to_notes">Adicionar a Notas</string>
     <string name="added_to_favorites">Conversa %1$s adicionada para favoritos</string>
     <string name="appbar_search_in">Pesquisar em %s</string>
+    <string name="appear_offline">Aparecer off-line</string>
     <string name="archive_conversation">Arquivar conversa</string>
     <string name="archive_hint">Quando uma conversa for arquivada, ela ficará oculta por padrão. Selecione o filtro \"Arquivada\" para visualizar as conversas arquivadas. As menções diretas ainda serão recebidas.</string>
     <string name="archived">Arquivada</string>
@@ -22,6 +23,7 @@
     <string name="ban">Banir</string>
     <string name="ban_participant">Banir participante</string>
     <string name="bans_list">Lista de banimentos</string>
+    <string name="busy">Ocupado</string>
     <string name="calendar">Calendário</string>
     <string name="call_more_actions_dialog_headline">Opções avançadas de chamada</string>
     <string name="call_running_since_one_hour">A chamada está em andamento há uma hora.</string>
@@ -61,6 +63,7 @@
     <string name="error_loading_chats">Ocorreu um problema ao carregar seus bate-papos</string>
     <string name="error_unbanning">Ocorreu um erro ao cancelar o banimento do participante</string>
     <string name="failed_to_save">Falha ao salvar %1$s</string>
+    <string name="fifteenMinutes">15 minutos</string>
     <string name="file_list_folder">pasta</string>
     <string name="file_list_loading">Carregando …</string>
     <string name="filename_progress">%1$s (%2$d)</string>
@@ -76,7 +79,11 @@
     <string name="left_conversation">Você saiu da conversa %1$s</string>
     <string name="load_more_results">Carregar mais resultados</string>
     <string name="local_time">Horário local: %1$s</string>
-    <string name="lock_conversation">Bloquear conversa</string>
+    <string name="location_permission_denied">Permissão de localização negada</string>
+    <string name="location_permission_denied_msg">Por favor, ative-a nas configurações do aplicativo</string>
+    <string name="location_services_disabled">Serviços de localização desativados</string>
+    <string name="location_services_disabled_msg">Ative os serviços de localização (GPS) para usar este recurso</string>
+    <string name="lock_conversation">Trancar conversa</string>
     <string name="lock_symbol">Símbolo de cadeado</string>
     <string name="lower_hand">Baixar mão</string>
     <string name="marked_as_read">Conversa %1$s marcada como lida</string>
@@ -89,6 +96,7 @@
     <string name="menu_item_sort_by_size_biggest_first">Maior primeiro</string>
     <string name="menu_item_sort_by_size_smallest_first">Menor primeiro</string>
     <string name="message_copied">Mensagem copiada</string>
+    <string name="message_delete_are_you_sure">Tem certeza de que deseja excluir esta mensagem?</string>
     <string name="message_deleted_by_you">Mensagem excluída por você</string>
     <string name="message_last_edited_by">Editado por %1$s</string>
     <string name="message_poll_tap_to_open">Toque para abrir enquete</string>
@@ -96,6 +104,7 @@
     <string name="message_search_begin_typing">Comece a digitar para pesquisar …</string>
     <string name="message_search_hint">Pesquisar …</string>
     <string name="messages">Mensagens</string>
+    <string name="mute_all_notifications">Silenciar todas as notificações</string>
     <string name="nc_Server_account_imported">A conta selecionada agora está importada e disponível</string>
     <string name="nc_about">Sobre</string>
     <string name="nc_account_chooser_active_user">Usuário ativo</string>
@@ -109,7 +118,7 @@
     <string name="nc_add_to_favorites">Adicionar aos favoritos</string>
     <string name="nc_all_ok_operation">OK, tudo pronto!</string>
     <string name="nc_attendee_pin">PIN: %1$s</string>
-    <string name="nc_biometric_unlock">Desbloquear %1$s</string>
+    <string name="nc_biometric_unlock">Destrancar %1$s</string>
     <string name="nc_bluetooth_permission_hint">Para ativar os alto-falantes bluetooth, conceda a permissão \"Dispositivos próximos\".</string>
     <string name="nc_call_button_content_description_answer_video_call">Atender como chamada de vídeo</string>
     <string name="nc_call_button_content_description_answer_voice_only">Atender apenas como chamada de voz</string>
@@ -180,7 +189,7 @@
     <string name="nc_delete_all">Excluir todos</string>
     <string name="nc_delete_call">Excluir conversa</string>
     <string name="nc_delete_conversation_more">Se você excluir a conversa, ela também será excluída para todos os outros participantes.</string>
-    <string name="nc_delete_message">Excluir</string>
+    <string name="nc_delete_message">Excluir mensagem</string>
     <string name="nc_delete_message_leaked_to_matterbridge">Mensagem excluída com sucesso, mas pode ter sido vazada para outros serviços </string>
     <string name="nc_delete_now">Excluir agora</string>
     <string name="nc_deleted_user">Usuário %1$s foi removido</string>
@@ -285,7 +294,6 @@
     <string name="nc_guest_access_resend_invitations_successful">Os convites foram enviados novamente.</string>
     <string name="nc_guest_access_share_link">Compartilhar o link da conversa</string>
     <string name="nc_hint_enter_a_message">Digite uma mensagem …</string>
-    <string name="nc_ignore_battery_optimization_dialog_text">A otimização da bateria não é ignorada. Isso deve ser alterado para garantir que as notificações funcionem em segundo plano! Clique em OK e selecione \"Todos os apps\" -> %1$s -> Não otimizar</string>
     <string name="nc_ignore_battery_optimization_dialog_title">Ignorar otimização da bateria</string>
     <string name="nc_important_conversation">Conversa importante</string>
     <string name="nc_important_conversation_desc">O status de usuário \"Não perturbe\" é ignorado em conversas importantes</string>
@@ -307,8 +315,8 @@
     <string name="nc_location_current_position_description">Sua localização atual</string>
     <string name="nc_location_permission_required">permissão de localização é necessária</string>
     <string name="nc_location_unknown">Posição desconhecida</string>
-    <string name="nc_locked">Bloqueado</string>
-    <string name="nc_locked_tap_to_unlock">Toque para desbloquear</string>
+    <string name="nc_locked">Trancado</string>
+    <string name="nc_locked_tap_to_unlock">Toque para destrancar</string>
     <string name="nc_manual">Não definido</string>
     <string name="nc_mark_as_read">Marcar como lido</string>
     <string name="nc_mark_as_unread">Marcar como não lido</string>
@@ -475,9 +483,9 @@
     <string name="nc_settings_remove">Excluir</string>
     <string name="nc_settings_remove_account">Excluir conta</string>
     <string name="nc_settings_remove_confirmation">Confirme se quer realmente excluir a conta atual.</string>
-    <string name="nc_settings_screen_lock_desc">Bloquear %1$s com o bloqueio de tela do Android ou um método biométrico suportado</string>
+    <string name="nc_settings_screen_lock_desc">Trancar %1$s com o bloqueio de tela do Android ou um método biométrico suportado</string>
     <string name="nc_settings_screen_lock_timeout_title">Tempo limite para bloqueio de tela</string>
-    <string name="nc_settings_screen_lock_title">Bloquear tela</string>
+    <string name="nc_settings_screen_lock_title">Bloqueio de tela</string>
     <string name="nc_settings_screen_security_desc">Impede capturas de tela na lista recente e dentro do aplicativo</string>
     <string name="nc_settings_screen_security_title">Segurança da tela</string>
     <string name="nc_settings_server_almost_eol">A versão do servidor é muito antiga e não será suportada na próxima versão!</string>
@@ -544,6 +552,11 @@
     <string name="no_conversations_archived">Nenhuma conversa arquivada</string>
     <string name="no_offline_messages_saved">Nenhuma mensagem off-line foi salva</string>
     <string name="no_phone_book_integration_due_to_permissions">Sem integração de número de telefone devido à falta de permissões</string>
+    <string name="notification_all_messages">Todas as mensagens</string>
+    <string name="notification_mention_only">Apenas menções de @</string>
+    <string name="notification_off">Desativado</string>
+    <string name="notifications_default">Padrão</string>
+    <string name="notifications_default_description">Seguir as configurações da conversa</string>
     <string name="oneHour">1 hora</string>
     <string name="online">On-line</string>
     <string name="online_status">Status on-line</string>
@@ -553,7 +566,6 @@
     <string name="open_thread">Ir para fio</string>
     <string name="play_pause_voice_message">Reproduzir/pausar mensagem de voz</string>
     <string name="playback_speed_control">Controle de velocidade de reprodução</string>
-    <string name="please_continue_the_login_process_in_the_browser">Por favor, continue o processo de login no navegador</string>
     <string name="polls_add_option">Adicionar opção</string>
     <string name="polls_edit_vote">Editar voto</string>
     <string name="polls_end_poll">Encerrar enquete</string>
@@ -631,10 +643,9 @@
     <string name="shared_items_voice">Voz</string>
     <string name="show_ban_reason">Mostrar motivo do banimento</string>
     <string name="show_banned_participants">Mostrar participantes banidos</string>
-    <string name="show_threads_overview">Mostrar fios</string>
     <string name="starred">Favorito</string>
     <string name="startCallForbidden">Você não tem permissão para iniciar uma chamada</string>
-    <string name="start_thread">Iniciar um fio</string>
+    <string name="start_thread">Criar um fio</string>
     <string name="started_a_call">iniciou uma chamada</string>
     <string name="status_message">Mensagem de status</string>
     <string name="status_reverted">Status Revertido</string>
@@ -653,8 +664,12 @@
     <string name="thisWeek">Esta semana</string>
     <string name="this_is_a_test_message">Esta é uma mensagem de teste</string>
     <string name="this_weekend">Este fim de semana</string>
-    <string name="thread_replies_amount">%1$d respostas</string>
+    <string name="thread_cancel">Cancelar a criação do fio</string>
+    <string name="thread_notifications">Notificações de fios</string>
+    <string name="thread_reply">Responder</string>
     <string name="thread_title">Título do fio</string>
+    <string name="threads">Fios</string>
+    <string name="threads_list_empty">Nenhum fio encontrado</string>
     <string name="today">Hoje</string>
     <string name="tomorrow">Amanhã</string>
     <string name="translate">Traduzir</string>
@@ -666,6 +681,8 @@
     <string name="translation_error_title">Falha na tradução</string>
     <string name="translation_from">De</string>
     <string name="translation_to">Para</string>
+    <string name="turn_off_background_blur">Desativar o desfoque do plano de fundo</string>
+    <string name="turn_on_background_blur">Ativar o desfoque do plano de fundo</string>
     <string name="typing_1_other">e 1 outro está digitando …</string>
     <string name="typing_are_typing">estão digitando …</string>
     <string name="typing_is_typing">está digitando …</string>
@@ -701,6 +718,11 @@
         <item quantity="one">Esta conversa será excluída automaticamente para todos em %1$d dia sem atividade</item>
         <item quantity="many">Esta conversa será excluída automaticamente para todos em %1$d de dias sem atividade</item>
         <item quantity="other">Esta conversa será excluída automaticamente para todos em %1$d dias sem atividade</item>
+    </plurals>
+    <plurals name="thread_replies">
+        <item quantity="one">%d resposta</item>
+        <item quantity="many">%d de respostas</item>
+        <item quantity="other">%d respostas</item>
     </plurals>
     <plurals name="polls_amount_voters">
         <item quantity="one">%d voto</item>

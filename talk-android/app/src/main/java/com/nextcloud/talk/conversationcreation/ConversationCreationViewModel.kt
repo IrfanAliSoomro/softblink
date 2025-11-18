@@ -30,8 +30,7 @@ class ConversationCreationViewModel @Inject constructor(
 ) : ViewModel() {
     private val _selectedParticipants = MutableStateFlow<List<AutocompleteUser>>(emptyList())
     val selectedParticipants: StateFlow<List<AutocompleteUser>> = _selectedParticipants
-    private val _roomViewState = MutableStateFlow<RoomUIState>(RoomUIState.None)
-    val roomViewState: StateFlow<RoomUIState> = _roomViewState
+    private val roomViewState = MutableStateFlow<RoomUIState>(RoomUIState.None)
 
     private val _selectedImageUri = MutableStateFlow<Uri?>(null)
     val selectedImageUri: StateFlow<Uri?> = _selectedImageUri
@@ -89,7 +88,7 @@ class ConversationCreationViewModel @Inject constructor(
             else -> 0
         }
         viewModelScope.launch {
-            _roomViewState.value = RoomUIState.Loading
+            roomViewState.value = RoomUIState.None
             try {
                 val roomResult = repository.createRoom(roomType, conversationName)
                 val conversation = roomResult.ocs?.data
@@ -129,12 +128,12 @@ class ConversationCreationViewModel @Inject constructor(
                             allowGuestsResult.value = AllowGuestsUiState.Error(exception.message ?: "")
                         }
                     }
-                    _roomViewState.value = RoomUIState.Success(conversation)
+                    roomViewState.value = RoomUIState.Success(conversation)
                 } else {
-                    _roomViewState.value = RoomUIState.Error("Conversation is null")
+                    roomViewState.value = RoomUIState.Error("Conversation is null")
                 }
             } catch (e: Exception) {
-                _roomViewState.value = RoomUIState.Error(e.message ?: "Unknown error")
+                roomViewState.value = RoomUIState.Error(e.message ?: "Unknown error")
                 Log.e("ConversationCreationViewModel", "Error - ${e.message}")
             }
         }
@@ -152,7 +151,6 @@ sealed class AllowGuestsUiState {
 
 sealed class RoomUIState {
     data object None : RoomUIState()
-    data object Loading : RoomUIState()
     data class Success(val conversation: Conversation?) : RoomUIState()
     data class Error(val message: String) : RoomUIState()
 }

@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.activities
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -17,7 +20,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.webkit.SslErrorHandler
@@ -25,6 +27,8 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
@@ -32,7 +36,6 @@ import com.nextcloud.talk.account.AccountVerificationActivity
 import com.nextcloud.talk.account.ServerSelectionActivity
 import com.nextcloud.talk.account.SwitchAccountActivity
 import com.nextcloud.talk.account.WebViewLoginActivity
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.events.CertificateEvent
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
@@ -119,18 +122,23 @@ open class BaseActivity : AppCompatActivity() {
      * May be aligned with android-common lib in the future: .../ui/util/extensions/AppCompatActivityExtensions.kt
      */
     fun initSystemBars() {
-        window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+        val decorView = window.decorView
+        decorView.setOnApplyWindowInsetsListener { view, insets ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                val statusBarHeight = insets.getInsets(WindowInsets.Type.statusBars()).top
-                view.setPadding(0, statusBarHeight, 0, 0)
+                val systemBars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+                )
                 val color = ResourcesCompat.getColor(resources, R.color.bg_default, context.theme)
                 view.setBackgroundColor(color)
+                view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             } else {
                 colorizeStatusBar()
                 colorizeNavigationBar()
             }
             insets
         }
+        ViewCompat.requestApplyInsets(decorView)
     }
 
     open fun colorizeStatusBar() {
@@ -253,19 +261,19 @@ open class BaseActivity : AppCompatActivity() {
             val uri = intent.data.toString()
             if (user?.baseUrl != null && uri.startsWith(user.baseUrl!!)) {
                 if (UriUtils.isInstanceInternalFileShareUrl(user.baseUrl!!, uri)) {
-                    // https://cloud.nextcloud.com/f/41
+                    // https://nc.softblinktech.com/f/41
                     val fileViewerUtils = FileViewerUtils(applicationContext, user)
                     fileViewerUtils.openFileInFilesApp(uri, UriUtils.extractInstanceInternalFileShareFileId(uri))
                 } else if (UriUtils.isInstanceInternalFileUrl(user.baseUrl!!, uri)) {
-                    // https://cloud.nextcloud.com/apps/files/?dir=/Engineering&fileid=41
+                    // https://nc.softblinktech.com/apps/files/?dir=/Engineering&fileid=41
                     val fileViewerUtils = FileViewerUtils(applicationContext, user)
                     fileViewerUtils.openFileInFilesApp(uri, UriUtils.extractInstanceInternalFileFileId(uri))
                 } else if (UriUtils.isInstanceInternalFileUrlNew(user.baseUrl!!, uri)) {
-                    // https://cloud.nextcloud.com/apps/files/?dir=/Engineering&fileid=41
+                    // https://nc.softblinktech.com/apps/files/files/41?dir=/
                     val fileViewerUtils = FileViewerUtils(applicationContext, user)
                     fileViewerUtils.openFileInFilesApp(uri, UriUtils.extractInstanceInternalFileFileIdNew(uri))
                 } else if (UriUtils.isInstanceInternalTalkUrl(user.baseUrl!!, uri)) {
-                    // https://cloud.nextcloud.com/call/123456789
+                    // https://nc.softblinktech.com/call/exsnuuik
                     val bundle = Bundle()
                     bundle.putString(BundleKeys.KEY_ROOM_TOKEN, UriUtils.extractRoomTokenFromTalkUrl(uri))
                     val chatIntent = Intent(context, ChatActivity::class.java)

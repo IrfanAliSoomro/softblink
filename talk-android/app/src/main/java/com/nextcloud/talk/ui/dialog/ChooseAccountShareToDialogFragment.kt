@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
@@ -21,8 +24,6 @@ import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.adapters.items.AdvancedUserItem
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.DialogChooseAccountShareToBinding
 import com.nextcloud.talk.extensions.loadUserAvatar

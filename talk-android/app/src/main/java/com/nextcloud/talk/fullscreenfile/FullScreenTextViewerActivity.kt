@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.fullscreenfile
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -19,7 +22,6 @@ import androidx.fragment.app.DialogFragment
 import autodagger.AutoInjector
 import com.nextcloud.talk.BuildConfig
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityFullScreenTextBinding
 import com.nextcloud.talk.ui.dialog.SaveToStorageDialogFragment
 import com.nextcloud.talk.ui.theme.ViewThemeUtils

@@ -8,13 +8,14 @@
  */
 package com.nextcloud.talk.utils.preferences.preferencestorage
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.text.TextUtils
 import android.util.Log
 import autodagger.AutoInjector
 import com.nextcloud.talk.api.NcApi
 import com.nextcloud.talk.api.NcApiCoroutines
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager
 import com.nextcloud.talk.data.storage.model.ArbitraryStorage
 import com.nextcloud.talk.data.user.model.User

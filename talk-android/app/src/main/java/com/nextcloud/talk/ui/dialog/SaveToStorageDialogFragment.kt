@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
@@ -21,8 +24,6 @@ import androidx.work.WorkManager
 import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.jobs.SaveFileToStorageWorker
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
 import java.util.concurrent.ExecutionException

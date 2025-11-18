@@ -9,6 +9,9 @@
  */
 package com.nextcloud.talk.adapters.items
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
@@ -22,9 +25,9 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import coil.dispose
 import com.nextcloud.talk.R
 import com.nextcloud.talk.adapters.items.ConversationItem.ConversationItemViewHolder
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.chat.data.model.ChatMessage.MessageType
 import com.nextcloud.talk.data.database.mappers.asModel
@@ -182,7 +185,9 @@ class ConversationItem(
     }
 
     private fun showAvatar(holder: ConversationItemViewHolder) {
+        holder.binding.dialogAvatar.dispose()
         holder.binding.dialogAvatar.visibility = View.VISIBLE
+
         var shouldLoadAvatar = shouldLoadAvatar(holder)
         if (ConversationEnums.ConversationType.ROOM_SYSTEM == model.type) {
             holder.binding.dialogAvatar.loadSystemAvatar()

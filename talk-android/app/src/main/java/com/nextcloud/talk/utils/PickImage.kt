@@ -8,6 +8,9 @@
 
 package com.nextcloud.talk.utils
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,7 +24,6 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.nextcloud.talk.activities.TakePhotoActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.remotefilebrowser.activities.RemoteFileBrowserActivity
 import com.nextcloud.talk.utils.bundle.BundleKeys

@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
@@ -24,7 +27,6 @@ import com.nextcloud.talk.adapters.ReactionItem
 import com.nextcloud.talk.adapters.ReactionItemClickListener
 import com.nextcloud.talk.adapters.ReactionsAdapter
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.data.user.model.User

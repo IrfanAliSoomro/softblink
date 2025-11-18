@@ -6,13 +6,15 @@
  */
 package com.nextcloud.talk.utils
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
 import android.os.Build
 import androidx.annotation.VisibleForTesting
-import com.nextcloud.talk.application.NextcloudTalkApplication
 
 object DoNotDisturbUtils {
 

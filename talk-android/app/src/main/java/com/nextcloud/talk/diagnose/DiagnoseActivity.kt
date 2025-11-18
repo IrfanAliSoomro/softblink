@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.diagnose
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -19,6 +22,7 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -37,7 +41,6 @@ import com.nextcloud.talk.BuildConfig
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager
 import com.nextcloud.talk.components.ColoredStatusBar
 import com.nextcloud.talk.components.StandardAppBar
@@ -114,7 +117,8 @@ class DiagnoseActivity : BaseActivity() {
                 ColoredStatusBar()
                 Scaffold(
                     modifier = Modifier
-                        .statusBarsPadding(),
+                        .statusBarsPadding()
+                        .displayCutoutPadding(),
                     topBar = {
                         StandardAppBar(
                             title = stringResource(R.string.nc_settings_diagnose_title),
@@ -126,8 +130,13 @@ class DiagnoseActivity : BaseActivity() {
 
                         Column(
                             Modifier
-                                .padding(0.dp, paddingValues.calculateTopPadding(), 0.dp, 0.dp)
                                 .background(backgroundColor)
+                                .padding(
+                                    0.dp,
+                                    paddingValues.calculateTopPadding(),
+                                    0.dp,
+                                    paddingValues.calculateBottomPadding()
+                                )
                                 .fillMaxSize()
                         ) {
                             DiagnoseContentComposable(

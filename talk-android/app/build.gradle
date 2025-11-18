@@ -13,9 +13,10 @@ import com.github.spotbugs.snom.Effort
 import com.github.spotbugs.snom.SpotBugsTask
 
 plugins {
-    id "org.jetbrains.kotlin.plugin.compose" version "2.2.10"
+    id "org.jetbrains.kotlin.plugin.compose" version "2.2.20"
     id "org.jetbrains.kotlin.kapt"
-    id 'com.google.devtools.ksp' version '2.2.10-2.0.2'
+    id 'com.google.devtools.ksp' version '2.2.20-2.0.3'
+    id "de.undercouch.download" version "5.6.0" // Download task and extension for retrieving files during a build
 }
 
 apply plugin: 'com.android.application'
@@ -27,10 +28,26 @@ apply plugin: 'io.gitlab.arturbosch.detekt'
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 apply plugin: 'kotlinx-serialization'
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+
 android {
     compileSdkVersion 35
 
     namespace = 'com.nextcloud.talk'
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
     defaultConfig {
         minSdkVersion 26
@@ -39,8 +56,10 @@ android {
 
         // mayor.minor.hotfix.increment (for increment: 01-50=Alpha / 51-89=RC / 90-99=stable)
         // xx   .xxx  .xx    .xx
-        versionCode 220000019
-        versionName "22.0.0 Alpha 19"
+        versionCode 23000003
+        versionName "23.0.3 Alpha 15"
+//        versionCode 4
+//        versionName "1.0.4"
 
         flavorDimensions "default"
         renderscriptTargetApi = 19
@@ -49,15 +68,15 @@ android {
         productFlavors {
             // used for f-droid
             generic {
-                applicationId 'com.nextcloud.talk2'
+                applicationId 'com.softblinks.app'
                 dimension "default"
             }
             gplay {
-                applicationId 'com.nextcloud.talk2'
+                applicationId 'com.softblinks.app'
                 dimension "default"
             }
             qa {
-                applicationId "com.nextcloud.talk2.qa"
+                applicationId 'com.softblinks.app.qa'
                 dimension "default"
                 versionCode 1
                 versionName "1"
@@ -103,22 +122,12 @@ android {
         unitTests.returnDefaultValues = true
     }
 
-    signingConfigs {
-        release {
-            // You'll need to create a keystore file and update these values
-            // For now, using debug keystore as placeholder
-            storeFile file("nextcloud.keystore")
-            storePassword "abc12345"
-            keyAlias "key0"
-            keyPassword "abc12345"
-        }
-    }
-
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -158,7 +167,7 @@ android {
 
     lint {
         abortOnError = false
-        disable 'MissingTranslation','PrivateResource'
+        disable 'MissingTranslation','PrivateResource','NullSafeMutableLiveData'
         htmlOutput = layout.buildDirectory.file("reports/lint/lint.html").get().asFile
         htmlReport = true
     }
@@ -168,20 +177,20 @@ kapt {
 }
 
 ext {
-    androidxCameraVersion = "1.4.2"
+    androidxCameraVersion = "1.5.0"
     coilKtVersion = "2.7.0"
-    daggerVersion = "2.57.1"
-    emojiVersion = "1.5.0"
+    daggerVersion = "2.57.2"
+    emojiVersion = "1.6.0"
     fidoVersion = "4.1.0-patch2"
-    lifecycleVersion = '2.9.2'
+    lifecycleVersion = '2.9.4'
     okhttpVersion = "4.12.0"
     markwonVersion = "4.6.2"
     materialDialogsVersion = "3.3.0"
     parcelerVersion = "1.1.13"
     prismVersion = "2.0.0"
     retrofit2Version = "3.0.0"
-    roomVersion = "2.7.2"
-    workVersion = "2.10.3"
+    roomVersion = "2.8.0"
+    workVersion = "2.10.5"
     espressoVersion = "3.7.0"
     androidxTestVersion = "1.5.0"
     media3_version = "1.8.0"
@@ -196,13 +205,17 @@ configurations.configureEach {
     exclude group: 'org.jetbrains', module: 'annotations-java5' // via prism4j, already using annotations explicitly
 }
 
+project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
+apply from: 'download_model.gradle'
+
 dependencies {
     implementation "androidx.room:room-testing-android:${roomVersion}"
+    implementation 'androidx.compose.foundation:foundation-layout:1.9.2'
     spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.14.0'
-    spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.13'
+    spotbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.6.15'
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
 
-    implementation("androidx.compose.runtime:runtime:1.9.0")
+    implementation("androidx.compose.runtime:runtime:1.9.2")
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.datastore:datastore-core:1.1.7'
     implementation 'androidx.datastore:datastore-preferences:1.1.7'
@@ -213,7 +226,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
 
     implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.android.material:material:1.13.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation "com.vanniktech:emoji-google:0.21.0"
     implementation "androidx.emoji2:emoji2:${emojiVersion}"
@@ -256,7 +269,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}"
 
     implementation 'com.bluelinelabs:logansquare:1.3.7'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.19.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.0'
     kapt 'com.bluelinelabs:logansquare-compiler:1.3.7'
 
     implementation "com.squareup.retrofit2:retrofit:${retrofit2Version}"
@@ -281,7 +294,7 @@ dependencies {
     implementation "org.parceler:parceler-api:$parcelerVersion"
     implementation 'com.github.ddB0515.FlexibleAdapter:flexible-adapter:5.1.1'
     implementation 'com.github.ddB0515.FlexibleAdapter:flexible-adapter-ui:5.1.1'
-    implementation 'org.apache.commons:commons-lang3:3.18.0'
+    implementation 'org.apache.commons:commons-lang3:3.19.0'
     implementation 'com.github.wooplr:Spotlight:1.3'
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     implementation 'com.github.nextcloud-deps:ChatKit:0.4.2'
@@ -300,7 +313,7 @@ dependencies {
     implementation "com.afollestad.material-dialogs:bottomsheets:${materialDialogsVersion}"
     implementation "com.afollestad.material-dialogs:lifecycle:${materialDialogsVersion}"
 
-    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.google.code.gson:gson:2.13.2'
 
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-ui:$media3_version"
@@ -323,14 +336,14 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.16.0'
     implementation 'androidx.activity:activity-ktx:1.10.1'
-    implementation 'com.github.nextcloud.android-common:ui:0.27.2'
+    implementation 'com.github.nextcloud.android-common:ui:0.28.0'
     implementation 'com.github.nextcloud-deps:android-talk-webrtc:132.6834.0'
 
-    gplayImplementation 'com.google.android.gms:play-services-base:18.6.0'
-    gplayImplementation "com.google.firebase:firebase-messaging:24.1.2"
+    gplayImplementation 'com.google.android.gms:play-services-base:18.8.0'
+    gplayImplementation "com.google.firebase:firebase-messaging:25.0.1"
 
     //compose
-    implementation(platform("androidx.compose:compose-bom:2025.08.00"))
+    implementation(platform("androidx.compose:compose-bom:2025.09.00"))
     implementation("androidx.compose.ui:ui")
     implementation 'androidx.compose.material3:material3:1.3.2'
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -338,19 +351,19 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     //tests
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.13.4'
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.9.0")
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:6.0.0'
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.9.2")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.19.0'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
 
     androidTestImplementation "androidx.test:core:1.7.0"
 
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
     androidTestImplementation 'androidx.test:core-ktx:1.7.0'
-    androidTestImplementation 'org.mockito:mockito-android:5.19.0'
+    androidTestImplementation 'org.mockito:mockito-android:5.20.0'
     androidTestImplementation "androidx.work:work-testing:${workVersion}"
     // Espresso core
     androidTestImplementation ("androidx.test.espresso:espresso-core:$espressoVersion", {
@@ -364,15 +377,19 @@ dependencies {
 
     androidTestImplementation('com.android.support.test.espresso:espresso-intents:3.0.2')
 
-    androidTestImplementation(platform("androidx.compose:compose-bom:2025.08.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2025.09.00"))
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.13.4' // DO NOT REMOVE
+    testImplementation 'org.junit.vintage:junit-vintage-engine:6.0.0' // DO NOT REMOVE
     testImplementation "androidx.room:room-testing:${roomVersion}"
     testImplementation("com.squareup.okhttp3:mockwebserver:$okhttpVersion")
-    testImplementation("com.google.dagger:hilt-android-testing:2.57.1")
+    testImplementation("com.google.dagger:hilt-android-testing:2.57.2")
     testImplementation("org.robolectric:robolectric:4.16")
+
+    // Computer Vision - for background effects during video calls
+    implementation 'com.google.mediapipe:tasks-vision:0.10.26'
+    implementation 'org.opencv:opencv:4.12.0'
 }
 
 tasks.register('installGitHooks', Copy) {

@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Build
@@ -17,9 +20,8 @@ import androidx.fragment.app.DialogFragment
 import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager
-import com.nextcloud.talk.activities.HomeScreen
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
 import com.nextcloud.talk.databinding.DialogFilterConversationBinding
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
 import com.nextcloud.talk.utils.CapabilitiesUtil.hasSpreedFeatureCapability
@@ -106,7 +108,7 @@ class FilterConversationFragment : DialogFragment() {
                     filterState[ARCHIVE] == true
                 )
             if (noFiltersActive) {
-                (requireActivity() as? HomeScreen)?.showOnlyNearFutureEvents()
+                (requireActivity() as ConversationsListActivity).showOnlyNearFutureEvents()
             }
             dismiss()
         }
@@ -136,7 +138,7 @@ class FilterConversationFragment : DialogFragment() {
         arbitraryStorageManager.storeStorageSetting(accountId, UNREAD, unreadValue.toString(), "")
         arbitraryStorageManager.storeStorageSetting(accountId, ARCHIVE, archivedValue.toString(), "")
 
-        (requireActivity() as? HomeScreen)?.filterConversation()
+        (requireActivity() as ConversationsListActivity).filterConversation()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -147,7 +149,7 @@ class FilterConversationFragment : DialogFragment() {
                 filterState[ARCHIVE] == true
             )
         if (noFiltersActive) {
-            (requireActivity() as? HomeScreen)?.showOnlyNearFutureEvents()
+            (requireActivity() as ConversationsListActivity).showOnlyNearFutureEvents()
         }
     }
 

@@ -9,6 +9,9 @@
  */
 package com.nextcloud.talk.profile
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -38,7 +41,6 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivityProfileBinding
 import com.nextcloud.talk.databinding.UserInfoDetailsTableItemBinding
@@ -244,7 +246,7 @@ class ProfileActivity : BaseActivity() {
                 binding.emptyList.root.visibility = View.GONE
                 binding.userinfoList.visibility = View.VISIBLE
                 if (CapabilitiesUtil.hasSpreedFeatureCapability(
-                        currentUser!!.capabilities!!.spreedCapability!!,
+                        currentUser?.capabilities?.spreedCapability,
                         SpreedFeatures.TEMP_USER_AVATAR_API
                     )
                 ) {

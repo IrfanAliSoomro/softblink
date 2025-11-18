@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.LayoutInflater
@@ -17,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider
 import autodagger.AutoInjector
 import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.conversationinfo.viewmodel.ConversationInfoViewModel
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.BanItemListBinding

@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.location
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.Manifest
 import android.app.Activity
 import android.app.SearchManager
@@ -35,7 +38,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityLocationBinding
 import com.nextcloud.talk.models.json.generic.GenericOverall
 import com.nextcloud.talk.users.UserManager

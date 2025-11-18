@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+
 import com.nextcloud.talk.application.NextcloudTalkApplication;
 
 import java.lang.reflect.InvocationTargetException;

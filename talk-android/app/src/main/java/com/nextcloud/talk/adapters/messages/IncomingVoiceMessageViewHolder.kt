@@ -10,6 +10,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
@@ -22,8 +25,6 @@ import autodagger.AutoInjector
 import coil.load
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemCustomIncomingVoiceMessageBinding
@@ -351,7 +352,7 @@ class IncomingVoiceMessageViewHolder(incomingView: View, payload: Any) :
                     viewThemeUtils.talk.themeParentMessage(
                         parentChatMessage,
                         message,
-                        binding.messageQuote.quoteColoredView
+                        binding.messageQuote.quotedChatMessageView
                     )
 
                     binding.messageQuote.quotedChatMessageView.visibility = View.VISIBLE

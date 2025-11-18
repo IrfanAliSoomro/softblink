@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.account
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -26,9 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
-import com.nextcloud.talk.activities.HomeScreen
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivityAccountVerificationBinding
 import com.nextcloud.talk.events.EventStatus
@@ -97,31 +98,10 @@ class AccountVerificationActivity : BaseActivity() {
     }
 
     private fun handleIntent() {
-        val extras = intent.extras
-        if (extras == null) {
-            // If no extras provided, this activity was started incorrectly
-            Log.e(TAG, "AccountVerificationActivity started without required extras")
-            // Redirect to ServerSelectionActivity instead of just finishing
-            val intent = Intent(this, ServerSelectionActivity::class.java)
-            startActivity(intent)
-            finish()
-            return
-        }
-        
+        val extras = intent.extras!!
         baseUrl = extras.getString(KEY_BASE_URL)
         username = extras.getString(KEY_USERNAME)
         token = extras.getString(KEY_TOKEN)
-        
-        // Check if required fields are present
-        if (baseUrl.isNullOrEmpty() || username.isNullOrEmpty() || token.isNullOrEmpty()) {
-            Log.e(TAG, "AccountVerificationActivity started with missing required extras: baseUrl=$baseUrl, username=$username, token=$token")
-            // Redirect to ServerSelectionActivity instead of just finishing
-            val intent = Intent(this, ServerSelectionActivity::class.java)
-            startActivity(intent)
-            finish()
-            return
-        }
-        
         if (extras.containsKey(KEY_IS_ACCOUNT_IMPORT)) {
             isAccountImport = true
         }
@@ -445,20 +425,15 @@ class AccountVerificationActivity : BaseActivity() {
             if (userManager.setUserAsActive(userToSetAsActive).blockingGet()) {
                 runOnUiThread {
                     if (userManager.users.blockingGet().size == 1) {
-                        val intent = Intent(context, HomeScreen::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        val intent = Intent(context, ConversationsListActivity::class.java)
                         startActivity(intent)
-                        finish()
                     } else {
                         if (isAccountImport) {
                             ApplicationWideMessageHolder.getInstance().messageType =
                                 ApplicationWideMessageHolder.MessageType.ACCOUNT_WAS_IMPORTED
                         }
-                        val intent = Intent(context, HomeScreen::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        val intent = Intent(context, ConversationsListActivity::class.java)
                         startActivity(intent)
-                        finish()
-
                     }
                 }
             } else {

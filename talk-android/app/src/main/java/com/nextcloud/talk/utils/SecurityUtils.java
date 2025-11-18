@@ -6,6 +6,8 @@
  */
 package com.nextcloud.talk.utils;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.content.res.Resources;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
@@ -14,7 +16,6 @@ import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 
 import com.nextcloud.talk.R;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;

@@ -8,6 +8,8 @@
  */
 package com.nextcloud.talk.ui.dialog;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,8 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nextcloud.talk.account.ServerSelectionActivity;
 import com.nextcloud.talk.adapters.items.AdvancedUserItem;
 import com.nextcloud.talk.api.NcApi;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
-import com.nextcloud.talk.activities.HomeScreen;
+import com.nextcloud.talk.conversationlist.ConversationsListActivity;
 import com.nextcloud.talk.data.network.NetworkMonitor;
 import com.nextcloud.talk.data.user.model.User;
 import com.nextcloud.talk.databinding.DialogChooseAccountBinding;
@@ -245,14 +246,25 @@ public class ChooseAccountDialogFragment extends DialogFragment {
         });
 
 
-        binding.setStatus.setOnClickListener(v -> {
+        binding.onlineStatus.setOnClickListener(v -> {
             dismiss();
+            if(status!= null && getActivity()!= null){
+                OnlineStatusBottomDialogFragment bottomDialog =
+                    OnlineStatusBottomDialogFragment.newInstance(status);
+                bottomDialog.show(requireActivity().getSupportFragmentManager(),
+                                  "fragment_online_status_bottom_dialog");
 
-            if (status != null && getActivity() != null) {
-                SetStatusDialogFragment setStatusDialog = SetStatusDialogFragment.newInstance(status);
-                setStatusDialog.show(getActivity().getSupportFragmentManager(), "fragment_set_status");
-            } else {
-                Log.w(TAG, "status was null");
+            }
+        });
+        binding.statusMessage.setOnClickListener(v -> {
+
+            dismiss();
+            if(status!= null && getActivity()!= null){
+                StatusMessageBottomDialogFragment bottomDialog =
+                    StatusMessageBottomDialogFragment.newInstance(status);
+                bottomDialog.show(getActivity().getSupportFragmentManager(),
+                                  "fragment_status_message_bottom_dialog");
+
             }
         });
     }
@@ -261,8 +273,10 @@ public class ChooseAccountDialogFragment extends DialogFragment {
         viewThemeUtils.platform.themeDialog(binding.getRoot());
         viewThemeUtils.platform.themeDialogDivider(binding.divider);
 
-        viewThemeUtils.material.colorMaterialTextButton(binding.setStatus);
-        viewThemeUtils.dialog.colorDialogMenuText(binding.setStatus);
+        viewThemeUtils.material.colorMaterialTextButton(binding.onlineStatus);
+        viewThemeUtils.dialog.colorDialogMenuText(binding.onlineStatus);
+        viewThemeUtils.material.colorMaterialTextButton(binding.statusMessage);
+        viewThemeUtils.dialog.colorDialogMenuText(binding.statusMessage);
         viewThemeUtils.material.colorMaterialTextButton(binding.addAccount);
         viewThemeUtils.dialog.colorDialogMenuText(binding.addAccount);
         viewThemeUtils.material.colorMaterialTextButton(binding.manageSettings);
@@ -292,7 +306,8 @@ public class ChooseAccountDialogFragment extends DialogFragment {
                         }
 
                         try {
-                            binding.setStatus.setEnabled(true);
+                            binding.onlineStatus.setEnabled(true);
+                            binding.statusMessage.setEnabled(true);
                             drawStatus();
                         } catch (NullPointerException npe) {
                             Log.i(TAG, "UI already teared down", npe);
@@ -358,7 +373,7 @@ public class ChooseAccountDialogFragment extends DialogFragment {
                     if (userManager.setUserAsActive(user).blockingGet()) {
                         cookieManager.getCookieStore().removeAll();
 
-                        Intent intent = new Intent(getContext(), HomeScreen.class);
+                        Intent intent = new Intent(getContext(), ConversationsListActivity.class);
                         // TODO: might be better with FLAG_ACTIVITY_SINGLE_TOP instead than FLAG_ACTIVITY_CLEAR_TOP to
                         // have a smoother transition. However the handling in onNewIntent() in
                         // ConversationListActivity must be improved for this.
@@ -390,7 +405,6 @@ public class ChooseAccountDialogFragment extends DialogFragment {
         viewThemeUtils.talk.themeStatusDrawable(binding.currentAccount.ticker.getContext(), drawable);
         binding.currentAccount.ticker.setImageDrawable(drawable);
         binding.currentAccount.ticker.setVisibility(View.VISIBLE);
-
 
         if (status.getMessage() != null && !status.getMessage().isEmpty()) {
             binding.currentAccount.status.setText(status.getMessage());

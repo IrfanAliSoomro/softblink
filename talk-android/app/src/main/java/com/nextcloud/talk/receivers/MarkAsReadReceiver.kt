@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.receivers
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -14,7 +17,6 @@ import android.content.Intent
 import android.util.Log
 import autodagger.AutoInjector
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.models.json.generic.GenericOverall
 import com.nextcloud.talk.users.UserManager

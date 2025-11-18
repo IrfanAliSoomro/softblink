@@ -8,6 +8,9 @@
 
 package com.nextcloud.talk.contacts
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -17,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import autodagger.AutoInjector
 import com.nextcloud.talk.activities.BaseActivity
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.components.ColoredStatusBar
 import com.nextcloud.talk.contacts.CompanionClass.Companion.KEY_HIDE_ALREADY_EXISTING_PARTICIPANTS
 import com.nextcloud.talk.extensions.getParcelableArrayListExtraProvider
@@ -61,17 +63,13 @@ class ContactsActivity : BaseActivity() {
             }.toSet().toMutableList()
             contactsViewModel.updateSelectedParticipants(selectedParticipants)
 
-            // Get tab source from intent
-            val tabSource = intent?.getStringExtra("tab_source") ?: "default"
-
             MaterialTheme(
                 colorScheme = colorScheme
             ) {
                 ColoredStatusBar()
                 ContactsScreen(
                     contactsViewModel = contactsViewModel,
-                    uiState = uiState.value,
-                    tabSource = tabSource
+                    uiState = uiState.value
                 )
             }
         }

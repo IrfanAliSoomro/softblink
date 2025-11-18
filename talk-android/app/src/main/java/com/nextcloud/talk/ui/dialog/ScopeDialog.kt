@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.content.Context
 import android.os.Bundle
 import android.view.View
@@ -15,7 +18,6 @@ import autodagger.AutoInjector
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.DialogScopeBinding
 import com.nextcloud.talk.models.json.userprofile.Scope
 import com.nextcloud.talk.profile.ProfileActivity

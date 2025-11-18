@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.location
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -26,7 +29,6 @@ import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.adapters.GeocodingAdapter
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityGeocodingBinding
 import com.nextcloud.talk.utils.bundle.BundleKeys
 import com.nextcloud.talk.viewmodels.GeoCodingViewModel

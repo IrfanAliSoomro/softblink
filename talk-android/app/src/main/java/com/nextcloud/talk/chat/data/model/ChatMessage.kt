@@ -9,11 +9,13 @@
  */
 package com.nextcloud.talk.chat.data.model
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.text.TextUtils
 import android.util.Log
 import com.bluelinelabs.logansquare.annotation.JsonIgnore
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.database.model.SendStatus
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.models.json.chat.ChatUtils.Companion.getParsedMessage
@@ -48,6 +50,10 @@ data class ChatMessage(
     var threadId: Long? = null,
 
     var isThread: Boolean = false,
+
+    var threadTitle: String? = null,
+
+    var threadReplies: Int? = 0,
 
     // guests or users
     var actorType: String? = null,
@@ -311,6 +317,7 @@ data class ChatMessage(
                             true
                         )
                     }
+
                     else -> {
                         var apiId: String? = sharedApplication!!.getString(R.string.nc_guest)
                         if (!TextUtils.isEmpty(actorDisplayName)) {

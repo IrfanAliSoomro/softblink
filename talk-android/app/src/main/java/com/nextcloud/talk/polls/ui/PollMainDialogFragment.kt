@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.polls.ui
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
@@ -18,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.DialogPollMainBinding
 import com.nextcloud.talk.polls.viewmodels.PollMainViewModel

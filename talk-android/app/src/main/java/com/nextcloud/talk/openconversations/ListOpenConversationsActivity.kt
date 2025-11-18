@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.openconversations
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -18,7 +21,6 @@ import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.databinding.ActivityOpenConversationsBinding
 import com.nextcloud.talk.models.json.conversations.Conversation

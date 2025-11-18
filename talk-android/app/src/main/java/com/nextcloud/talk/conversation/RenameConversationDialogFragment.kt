@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.conversation
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.res.ColorStateList
@@ -26,9 +29,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.conversationinfoedit.viewmodel.ConversationInfoEditViewModel
-import com.nextcloud.talk.activities.HomeScreen
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
 import com.nextcloud.talk.databinding.DialogRenameConversationBinding
 import com.nextcloud.talk.events.ConversationsListFetchDataEvent
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
@@ -192,7 +194,7 @@ class RenameConversationDialogFragment : DialogFragment() {
                 initialName
             )
         }?.let {
-            (activity as HomeScreen?)?.showSnackbar(
+            (activity as ConversationsListActivity?)?.showSnackbar(
                 it
             )
         }

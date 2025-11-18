@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
@@ -17,8 +20,6 @@ import coil.load
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemCustomOutcomingPollMessageBinding
@@ -39,9 +40,10 @@ import javax.inject.Inject
 
 @AutoInjector(NextcloudTalkApplication::class)
 class OutcomingPollMessageViewHolder(outcomingView: View, payload: Any) :
-    MessageHolders.OutcomingTextMessageViewHolder<ChatMessage>(outcomingView, payload) {
+    MessageHolders.OutcomingTextMessageViewHolder<ChatMessage>(outcomingView, payload),
+    AdjustableMessageHolderInterface {
 
-    private val binding: ItemCustomOutcomingPollMessageBinding = ItemCustomOutcomingPollMessageBinding.bind(itemView)
+    override val binding: ItemCustomOutcomingPollMessageBinding = ItemCustomOutcomingPollMessageBinding.bind(itemView)
 
     @Inject
     lateinit var context: Context
@@ -103,6 +105,15 @@ class OutcomingPollMessageViewHolder(outcomingView: View, payload: Any) :
 
         setPollPreview(message)
 
+        val chatActivity = commonMessageInterface as ChatActivity
+        Thread().showThreadPreview(
+            chatActivity,
+            message,
+            threadBinding = binding.threadTitleWrapper,
+            reactionsBinding = binding.reactions,
+            openThread = { openThread(message) }
+        )
+
         Reaction().showReactions(
             message,
             ::clickOnReaction,
@@ -120,6 +131,10 @@ class OutcomingPollMessageViewHolder(outcomingView: View, payload: Any) :
 
     private fun clickOnReaction(chatMessage: ChatMessage, emoji: String) {
         commonMessageInterface.onClickReaction(chatMessage, emoji)
+    }
+
+    private fun openThread(chatMessage: ChatMessage) {
+        commonMessageInterface.openThread(chatMessage)
     }
 
     private fun setPollPreview(message: ChatMessage) {
@@ -200,7 +215,11 @@ class OutcomingPollMessageViewHolder(outcomingView: View, payload: Any) :
                         )
                     viewThemeUtils.talk.colorOutgoingQuoteText(binding.messageQuote.quotedMessage)
                     viewThemeUtils.talk.colorOutgoingQuoteAuthorText(binding.messageQuote.quotedMessageAuthor)
-                    viewThemeUtils.talk.colorOutgoingQuoteBackground(binding.messageQuote.quoteColoredView)
+                    viewThemeUtils.talk.themeParentMessage(
+                        parentChatMessage,
+                        message,
+                        binding.messageQuote.quotedChatMessageView
+                    )
 
                     binding.messageQuote.quotedChatMessageView.visibility =
                         if (!message.isDeleted &&

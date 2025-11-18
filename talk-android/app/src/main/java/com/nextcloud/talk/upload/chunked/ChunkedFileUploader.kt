@@ -7,6 +7,8 @@
  */
 package com.nextcloud.talk.upload.chunked
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
@@ -19,7 +21,6 @@ import at.bitfire.dav4jvm.property.GetContentType
 import at.bitfire.dav4jvm.property.GetLastModified
 import at.bitfire.dav4jvm.property.ResourceType
 import autodagger.AutoInjector
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.filebrowser.models.DavResponse
 import com.nextcloud.talk.filebrowser.models.properties.NCEncrypted
 import com.nextcloud.talk.filebrowser.models.properties.NCPermission

@@ -7,12 +7,13 @@
  */
 package com.nextcloud.talk.jobs;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.data.user.model.User;
 import com.nextcloud.talk.users.UserManager;
 import com.nextcloud.talk.webrtc.WebSocketConnectionHelper;

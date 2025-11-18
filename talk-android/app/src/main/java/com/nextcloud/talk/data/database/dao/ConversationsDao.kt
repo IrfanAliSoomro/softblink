@@ -22,14 +22,8 @@ interface ConversationsDao {
     @Query("SELECT * FROM Conversations where accountId = :accountId")
     fun getConversationsForUser(accountId: Long): Flow<List<ConversationEntity>>
 
-    @Query("SELECT * FROM Conversations where accountId = :accountId AND (hasCall = 1 OR callStartTime > 0)")
-    fun getConversationsWithCalls(accountId: Long): Flow<List<ConversationEntity>>
-
     @Query("SELECT * FROM Conversations where accountId = :accountId AND token = :token")
     fun getConversationForUser(accountId: Long, token: String): Flow<ConversationEntity?>
-
-    @Query("SELECT * FROM Conversations where accountId = :accountId AND internalId = :internalId")
-    fun getConversationByInternalId(accountId: Long, internalId: String): Flow<ConversationEntity?>
 
     @Transaction
     suspend fun upsertConversations(accountId: Long, serverItems: List<ConversationEntity>) {

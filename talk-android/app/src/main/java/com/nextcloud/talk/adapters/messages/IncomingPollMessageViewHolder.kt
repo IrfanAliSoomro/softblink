@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
@@ -15,8 +18,6 @@ import autodagger.AutoInjector
 import coil.load
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemCustomIncomingPollMessageBinding
@@ -81,6 +82,15 @@ class IncomingPollMessageViewHolder(incomingView: View, payload: Any) :
 
         setPollPreview(message)
 
+        val chatActivity = commonMessageInterface as ChatActivity
+        Thread().showThreadPreview(
+            chatActivity,
+            message,
+            threadBinding = binding.threadTitleWrapper,
+            reactionsBinding = binding.reactions,
+            openThread = { openThread(message) }
+        )
+
         Reaction().showReactions(
             message,
             ::clickOnReaction,
@@ -98,6 +108,10 @@ class IncomingPollMessageViewHolder(incomingView: View, payload: Any) :
 
     private fun clickOnReaction(chatMessage: ChatMessage, emoji: String) {
         commonMessageInterface.onClickReaction(chatMessage, emoji)
+    }
+
+    private fun openThread(chatMessage: ChatMessage) {
+        commonMessageInterface.openThread(chatMessage)
     }
 
     private fun setPollPreview(message: ChatMessage) {
@@ -211,7 +225,7 @@ class IncomingPollMessageViewHolder(incomingView: View, payload: Any) :
                     viewThemeUtils.talk.themeParentMessage(
                         parentChatMessage,
                         message,
-                        binding.messageQuote.quoteColoredView
+                        binding.messageQuote.quotedChatMessageView
                     )
                     binding.messageQuote.quotedChatMessageView.visibility =
                         if (!message.isDeleted &&

@@ -1,9 +1,10 @@
 <!--
   ~ Nextcloud Talk - Android Client
   ~
-  ~ SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
+  ~ SPDX-FileCopyrightText: 2021 Andy Scherzinger <info@andy-scherzinger.de>
+  ~ SPDX-FileCopyrightText: 2017-2020 Mario Danic <mario@lovelyhq.com>
   ~ SPDX-License-Identifier: GPL-3.0-or-later
-  -->
+-->
 <resources>
 
     <!-- Base application theme. -->
@@ -28,8 +29,6 @@
         <item name="popupMenuStyle">@style/ChatSendButtonMenu</item>
         <item name="dialogCornerRadius">@dimen/dialogBorderRadius</item>
         <item name="android:windowBackground">@color/bg_default</item>
-
-
 <!--        <item name="android:windowTranslucentStatus">false</item>-->
 <!--        <item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
 <!--        <item name="android:statusBarColor">@android:color/transparent</item>-->
@@ -90,10 +89,12 @@
 
     <style name="ChipIncomingTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
         <item name="android:textColor">#de000000</item>
+        <item name="android:textSize">@dimen/chat_text_size</item>
     </style>
 
     <style name="ChipOutgoingTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
         <item name="android:textColor">@color/textColorOnPrimaryBackground</item>
+        <item name="android:textSize">@dimen/chat_text_size</item>
     </style>
 
     <style name="ChipUnreadMessagesTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
@@ -236,7 +237,7 @@
 
     <!-- Launch screen -->
     <style name="AppTheme.Launcher">
-        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
@@ -292,27 +293,18 @@
         <item name="cornerSize">50%</item>
     </style>
 
-
-    <style name="BottomNavText" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:includeFontPadding">false</item>
-        <item name="android:lineSpacingExtra">-4dp</item>
-        <item name="android:layout_marginTop">0dp</item>
+    <style name="LinkPreviewStyle">
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
     </style>
 
-    <style name="ToolbarTitleLarge">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item> <!-- Adjust as needed -->
-        <item name="android:textColor">@color/colorPrimary</item> <!-- Optional -->
-    </style>
-
-    <style name="NoBackgroundBottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:background">@android:color/white</item>
-        <item name="itemBackground">@android:color/transparent</item>
-        <item name="itemRippleColor">@android:color/transparent</item>
-        <item name="itemIconSize">22dp</item> <!-- smaller icon -->
-        <item name="itemIconTint">@drawable/bottom_nav_color</item>
-        <item name="itemTextAppearanceActive">@style/BottomNavText</item>
-        <item name="itemTextAppearanceInactive">@style/BottomNavText</item>
+    <style name="LinkPreviewStyleLand">
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
     </style>
 
 </resources>

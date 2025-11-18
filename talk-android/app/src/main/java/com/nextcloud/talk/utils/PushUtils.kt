@@ -8,14 +8,15 @@
  */
 package com.nextcloud.talk.utils
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.content.Context
 import android.util.Base64
 import android.util.Log
 import autodagger.AutoInjector
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.arbitrarystorage.ArbitraryStorageManager
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.events.EventStatus

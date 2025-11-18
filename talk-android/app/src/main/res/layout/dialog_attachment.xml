@@ -44,18 +44,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_attach_picture_from_cam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/camera_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_baseline_photo_camera_24"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_attach_picture_from_cam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_upload_picture_from_cam"
             android:textAlignment="viewStart"
@@ -77,18 +80,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_attach_video_from_cam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/video_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_baseline_videocam_24"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_attach_video_from_cam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_upload_video_from_cam"
             android:textAlignment="viewStart"
@@ -110,18 +116,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_attach_file_from_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/image_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/baseline_photo_library_24"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_attach_file_from_gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_gallery"
             android:textAlignment="viewStart"
@@ -143,18 +152,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_attach_file_from_local"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/file_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/upload"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_attach_file_from_local"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_upload_from_device"
             android:textAlignment="viewStart"
@@ -176,18 +188,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_attach_file_from_cloud"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/cloud_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_share_variant"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_attach_file_from_cloud"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:textAlignment="viewStart"
             android:textColor="@color/high_emphasis_text"
@@ -227,7 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/start_thread"
             android:textAlignment="viewStart"
@@ -260,7 +275,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_create_poll"
             android:textAlignment="viewStart"
@@ -282,18 +297,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_share_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/location_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_baseline_location_on_24"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txt_share_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_share_location"
             android:textAlignment="viewStart"
@@ -315,18 +333,21 @@
 
         <ImageView
             android:id="@+id/menu_icon_share_contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/contact_button_background"
             android:contentDescription="@null"
+            android:padding="8dp"
             android:src="@drawable/ic_baseline_person_24"
-            app:tint="@color/high_emphasis_menu_icon" />
+            app:tint="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/shareContactText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:paddingStart="@dimen/standard_double_padding"
+            android:paddingStart="@dimen/standard_half_padding"
             android:paddingEnd="@dimen/zero"
             android:text="@string/nc_share_contact"
             android:textAlignment="viewStart"

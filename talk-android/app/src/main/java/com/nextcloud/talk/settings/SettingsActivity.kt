@@ -10,6 +10,10 @@
  */
 package com.nextcloud.talk.settings
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.setAppTheme
+
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -52,10 +56,8 @@ import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.activities.MainActivity
 import com.nextcloud.talk.api.NcApi
 import com.nextcloud.talk.api.NcApiCoroutines
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.setAppTheme
-import com.nextcloud.talk.activities.HomeScreen
-import com.nextcloud.talk.activities.HomeScreen.Companion.NOTIFICATION_WARNING_DATE_NOT_SET
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
+import com.nextcloud.talk.conversationlist.ConversationsListActivity.Companion.NOTIFICATION_WARNING_DATE_NOT_SET
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivitySettingsBinding
 import com.nextcloud.talk.diagnose.DiagnoseActivity
@@ -136,7 +138,6 @@ class SettingsActivity :
     private var profileQueryDisposable: Disposable? = null
     private var dbQueryDisposable: Disposable? = null
     private var openedByNotificationWarning: Boolean = false
-    private var listenersSetup: Boolean = false
 
     @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,8 +154,6 @@ class SettingsActivity :
         getCurrentUser()
         handleIntent(intent)
 
-        setupLicenceSetting()
-
         binding.settingsScreenLockSummary.text = String.format(
             Locale.getDefault(),
             resources!!.getString(R.string.nc_settings_screen_lock_desc),
@@ -163,7 +162,6 @@ class SettingsActivity :
 
         setupDiagnose()
         setupPrivacyUrl()
-        setupSourceCodeUrl()
         binding.settingsVersionSummary.text = String.format("v" + BuildConfig.VERSION_NAME)
 
         setupPhoneBookIntegration()
@@ -181,56 +179,40 @@ class SettingsActivity :
         supportActionBar?.show()
         dispose(null)
 
-        // Only load capabilities if needed
         loadCapabilitiesAndUpdateSettings()
 
-        // Update dynamic content that might have changed
-        updateDynamicContent()
-
-        // Only setup listeners once
-        if (!listenersSetup) {
-            setupAllListeners()
-            listenersSetup = true
+        binding.settingsVersion.setOnClickListener {
+            sendLogs()
         }
 
-        // Apply theming
-        themeTitles()
-        themeSwitchPreferences()
-
-        // Handle notification warning scroll if needed
-        if (openedByNotificationWarning) {
-            scrollToNotificationCategory()
-        }
-    }
-
-    private fun updateDynamicContent() {
-        // Update content that might change between resume cycles
-        currentUser?.let { user ->
-            user.baseUrl?.let { baseUrl ->
-                binding.domainText.text = baseUrl.toUri().host
-            }
-            setupServerAgeWarning()
-            user.displayName?.let { displayName ->
-                binding.nameText.text = displayName
-            }
-            DisplayUtils.loadAvatarImage(user, binding.avatarImage, false)
-        }
-        
-        // Update client certificate status
-        if (!TextUtils.isEmpty(currentUser?.clientCertificate)) {
+        if (!TextUtils.isEmpty(currentUser!!.clientCertificate)) {
             binding.settingsClientCertTitle.setText(R.string.nc_client_cert_change)
         } else {
             binding.settingsClientCertTitle.setText(R.string.nc_client_cert_setup)
         }
-        
-        setupMessageView()
-    }
 
-    private fun setupAllListeners() {
-        // Setup all click listeners once
-        binding.settingsVersion.setOnClickListener {
-            sendLogs()
+        setupCheckables()
+        setupScreenLockSetting()
+        setupNotificationSettings()
+        setupProxyTypeSettings()
+        setupProxyCredentialSettings()
+        registerChangeListeners()
+
+        if (currentUser != null) {
+            binding.domainText.text = currentUser!!.baseUrl!!.toUri().host
+            setupServerAgeWarning()
+            if (currentUser!!.displayName != null) {
+                binding.nameText.text = currentUser!!.displayName
+            }
+            DisplayUtils.loadAvatarImage(currentUser, binding.avatarImage, false)
+
+            setupProfileQueryDisposable()
+
+            binding.settingsRemoveAccount.setOnClickListener {
+                showRemoveAccountWarning()
+            }
         }
+        setupMessageView()
 
         binding.settingsName.visibility = View.VISIBLE
         binding.settingsName.setOnClickListener {
@@ -238,19 +220,12 @@ class SettingsActivity :
             startActivity(intent)
         }
 
-        currentUser?.let {
-            binding.settingsRemoveAccount.setOnClickListener {
-                showRemoveAccountWarning()
-            }
-        }
+        themeTitles()
+        themeSwitchPreferences()
 
-        // Setup all other listeners
-        setupCheckables()
-        setupScreenLockSetting()
-        setupNotificationSettings()
-        setupProxyTypeSettings()
-        setupProxyCredentialSettings()
-        registerChangeListeners()
+        if (openedByNotificationWarning) {
+            scrollToNotificationCategory()
+        }
     }
 
     @Suppress("MagicNumber")
@@ -279,15 +254,15 @@ class SettingsActivity :
     }
 
     private fun setupActionBar() {
-        setSupportActionBar(binding.toolbar)
-        binding.toolbar.setNavigationOnClickListener {
+        setSupportActionBar(binding.settingsToolbar)
+        binding.settingsToolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setIcon(resources!!.getColor(android.R.color.transparent, null).toDrawable())
         supportActionBar?.title = context.getString(R.string.nc_settings)
-        viewThemeUtils.material.themeToolbar(binding.toolbar)
+        viewThemeUtils.material.themeToolbar(binding.settingsToolbar)
     }
 
     private fun getCurrentUser() {
@@ -391,7 +366,7 @@ class SettingsActivity :
                     binding.settingsNotificationsPermissionWrapper.setOnClickListener {
                         requestPermissions(
                             arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                            HomeScreen.REQUEST_POST_NOTIFICATIONS_PERMISSION
+                            ConversationsListActivity.REQUEST_POST_NOTIFICATIONS_PERMISSION
                         )
                     }
                 }
@@ -522,21 +497,6 @@ class SettingsActivity :
         }
     }
 
-    private fun setupSourceCodeUrl() {
-        if (!TextUtils.isEmpty(resources!!.getString(R.string.nc_source_code_url))) {
-            binding.settingsSourceCode.setOnClickListener {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        resources!!.getString(R.string.nc_source_code_url).toUri()
-                    )
-                )
-            }
-        } else {
-            binding.settingsSourceCode.visibility = View.GONE
-        }
-    }
-
     private fun setupDiagnose() {
         binding.diagnoseWrapper.setOnClickListener {
             val intent = Intent(context, DiagnoseActivity::class.java)
@@ -556,21 +516,6 @@ class SettingsActivity :
             }
         } else {
             binding.settingsPrivacy.visibility = View.GONE
-        }
-    }
-
-    private fun setupLicenceSetting() {
-        if (!TextUtils.isEmpty(resources!!.getString(R.string.nc_gpl3_url))) {
-            binding.settingsLicence.setOnClickListener {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        resources!!.getString(R.string.nc_gpl3_url).toUri()
-                    )
-                )
-            }
-        } else {
-            binding.settingsLicence.visibility = View.GONE
         }
     }
 
@@ -648,6 +593,14 @@ class SettingsActivity :
             appPreferences.screenLockTimeout = entryVal
             SecurityUtils.createKey(entryVal)
         }
+        // Force light theme always
+        appPreferences.theme = "light"
+        
+        // Hide theme dropdown - not available for now
+        //binding.settingsAppearanceTheme.visibility = View.GONE
+        
+        // Keep the code for future use (commented out)
+        /*
         pos = resources.getStringArray(R.array.theme_entry_values).indexOf(appPreferences.theme)
         binding.settingsTheme.setText(resources.getStringArray(R.array.theme_descriptions)[pos])
 
@@ -656,12 +609,13 @@ class SettingsActivity :
             val entryVal: String = resources.getStringArray(R.array.theme_entry_values)[position]
             appPreferences.theme = entryVal
         }
+        */
 
         observeProxyType()
         observeProxyCredential()
         observeScreenSecurity()
         observeScreenLock()
-        observeTheme()
+        // observeTheme() - disabled since light theme is forced
         observeReadPrivacy()
         observeTypingStatus()
     }
@@ -969,7 +923,7 @@ class SettingsActivity :
             binding.settingsShowNotificationWarning.visibility = View.GONE
         }
 
-        if (CapabilitiesUtil.isReadStatusAvailable(currentUser!!.capabilities!!.spreedCapability!!)) {
+        if (CapabilitiesUtil.isReadStatusAvailable(currentUser?.capabilities?.spreedCapability)) {
             binding.settingsReadPrivacySwitch.isChecked = !CapabilitiesUtil.isReadStatusPrivate(currentUser!!)
         } else {
             binding.settingsReadPrivacy.visibility = View.GONE
@@ -1182,7 +1136,7 @@ class SettingsActivity :
                 }
             }
 
-            HomeScreen.REQUEST_POST_NOTIFICATIONS_PERMISSION -> {
+            ConversationsListActivity.REQUEST_POST_NOTIFICATIONS_PERMISSION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     try {
                         val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
@@ -1284,16 +1238,8 @@ class SettingsActivity :
     private fun observeTheme() {
         CoroutineScope(Dispatchers.Main).launch {
             var state = appPreferences.theme
-            var isFirstEmission = true
-            
             themeFlow.collect { newString ->
-                // Skip the first emission to prevent theme change during initial load
-                if (isFirstEmission) {
-                    isFirstEmission = false
-                    return@collect
-                }
-                
-                if (newString != state && newString.isNotEmpty()) {
+                if (newString != state) {
                     state = newString
                     setAppTheme(newString)
                 }

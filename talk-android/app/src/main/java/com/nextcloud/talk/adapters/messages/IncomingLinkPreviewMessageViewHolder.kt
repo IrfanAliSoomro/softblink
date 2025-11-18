@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
@@ -16,8 +19,6 @@ import autodagger.AutoInjector
 import coil.load
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemCustomIncomingLinkPreviewMessageBinding
@@ -110,6 +111,19 @@ class IncomingLinkPreviewMessageViewHolder(incomingView: View, payload: Any) :
 
         itemView.setTag(R.string.replyable_message_view_tag, message.replyable)
 
+        val chatActivity = commonMessageInterface as ChatActivity
+        val showThreadButton = chatActivity.conversationThreadId == null && message.isThread
+        if (showThreadButton) {
+            binding.reactions.threadButton.visibility = View.VISIBLE
+            binding.reactions.threadButton.setContent {
+                ThreadButtonComposable(
+                    onButtonClick = { openThread(message) }
+                )
+            }
+        } else {
+            binding.reactions.threadButton.visibility = View.GONE
+        }
+
         Reaction().showReactions(
             message,
             ::clickOnReaction,
@@ -127,6 +141,10 @@ class IncomingLinkPreviewMessageViewHolder(incomingView: View, payload: Any) :
 
     private fun clickOnReaction(chatMessage: ChatMessage, emoji: String) {
         commonMessageInterface.onClickReaction(chatMessage, emoji)
+    }
+
+    private fun openThread(chatMessage: ChatMessage) {
+        commonMessageInterface.openThread(chatMessage)
     }
 
     private fun setAvatarAndAuthorOnMessageItem(message: ChatMessage) {
@@ -204,7 +222,7 @@ class IncomingLinkPreviewMessageViewHolder(incomingView: View, payload: Any) :
                     viewThemeUtils.talk.themeParentMessage(
                         parentChatMessage,
                         message,
-                        binding.messageQuote.quoteColoredView
+                        binding.messageQuote.quotedChatMessageView
                     )
 
                     binding.messageQuote.quotedChatMessageView.visibility =

@@ -2,29 +2,30 @@
 <!--
   ~ Nextcloud Talk - Android Client
   ~
-  ~ SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
+  ~ SPDX-FileCopyrightText: 2022-2023 Marcel Hibbe <dev@mhibbe.de>
+  ~ SPDX-FileCopyrightText: 2017-2019 Mario Danic <mario@lovelyhq.com>
   ~ SPDX-License-Identifier: GPL-3.0-or-later
-  -->
+-->
 <resources>
     <!-- Set before a release -->
     <string name="nc_talk_database_encryption_key" translatable="false">HvAfHtAy/QdFYqAWFFXa1VV_Iv6ZQ1.tf5swMc^45wS_vz=Wm[oyRP5D-</string>
     <string name="nc_talk_login_scheme" translatable="false">nc</string>
     <bool name="nc_is_debug">false</bool>
 
-    <string name="nc_app_name">SoftbLink</string>
-    <string name="nc_app_product_name">SoftbLink</string>
-    <string name="nc_server_product_name">SoftbLink</string>
+    <string name="nc_app_name">SoftbLinks Talk</string>
+    <string name="nc_app_product_name">SoftBlinks Talk</string>
+    <string name="nc_server_product_name">SoftBlinks</string>
 
     <string name="nc_push_server_url" translatable="false">https://push-notifications.nextcloud.com</string>
 
     <!-- Branding -->
     <bool name="hide_provider">false</bool>
     <bool name="hide_auth_cert">false</bool>
-    <bool name="multiaccount_support">true</bool>
-    <string name="weblogin_url" translatable="false"></string>
+    <bool name="multiaccount_support">false</bool>
+    <string name="weblogin_url" translatable="false">https://nc.softblinktech.com</string>
 
     <!-- Will not be shown if empty -->
-    <string name="nc_privacy_url" translatable="false">https://nextcloud.com/privacy/</string>
+    <string name="nc_privacy_url" translatable="false">https://homeremodelus.com/privacy-policy.html</string>
     <string name="nc_gpl3_url" translatable="false">https://www.gnu.org/licenses/gpl-3.0.en.html</string>
     <string name="nc_source_code_url" translatable="false">https://github.com/nextcloud/talk-android</string>
     <string name="nc_talk_android_issues_url" translatable="false">https://github.com/nextcloud/talk-android/issues</string>

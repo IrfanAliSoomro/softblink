@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.polls.ui
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +16,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import autodagger.AutoInjector
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.DialogPollLoadingBinding
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
 import javax.inject.Inject

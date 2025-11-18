@@ -7,6 +7,8 @@
  */
 package com.nextcloud.talk.jobs
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+
 import android.content.ContentValues
 import android.content.Context
 import android.media.MediaScannerConnection
@@ -23,7 +25,6 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import autodagger.AutoInjector
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.utils.Mimetype.AUDIO_PREFIX
 import com.nextcloud.talk.utils.Mimetype.IMAGE_PREFIX
 import com.nextcloud.talk.utils.Mimetype.VIDEO_PREFIX

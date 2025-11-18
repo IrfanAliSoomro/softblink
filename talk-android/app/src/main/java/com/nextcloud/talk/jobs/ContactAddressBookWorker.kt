@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.jobs
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.Manifest
 import android.accounts.Account
 import android.accounts.AccountManager
@@ -31,8 +34,6 @@ import com.google.gson.Gson
 import com.nextcloud.talk.BuildConfig
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.models.json.search.ContactsByNumberOverall
 import com.nextcloud.talk.users.UserManager
 import com.nextcloud.talk.utils.ApiUtils

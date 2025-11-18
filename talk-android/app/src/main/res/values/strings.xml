@@ -1,11 +1,4 @@
 <!--
-  ~ Nextcloud Talk - Android Client
-  ~
-  ~ SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
-  ~ SPDX-License-Identifier: GPL-3.0-or-later
-  -->
-
-<!--
 How to work with translations as a developer:
 - Only add new translations to values/stings.xml, don't do this for other languages (it will be done via transifex).
 - Never change the key of a translation. If it really has to be changed, delete it and create a new entry instead.
@@ -25,7 +18,7 @@ How to translate with transifex:
 
 <resources>
     <!--
-  ~ Nextcloud Talk - Android Client
+  ~ SoftBlinks Talk - Android Client
   ~
   ~ SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
   ~ SPDX-License-Identifier: GPL-3.0-or-later
@@ -49,11 +42,6 @@ How to translate with transifex:
     <!-- Bottom Navigation -->
     <string name="nc_settings">Settings</string>
     <string name="add_participants">Add</string>
-    
-    <!-- Calls -->
-    <string name="calls_empty_title">No calls yet</string>
-    <string name="calls_empty_description">Your call history will appear here</string>
-    <string name="calls_loading">Loading calls...</string>
 
     <!-- Server selection -->
     <string name="nc_server_connect">Test server connection</string>
@@ -108,8 +96,8 @@ How to translate with transifex:
     <string name="nc_settings_reauthorize">Reauthorize account</string>
     <string name="nc_client_cert_setup">Set up client certificate</string>
     <string name="nc_client_cert_change">Change client certificate</string>
-    <string name="nc_settings_remove">Logout</string>
-    <string name="nc_settings_remove_confirmation">Please confirm your intent to logout the current account.</string>
+    <string name="nc_settings_remove">Remove</string>
+    <string name="nc_settings_remove_confirmation">Please confirm your intent to remove the current account.</string>
     <string name="nc_settings_remove_account">Logout account</string>
     <string name="nc_settings_server_eol_title">Unsupported server</string>
     <string name="nc_settings_server_eol">The server version is too old and not supported by this version of the Android app</string>
@@ -199,7 +187,7 @@ How to translate with transifex:
     <string name="nc_diagnose_dialog_open_diagnose">Open diagnosis screen</string>
 
     <string name="nc_ignore_battery_optimization_dialog_title">Ignore battery optimization</string>
-    <string name="nc_ignore_battery_optimization_dialog_text">Battery optimization is not ignored. This should be changed to make sure that notifications work in the background! Please click OK and select \"All apps\" -> %1$s -> Do not optimize</string>
+    <string name="nc_ignore_battery_optimization_dialog_text">Battery optimization is not ignored. This should be changed to make sure that notifications work in the background! Please click OK and select \"All apps\" -> %1$s and then \"Do not optimize\" or \"Allow background usage -> Unrestricted\".</string>
     <string name="nc_show_notification_warning_title">Show regular notification warning</string>
     <string name="nc_show_notification_warning_description">When notifications are not set up correctly, show a regular warning</string>
     <string name="nc_notification_warning">Notifications are not set up correctly</string>
@@ -249,18 +237,18 @@ How to translate with transifex:
     <string name="message_copied">Message copied</string>
     <string name="nc_push_notification_message">Push notification is sent successfully. You should now receive a notification on this device with the title \'Testing push notifications\'</string>
 
-    <!-- meeting menu -->
-    <string name="nc_leave">Leave Meeting</string>
+    <!-- Conversation menu -->
+    <string name="nc_leave">Leave conversation</string>
     <string name="nc_clear_history">Delete all messages</string>
-    <string name="nc_clear_history_warning">Do you really want to delete all messages in this Meeting?</string>
+    <string name="nc_clear_history_warning">Do you really want to delete all messages in this conversation?</string>
     <string name="nc_clear_history_success">All messages were deleted</string>
-    <string name="nc_mark_conversation_as_sensitive">Meeting marked as sensitive</string>
-    <string name="nc_mark_conversation_as_insensitive">Meeting unmarked as sensitive</string>
-    <string name="nc_mark_conversation_as_important">Meeting marked as important</string>
-    <string name="nc_mark_conversation_as_unimportant">Meeting unmarked as important</string>
-    <string name="nc_rename">Rename Meeting</string>
+    <string name="nc_mark_conversation_as_sensitive">Conversation marked as sensitive</string>
+    <string name="nc_mark_conversation_as_insensitive">Conversation unmarked as sensitive</string>
+    <string name="nc_mark_conversation_as_important">Conversation marked as important</string>
+    <string name="nc_mark_conversation_as_unimportant">Conversation unmarked as important</string>
+    <string name="nc_rename">Rename conversation</string>
     <string name="nc_rename_confirm">Rename</string>
-    <string name="nc_delete_call">Delete Meeting</string>
+    <string name="nc_delete_call">Delete conversation</string>
    <!-- Noun -->
     <string name="nc_event_schedule">Schedule</string>
     <string name="nc_delete">Delete</string>
@@ -270,33 +258,32 @@ How to translate with transifex:
     <string name="nc_invalid_time">Invalid time</string>
     <string name="nc_today_meeting">Today at %1$s</string>
     <string name="nc_tomorrow_meeting">Tomorrow at %1$s</string>
-    <string name="nc_delete_conversation_more">If you delete the meeting, it will also be deleted for all other 
-        participants.</string>
+    <string name="nc_delete_conversation_more">If you delete the conversation, it will also be deleted for all other participants.</string>
 
-    <string name="nc_new_conversation">New Meeting</string>
+    <string name="nc_new_conversation">New conversation</string>
     <string name="nc_mark_as_read">Mark as read</string>
     <string name="nc_mark_as_unread">Mark as unread</string>
     <string name="nc_add_to_favorites">Add to favorites</string>
-    <string name="nc_remove_from_favorites">Logout from favorites</string>
-    <string name="nc_create_new_conversation">Create a new meeting</string>
-    <string name="nc_join_open_conversations">Join open meeting</string>
-    <string name="nc_open_conversation_to_registered_users">Open meeting to registered users</string>
+    <string name="nc_remove_from_favorites">Remove from favorites</string>
+    <string name="nc_create_new_conversation">Create a new conversation</string>
+    <string name="nc_join_open_conversations">Join open conversations</string>
+    <string name="nc_open_conversation_to_registered_users">Open conversation to registered users</string>
     <string name="nc_open_to_guest_app_users">Also open to guest app users</string>
     <string name="nc_new_conversation_visibility">Visibility</string>
 
-    <string name="added_to_favorites">Added meeting %1$s to favorites</string>
-    <string name="removed_from_favorites">Removed meeting %1$s from favorites</string>
-    <string name="marked_as_unread">Marked meeting %1$s as unread</string>
-    <string name="marked_as_read">Marked meeting %1$s as read</string>
-    <string name="deleted_conversation">Deleted meeting %1$s</string>
-    <string name="left_conversation">You left the meeting %1$s</string>
-    <string name="renamed_conversation">Meeting %1$s was renamed</string>
+    <string name="added_to_favorites">Added conversation %1$s to favorites</string>
+    <string name="removed_from_favorites">Removed conversation %1$s from favorites</string>
+    <string name="marked_as_unread">Marked conversation %1$s as unread</string>
+    <string name="marked_as_read">Marked conversation %1$s as read</string>
+    <string name="deleted_conversation">Deleted conversation %1$s</string>
+    <string name="left_conversation">You left the conversation %1$s</string>
+    <string name="renamed_conversation">Conversation %1$s was renamed</string>
 
     <string name="nc_forward_to_three_dots">Forward to …</string>
 
     <!-- Open conversations -->
-    <string name="nc_no_open_conversations_headline">No open meeting</string>
-    <string name="nc_no_open_conversations_text">No open meeting that you can join.\nEither there are no open conversations or you already joined all of them.</string>
+    <string name="nc_no_open_conversations_headline">No open conversations</string>
+    <string name="nc_no_open_conversations_text">No open conversations that you can join.\nEither there are no open conversations or you already joined all of them.</string>
 
     <!-- Contacts -->
     <string name="nc_add_participants">Add participants</string>
@@ -322,7 +309,7 @@ How to translate with transifex:
     <string name="nc_call_ringing">RINGING</string>
     <string name="nc_connecting_call">Connecting …</string>
     <string name="nc_nick_guest">Guest</string>
-    <string name="nc_public_call_status">Public meeting</string>
+    <string name="nc_public_call_status">Public conversation</string>
     <string name="nc_call_timeout">No response in 45 seconds, tap to try again</string>
     <string name="nc_call_reconnecting">Reconnecting …</string>
     <string name="nc_offline">Currently offline, please check your connectivity</string>
@@ -366,16 +353,15 @@ How to translate with transifex:
     <string name="nc_notify_me_mention">Notify when mentioned</string>
     <string name="nc_notify_me_never">Never notify</string>
     <string name="nc_call_notifications">Call notifications</string>
-    <string name="nc_sensitive_conversation">Sensitive meeting</string>
-    <string name="nc_sensitive_conversation_hint">Message preview will be disabled in meeting list and notifications</string>
-    <string name="nc_important_conversation">Important meeting</string>
+    <string name="nc_sensitive_conversation">Sensitive conversation</string>
+    <string name="nc_sensitive_conversation_hint">Message preview will be disabled in conversation list and notifications</string>
+    <string name="nc_important_conversation">Important conversation</string>
     <string name="nc_important_conversation_desc">\"Do not disturb\" user status is ignored for important conversations</string>
 
     <string name="nc_all_ok_operation">OK, all done!</string>
     <string name="nc_ok">OK</string>
-    <string name="nc_call_name">Meeting name</string>
-    <string name="create_conversation">Create meeting</string>
-    <string name="creating_conversation">Creating meeting...</string>
+    <string name="nc_call_name">Conversation name</string>
+    <string name="create_conversation">Create conversation</string>
     <string name="nc_add_emojis">Add emojis</string>
 
 
@@ -387,9 +373,9 @@ How to translate with transifex:
     <!-- Moderation -->
     <string name="nc_demote">Demote from moderator</string>
     <string name="nc_promote">Promote to moderator</string>
-    <string name="nc_remove_participant">Logout participant</string>
-    <string name="nc_remove_team_and_members">Logout team and members</string>
-    <string name="nc_remove_group_and_members">Logout group and members</string>
+    <string name="nc_remove_participant">Remove participant</string>
+    <string name="nc_remove_team_and_members">Remove team and members</string>
+    <string name="nc_remove_group_and_members">Remove group and members</string>
     <string name="nc_attendee_pin">Pin: %1$s</string>
 
     <!-- User Status -->
@@ -403,7 +389,11 @@ How to translate with transifex:
     <string name="online">Online</string>
     <string name="dnd">Do not disturb</string>
     <string name="away">Away</string>
+    <string name="busy">Busy</string>
     <string name="invisible">Invisible</string>
+    <string name="divider" translatable="false">—</string>
+    <string name="mute_all_notifications">Mute all notifications</string>
+    <string name="appear_offline">Appear offline</string>
     <string name="default_emoji" translatable="false">😃</string>
     <string name="emoji_thumbsUp" translatable="false">👍</string>
     <string name="emoji_thumbsDown" translatable="false">👎</string>
@@ -415,6 +405,7 @@ How to translate with transifex:
     <string name="emoji_more" translatable="false">More emojis</string>
     <string name="dontClear">Don\'t clear</string>
     <string name="today">Today</string>
+    <string name="fifteenMinutes">15 minutes</string>
     <string name="thirtyMinutes">30 minutes</string>
     <string name="oneHour">1 hour</string>
     <string name="fourHours">4 hours</string>
@@ -426,7 +417,7 @@ How to translate with transifex:
     <string name="nc_new_mention">Unread mentions</string>
     <string name="conversations">Conversations</string>
     <string name="openConversations">Open conversations</string>
-    <string name="lock_conversation">Lock meeting</string>
+    <string name="lock_conversation">Lock conversation</string>
     <string name="error_loading_chats">There was a problem loading your chats</string>
     <string name="close">Close</string>
     <string name="close_icon">Close Icon</string>
@@ -437,8 +428,8 @@ How to translate with transifex:
     <string name="nc_date_header_today">Today</string>
     <string name="nc_conversation_menu_voice_call">Voice call</string>
     <string name="nc_conversation_menu_video_call">Video call</string>
-    <string name="nc_event_conversation_menu">Event meeting menu</string>
-    <string name="nc_conversation_menu_conversation_info">Meeting info</string>
+    <string name="nc_event_conversation_menu">Event conversation menu</string>
+    <string name="nc_conversation_menu_conversation_info">Conversation info</string>
     <string name="nc_new_messages">Unread messages</string>
     <string name="nc_sent_a_gif" formatted="true">%1$s sent a GIF.</string>
     <string name="nc_sent_an_audio" formatted="true">%1$s sent an audio.</string>
@@ -469,22 +460,22 @@ How to translate with transifex:
     </plurals>
     <string name="nc_send_voice_recording">Send voice recording</string>
 
-    <!-- meeting info guest access -->
+    <!-- Conversation info guest access -->
     <string name="nc_guest_access">Guest access</string>
     <string name="nc_guest_access_allow_title">Allow guests</string>
-    <string name="nc_guest_access_allow_summary">Allow guests to share a public link to join this meeting.</string>
+    <string name="nc_guest_access_allow_summary">Allow guests to share a public link to join this conversation.</string>
     <string name="nc_guest_access_allow_failed">Cannot enable/disable guest access.</string>
     <string name="nc_set_password">Set Password</string>
     <string name="nc_password">Password</string>
     <string name="nc_change_password">Change Password</string>
-    <string name="nc_remove_password">Logout Password</string>
+    <string name="nc_remove_password">Remove Password</string>
     <string name="nc_set_new_password">Set new password</string>
     <string name="nc_guest_access_password_title">Password protection</string>
     <string name="nc_guest_access_password_summary">Set a password to restrict who can use the public link.</string>
     <string name="nc_guest_access_password_dialog_title">Guest access password</string>
     <string name="nc_guest_access_password_dialog_hint">Enter a password</string>
     <string name="nc_guest_access_password_failed">Error during setting/disabling the password.</string>
-    <string name="nc_guest_access_share_link">Share meeting link</string>
+    <string name="nc_guest_access_share_link">Share conversation link</string>
     <string name="nc_guest_access_resend_invitations">Resend invitations</string>
     <string name="nc_guest_access_resend_invitations_successful">Invitations were sent out again.</string>
     <string name="nc_guest_access_resend_invitations_failed">Invitations were not send due to an error.</string>
@@ -494,7 +485,7 @@ How to translate with transifex:
     <string name="nc_description_send_message_button">Send message</string>
 
     <!-- Empty states -->
-    <string name="nc_conversations_empty">Join a meeting or start a new one</string>
+    <string name="nc_conversations_empty">Join a conversation or start a new one</string>
     <string name="nc_conversations_empty_details">Say hi to your friends and colleagues!</string>
 
     <!-- Other -->
@@ -539,15 +530,15 @@ How to translate with transifex:
     <string name="nc_reply">Reply</string>
     <string name="nc_reply_privately">Reply privately</string>
     <plurals name="nc_conversation_auto_delete_info">
-        <item quantity="one">This meeting will be automatically deleted for everyone in %1$d day of no activity</item>
-        <item quantity="other">This meeting will be automatically deleted for everyone in %1$d days of no activity</item>
+        <item quantity="one">This conversation will be automatically deleted for everyone in %1$d day of no activity</item>
+        <item quantity="other">This conversation will be automatically deleted for everyone in %1$d days of no activity</item>
     </plurals>
     <string name="nc_delete_message">Delete message</string>
     <string name="nc_delete_now">Delete now</string>
     <string name="nc_keep">Keep</string>
     <string name="nc_delete_message_leaked_to_matterbridge">Message deleted successfully, but it might have been leaked to other services</string>
     <string name="startCallForbidden">You are not allowed to start a call</string>
-    <string name="nc_last_moderator_leaving_room_warning">You need to promote a new moderator before you can leave the meeting</string>
+    <string name="nc_last_moderator_leaving_room_warning">You need to promote a new moderator before you can leave the conversation</string>
     <string name="nc_room_retention">Room is retained successfully</string>
 
     <string name="share">Share</string>
@@ -563,16 +554,27 @@ How to translate with transifex:
     <string name="typing_x_others">and %1$s others are typing …</string>
     <string name="deck_card_description">%1$s in %2$s</string>
 
+    <string name="threads">Threads</string>
     <string name="open_thread">Go to thread</string>
-    <string name="start_thread">Start a thread</string>
+    <string name="start_thread">Create a thread</string>
     <string name="thread_title">Thread title</string>
     <string name="thread_cancel">Cancel thread creation</string>
-    <string name="show_threads_overview">Show threads</string>
     <string name="recent_threads">Recent threads</string>
-    <string name="thread_replies_amount">%1$d replies</string>
+    <string name="thread_reply">Reply</string>
+    <plurals name="thread_replies">
+        <item quantity="one">%d reply</item>
+        <item quantity="other">%d replies</item>
+    </plurals>
+    <string name="thread_notifications">Thread notifications</string>
+    <string name="threads_list_empty">No threads found</string>
+    <string name="notifications_default">Default</string>
+    <string name="notifications_default_description">Follow conversation settings</string>
+    <string name="notification_all_messages">All messages</string>
+    <string name="notification_mention_only">\@-mentions only</string>
+    <string name="notification_off">Off</string>
 
     <!-- Upload -->
-    <string name="nc_add_file">Add to meeting</string>
+    <string name="nc_add_file">Add to conversation</string>
     <string name="nc_upload_picture_from_cam">Take photo</string>
     <string name="nc_upload_video_from_cam">Take video</string>
     <string name="nc_create_poll">Create poll</string>
@@ -694,7 +696,6 @@ How to translate with transifex:
     <string name="nc_dialog_outdated_client_option_update">Update</string>
     <string name="nc_switch_account">Switch account</string>
     <string name="nc_dialog_maintenance_mode_description">Server is currently in maintenance mode.</string>
-    <string name="nc_server_down">Unable to connect to server</string>
 
     <!-- Take photo -->
     <string name="take_photo">Take a photo</string>
@@ -731,7 +732,7 @@ How to translate with transifex:
     <string name="recording_consent_description">The recording might include your voice, video from camera, and screen share. Your consent is required before joining the call. Do you consent?</string>
     <string name="recording_settings_title">Recording</string>
     <string name="recording_consent_for_conversation_title">Recording consent</string>
-    <string name="recording_consent_for_conversation_description">Require recording consent before joining call in this meeting</string>
+    <string name="recording_consent_for_conversation_description">Require recording consent before joining call in this conversation</string>
     <string name="recording_consent_all">Recording consent is required for all calls</string>
 
     <!-- Shared items -->
@@ -783,7 +784,7 @@ How to translate with transifex:
     <string name="send_without_notification">Send without notification</string>
     <string name="call_without_notification">Call without notification</string>
     <string name="set_avatar_from_camera">Set avatar from camera</string>
-    <string name="nc_conversation_description">Meeting description</string>
+    <string name="nc_conversation_description">Conversation description</string>
 
     <!-- Expiring messages -->
     <string name="nc_expire_messages">Expire chat messages</string>
@@ -793,7 +794,7 @@ How to translate with transifex:
     <string name="nc_expire_message_one_day">1 day</string>
     <string name="nc_expire_message_eight_hours">8 hours</string>
     <string name="nc_expire_message_one_hour">1 hour</string>
-    <string name="nc_expire_messages_explanation">Chat messages can be expired after a certain time. Note: Files shared in chat will not be deleted for the owner, but will no longer be shared in the meeting.</string>
+    <string name="nc_expire_messages_explanation">Chat messages can be expired after a certain time. Note: Files shared in chat will not be deleted for the owner, but will no longer be shared in the conversation.</string>
 
     <!-- Breakout rooms -->
     <string name="switch_to_main_room">Switch to main room</string>
@@ -823,6 +824,11 @@ How to translate with transifex:
     <string name="nc_filter">Filter conversations</string>
     <string name="mentioned">Mentioned</string>
     <string name="unread">Unread</string>
+    <string name="all">All</string>
+    <string name="groups">Groups</string>
+    <string name="calls">Calls</string>
+    <string name="chat">Chat</string>
+    <string name="archived">Archived</string>
     <string name="nc_settings_http_value" translatable="false">3128</string>
     <string name="nc_settings_direct_value" translatable="false">8080</string>
     <string name="nc_settings_socks_value" translatable="false">1080</string>
@@ -848,18 +854,18 @@ How to translate with transifex:
     <string name="nc_send_edit_message">Update message</string>
     <string name="nc_clear_edit_message">Cancel editing</string>
     <string name="edit_error_24_hours_old_message">Messages older than 24 hours can not be edited</string>
-    <string name="conversation_is_read_only">Meeting is read only</string>
+    <string name="conversation_is_read_only">Conversation is read only</string>
     <string name="nc_edit_message_text">Edit message</string>
     <string name="hint_edited_message">(edited)</string>
-    <string name="nc_conversation_not_found">Meeting not found</string>
+    <string name="nc_conversation_not_found">Conversation not found</string>
     <string name="add_to_notes">Add to Notes</string>
     <string name="nc_edited_by_admin">Edited by admin</string>
     <string name="nc_clear_edit_button">Cancel editing</string>
     <string name="nc_edit_icon">Edit</string>
     <string name="get_invitations_error">Failed to fetch pending invitations</string>
     <string name="message_last_edited_by">Edited by %1$s</string>
-    <string name="share_link_to_conversation">Join meeting %1$s at %2$s</string>
-    <string name="nc_conversation_settings">Meeting settings</string>
+    <string name="share_link_to_conversation">Join conversation %1$s at %2$s</string>
+    <string name="nc_conversation_settings">Conversation settings</string>
     <string name="ban_participant">Ban participant</string>
     <string name="show_banned_participants">Show banned participants</string>
     <string name="bans_list">Bans list</string>
@@ -872,18 +878,17 @@ How to translate with transifex:
     <string name="show_ban_reason">Show ban reason</string>
     <string name="error_unbanning">Error occurred when unbanning participant</string>
     <string name="connection_lost">No connection to server</string>
-    <string name="archive_conversation">Archive meeting</string>
-    <string name="unarchive_conversation">Unarchive meeting</string>
-    <string name="archived">Archived</string>
-    <string name="archive_hint">Once a meeting is archived, it will be hidden by default. Select the filter \"Archived\" to view archived conversations. Direct mentions will still be received.</string>
-    <string name="unarchive_hint">Once a meeting is unarchived, it will be shown by default again.</string>
+    <string name="archive_conversation">Archive conversation</string>
+    <string name="unarchive_conversation">Unarchive conversation</string>
+    <string name="no_unread_conversations">No unread conversations</string>
+    <string name="archive_hint">Once a conversation is archived, it will be hidden by default. Select the filter \"Archived\" to view archived conversations. Direct mentions will still be received.</string>
+    <string name="unarchive_hint">Once a conversation is unarchived, it will be shown by default again.</string>
     <string name="no_offline_messages_saved">No offline messages saved</string>
-    <string name="messages_could_not_be_loaded">Messages could not be loaded</string>
     <string name="previously_set">Previously set</string>
-    <string name="conversation_read_only_failed">Failed to set meeting Read-only</string>
+    <string name="conversation_read_only_failed">Failed to set conversation Read-only</string>
     <string name="status_reverted">Status Reverted</string>
     <string name="automatic_status_set">Your status was set automatically</string>
-    <string name="please_continue_the_login_process_in_the_browser">Please continue the login process in the browser</string>
+
     <string name="user_absence">%1$s is out of office and might not respond</string>
     <string name="user_absence_for_one_day">%1$s is out of office today</string>
     <string name="user_absence_replacement">Replacement: </string>
@@ -891,12 +896,17 @@ How to translate with transifex:
     <string name="no_conversations_archived">No archived conversations</string>
     <string name="archived_conversation">Archived %1$s</string>
     <string name="unarchived_conversation">Unarchived %1$s</string>
-    <string name="conversation_archived">Meeting is archived</string>
+    <string name="conversation_archived">Conversation is archived</string>
     <string name="local_time">Local time: %1$s</string>
     <string name="open_notes">Open Notes</string>
     <string name="cancel_login">Cancel Login</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="qr_code_error">QR code could not be read</string>
     <string name="message_delete_are_you_sure">Are you sure you want to delete this message?</string>
-    <string name="search_chat">Search chat</string>
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="location_permission_denied_msg">Please enable it in the app settings</string>
+    <string name="location_services_disabled">Location services disabled</string>
+    <string name="location_services_disabled_msg">Please enable location services (GPS) to use this feature</string>
+    <string name="turn_on_background_blur">Turn on background blur</string>
+    <string name="turn_off_background_blur">Turn off background blur</string>
 </resources>

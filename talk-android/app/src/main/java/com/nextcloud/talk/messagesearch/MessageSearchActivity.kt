@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.messagesearch
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -24,8 +27,7 @@ import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.BaseActivity
 import com.nextcloud.talk.adapters.items.LoadMoreResultsItem
 import com.nextcloud.talk.adapters.items.MessageResultItem
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.activities.HomeScreen
+import com.nextcloud.talk.conversationlist.ConversationsListActivity
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ActivityMessageSearchBinding
 import com.nextcloud.talk.utils.bundle.BundleKeys
@@ -166,6 +168,7 @@ class MessageSearchActivity : BaseActivity() {
         if (state is MessageSearchViewModel.FinishedState) {
             val resultIntent = Intent().apply {
                 putExtra(RESULT_KEY_MESSAGE_ID, state.selectedMessageId)
+                putExtra(RESULT_KEY_THREAD_ID, state.selectedThreadId)
             }
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
@@ -217,7 +220,7 @@ class MessageSearchActivity : BaseActivity() {
                 when {
                     TextUtils.isEmpty(query) -> Observable.empty()
                     else -> Observable.timer(
-                        HomeScreen.SEARCH_DEBOUNCE_INTERVAL_MS.toLong(),
+                        ConversationsListActivity.SEARCH_DEBOUNCE_INTERVAL_MS.toLong(),
                         TimeUnit.MILLISECONDS
                     )
                 }
@@ -244,5 +247,6 @@ class MessageSearchActivity : BaseActivity() {
 
     companion object {
         const val RESULT_KEY_MESSAGE_ID = "MessageSearchActivity.result.message"
+        const val RESULT_KEY_THREAD_ID = "MessageSearchActivity.result.thread"
     }
 }

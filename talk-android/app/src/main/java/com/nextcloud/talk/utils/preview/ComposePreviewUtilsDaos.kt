@@ -25,8 +25,6 @@ import kotlinx.coroutines.flow.flowOf
 class DummyChatMessagesDaoImpl : ChatMessagesDao {
     override fun getMessagesForConversation(internalConversationId: String): Flow<List<ChatMessageEntity>> = flowOf()
 
-    override fun getCallMessages(): Flow<List<ChatMessageEntity>> = flowOf()
-
     override fun getTempMessagesForConversation(internalConversationId: String): Flow<List<ChatMessageEntity>> =
         flowOf()
 
@@ -91,6 +89,8 @@ class DummyChatMessagesDaoImpl : ChatMessagesDao {
     override fun clearAllMessagesForUser(pattern: String) { /* */ }
 
     override fun deleteMessagesOlderThan(internalConversationId: String, messageId: Long) { /* */ }
+
+    override fun getNumberOfThreadReplies(internalConversationId: String, threadId: Long): Int = 0
 }
 
 class DummyUserDaoImpl : UsersDao() {
@@ -192,11 +192,7 @@ class DummyUserDaoImpl : UsersDao() {
 class DummyConversationDaoImpl : ConversationsDao {
     override fun getConversationsForUser(accountId: Long): Flow<List<ConversationEntity>> = flowOf()
 
-    override fun getConversationsWithCalls(accountId: Long): Flow<List<ConversationEntity>> = flowOf()
-
     override fun getConversationForUser(accountId: Long, token: String): Flow<ConversationEntity?> = flowOf()
-
-    override fun getConversationByInternalId(accountId: Long, internalId: String): Flow<ConversationEntity?> = flowOf()
 
     override suspend fun upsertConversations(accountId: Long, serverItems: List<ConversationEntity>) { /* */ }
 

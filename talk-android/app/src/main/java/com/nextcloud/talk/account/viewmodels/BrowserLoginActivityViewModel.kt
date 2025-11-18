@@ -1,7 +1,7 @@
 /*
  * Nextcloud Talk - Android Client
  *
- * SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
+ * SPDX-FileCopyrightText: 2025 Julius Linus <juliuslinus1@gmail.com>
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -16,10 +16,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WebViewLoginActivityViewModel @Inject constructor(val repository: LoginRepository) : ViewModel() {
+class BrowserLoginActivityViewModel @Inject constructor(val repository: LoginRepository) : ViewModel() {
 
     companion object {
-        private val TAG = WebViewLoginActivityViewModel::class.java.simpleName
+        private val TAG = BrowserLoginActivityViewModel::class.java.simpleName
     }
 
     sealed class InitialLoginViewState {

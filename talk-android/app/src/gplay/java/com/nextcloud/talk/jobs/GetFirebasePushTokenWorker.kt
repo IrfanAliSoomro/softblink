@@ -18,6 +18,7 @@ import autodagger.AutoInjector
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.utils.preferences.AppPreferences
 import javax.inject.Inject
 

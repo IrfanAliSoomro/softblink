@@ -8,6 +8,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
@@ -18,8 +21,6 @@ import coil.load
 import com.nextcloud.android.common.ui.theme.utils.ColorRole
 import com.nextcloud.talk.R
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemCustomOutcomingLinkPreviewMessageBinding
@@ -127,6 +128,19 @@ class OutcomingLinkPreviewMessageViewHolder(outcomingView: View, payload: Any) :
 
         itemView.setTag(R.string.replyable_message_view_tag, message.replyable)
 
+        val chatActivity = commonMessageInterface as ChatActivity
+        val showThreadButton = chatActivity.conversationThreadId == null && message.isThread
+        if (showThreadButton) {
+            binding.reactions.threadButton.visibility = View.VISIBLE
+            binding.reactions.threadButton.setContent {
+                ThreadButtonComposable(
+                    onButtonClick = { openThread(message) }
+                )
+            }
+        } else {
+            binding.reactions.threadButton.visibility = View.GONE
+        }
+
         Reaction().showReactions(
             message,
             ::clickOnReaction,
@@ -144,6 +158,10 @@ class OutcomingLinkPreviewMessageViewHolder(outcomingView: View, payload: Any) :
 
     private fun clickOnReaction(chatMessage: ChatMessage, emoji: String) {
         commonMessageInterface.onClickReaction(chatMessage, emoji)
+    }
+
+    private fun openThread(chatMessage: ChatMessage) {
+        commonMessageInterface.openThread(chatMessage)
     }
 
     @Suppress("Detekt.TooGenericExceptionCaught", "Detekt.LongMethod")
@@ -188,7 +206,11 @@ class OutcomingLinkPreviewMessageViewHolder(outcomingView: View, payload: Any) :
                         )
                     viewThemeUtils.talk.colorOutgoingQuoteText(binding.messageQuote.quotedMessage)
                     viewThemeUtils.talk.colorOutgoingQuoteAuthorText(binding.messageQuote.quotedMessageAuthor)
-                    viewThemeUtils.talk.colorOutgoingQuoteBackground(binding.messageQuote.quoteColoredView)
+                    viewThemeUtils.talk.themeParentMessage(
+                        parentChatMessage,
+                        message,
+                        binding.messageQuote.quotedChatMessageView
+                    )
 
                     binding.messageQuote.quotedChatMessageView.visibility =
                         if (!message.isDeleted &&

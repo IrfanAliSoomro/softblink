@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Nextcloud Talk - Android Client
+  ~ SoftBlinks Talk - Android Client
   ~
   ~ SPDX-FileCopyrightText: 2023-2024 Marcel Hibbe <dev@mhibbe.de>
   ~ SPDX-FileCopyrightText: 2017-2018 Mario Danic <mario@lovelyhq.com>
@@ -38,14 +38,14 @@
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/chat_list_warning"
+            android:id="@+id/chat_list_maintenance_warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/hwSecurityRed"
             android:gravity="center"
+            android:text="@string/nc_dialog_maintenance_mode_description"
             android:textColor="@color/white"
             android:visibility="gone"
-            tools:text="@string/nc_dialog_maintenance_mode_description"
             tools:visibility="visible" />
 
         <com.google.android.material.card.MaterialCardView
@@ -56,9 +56,11 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="1dp"
-            app:cardCornerRadius="10dp"
+            android:visibility="gone"
+            app:cardCornerRadius="25dp"
             app:cardElevation="2dp"
             app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/colorSecondaryLight"
             tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,79 +82,51 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/search_input_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:startIconTint="@color/light_grey"
-                    app:startIconDrawable="@drawable/ic_search_grey"
-                    app:endIconMode="clear_text"
-                    android:background="@drawable/rounded_lightgrey_background"
-                    >
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/search_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="5dp"
-                        android:hint="@string/search_chat"
-                        android:background="@drawable/rounded_lightgrey_background"
-                        />
-<!--                    android:background="@drawable/rounded_lightgrey_background"-->
-                </com.google.android.material.textfield.TextInputLayout>
-
-<!--                <com.google.android.material.textview.MaterialTextView-->
-<!--                    android:id="@+id/search_text"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginEnd="18dp"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:gravity="start|center_vertical"-->
-<!--                    android:lines="1"-->
-<!--                    android:textAlignment="viewStart"-->
-<!--                    android:textColor="@color/colorPrimary"-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:drawableStart="@drawable/ic_search_grey"-->
-<!--                    android:drawablePadding="8dp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/filter_conversations_button"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/menu_button"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    tools:text="Search chat" />-->
-
-<!--                <com.google.android.material.textview.MaterialTextView-->
-<!--                    android:id="@+id/search_text"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:layout_marginStart="20dp"-->
-<!--                    android:layout_marginEnd="18dp"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:gravity="start|center_vertical"-->
-<!--                    android:lines="1"-->
-<!--                    android:textAlignment="viewStart"-->
-<!--                    android:textColor="@color/fontSecondaryAppbar"-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/menu_button"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/filter_conversations_button"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    tools:text="Search chat" />-->
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/search_text"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="0dp"
+                    android:ellipsize="end"
+                    android:gravity="start|center_vertical"
+                    android:lines="1"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/fontSecondaryAppbar"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/menu_button"
+                    app:layout_constraintEnd_toStartOf="@id/filter_conversations_button"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Search in SoftBlink" />
 
                 <ImageView
                     android:id="@+id/filter_conversations_button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:visibility="gone"
-                    android:padding="12dp"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:contentDescription="@string/nc_filter"
                     android:src="@drawable/ic_baseline_filter_list_24"
                     app:layout_constraintBaseline_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/rightContainer"
+                    app:layout_constraintEnd_toStartOf="@+id/threads_button"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/threads_button"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/threads"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:src="@drawable/outline_forum_24"
+                    android:visibility="gone"
+                    app:layout_constraintBaseline_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/rightContainer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible"/>
 
                 <FrameLayout
                     android:id="@+id/rightContainer"
@@ -160,7 +134,6 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:minWidth="48dp"
-                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -196,9 +169,10 @@
             app:layout_scrollFlags="enterAlwaysCollapsed|noScroll"
             app:navigationIconTint="@color/fontAppbar"
             app:popupTheme="@style/appActionBarPopupMenu"
-            android:visibility="gone"
             app:titleTextColor="@color/fontAppbar"
             tools:title="@string/nc_app_product_name" />
+
+        <include layout="@layout/conversation_filter_tabs" />
 
         <androidx.compose.ui.platform.ComposeView
             android:id="@+id/composeViewForBackgroundPlay"
@@ -236,7 +210,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:contentDescription="@string/nc_app_product_name"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_logo"
             app:tint="#989898" />
 
         <TextView
@@ -282,12 +256,14 @@
         <ImageView
             android:id="@+id/no_archived_conversation_icon"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="45dp"
             android:contentDescription="@string/nc_app_product_name"
             android:src="@drawable/outline_archive_24"
-            app:tint="@color/grey_600" />
+            app:tint="@color/grey_600"
+            visibility="gone" />
 
         <TextView
+            android:id="@+id/no_archived_conversation_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/no_archived_conversation_icon"
@@ -300,7 +276,7 @@
             android:text="@string/no_conversations_archived"
             android:textAlignment="center"
             android:textColor="@color/high_emphasis_text"
-            android:textSize="22sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -328,23 +304,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <!-- Call History RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/call_history_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:visibility="gone"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="36dp"
+        android:minHeight="48dp"
+        android:minWidth="120dp"
+        android:text="@string/chat"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         android:contentDescription="@string/nc_new_conversation"
-        app:borderWidth="0dp"
-        app:srcCompat="@drawable/baseline_chat_bubble_outline_24"
-        app:tint="@color/colorPrimary"
-        app:backgroundTint="@color/white"/>
+        app:icon="@drawable/ic_add_grey600_24px"
+        app:iconTint="@color/white"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:cornerRadius="24dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="8dp"
+        android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+        style="@style/Widget.MaterialComponents.Button"
+        tools:text="Chat" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/newMentionPopupBubble"
@@ -354,7 +348,7 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="88dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="36dp"
         android:minHeight="@dimen/min_size_clickable_area"
         android:text="@string/nc_new_mention"
         app:background="@color/colorPrimary"

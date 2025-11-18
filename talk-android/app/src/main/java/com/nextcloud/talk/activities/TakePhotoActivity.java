@@ -7,6 +7,8 @@
  */
 package com.nextcloud.talk.activities;
 
+import com.nextcloud.talk.application.NextcloudTalkApplication;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,7 +27,6 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.nextcloud.talk.R;
-import com.nextcloud.talk.application.NextcloudTalkApplication;
 import com.nextcloud.talk.databinding.ActivityTakePictureBinding;
 import com.nextcloud.talk.models.TakePictureViewModel;
 import com.nextcloud.talk.ui.theme.ViewThemeUtils;

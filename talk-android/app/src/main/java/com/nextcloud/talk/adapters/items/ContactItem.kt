@@ -8,13 +8,15 @@
  */
 package com.nextcloud.talk.adapters.items
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.text.TextUtils
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.nextcloud.talk.R
 import com.nextcloud.talk.adapters.items.ContactItem.ContactItemViewHolder
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.RvItemContactBinding
 import com.nextcloud.talk.extensions.loadUserAvatar

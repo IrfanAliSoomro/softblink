@@ -2,24 +2,19 @@
 <!--
   ~ Nextcloud Talk - Android Client
   ~
-  ~ SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
+  ~ SPDX-FileCopyrightText: 2021 Andy Scherzinger <info@andy-scherzinger.de>
+  ~ SPDX-FileCopyrightText: 2017-2019 Mario Danic <mario@lovelyhq.com>
   ~ SPDX-License-Identifier: GPL-3.0-or-later
-  -->
+-->
 <resources>
-<!--    <color name="colorPrimary">#0082C9</color>-->
-<!--    <color name="colorPrimaryDark">#006AA3</color>-->
-<!--    <color name="colorAccent">@color/colorPrimary</color>-->
-<!--    <color name="disabled_text">#ff888888</color>-->
-<!--    <color name="textColorOnPrimaryBackground">#ffffff</color> &lt;!&ndash; white/black depending on primary color &ndash;&gt;-->
-<!--    <color name="nc_login_text_color">#B3FFFFFF</color>-->
-
-    <color name="colorPrimary">#098087</color> <!--0082C9-->
+    <color name="colorPrimary">#098087</color>
     <color name="colorPrimaryDark">#2A716B</color>
     <color name="colorAccent">@color/colorPrimary</color>
+    <!-- Very light variant of primary used as secondary background tint -->
+    <color name="colorSecondaryLight">#a3dde0</color>
     <color name="disabled_text">#ff888888</color>
     <color name="textColorOnPrimaryBackground">#ffffff</color> <!-- white/black depending on primary color -->
     <color name="nc_login_text_color">#B3FFFFFF</color>
-
 
     <!-- App bar -->
     <color name="appbar">@android:color/white</color>
@@ -44,6 +39,8 @@
     <color name="nc_outcoming_text_default">#FFFFFF</color>
     <!-- Text color of received messages -->
     <color name="nc_incoming_text_default">@color/high_emphasis_text</color>
+    <!-- Background for replied messages -->
+    <color name="reply_background">#55FFFFFF</color>
 
     <!-- Name of person or group for the chat conversation -->
     <color name="conversation_item_header">@color/high_emphasis_text</color>
@@ -100,20 +97,5 @@
     <color name="icon_on_bg_default">#99000000</color>
     <color name="badge_color">#EF3B02</color>
     <color name="secondary_button_background">#DBE2E9</color>
-
-
-    <color name="white">#FFFFFF</color>
-
-    <color name="blue">#007EF2</color>
-    <color name="yellow">#FFC107</color>
-
-    <color name="grey">#848282</color>
-    <color name="colorGray">#9E9E9E</color>
-    <color name="light_grey">#838485</color>
-
-    <!-- Call history colors -->
-    <color name="call_incoming_color">#4CAF50</color>
-    <color name="call_outgoing_color">#2196F3</color>
-    <color name="call_missed_color">#F44336</color>
 
 </resources>

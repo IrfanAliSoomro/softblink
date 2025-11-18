@@ -8,8 +8,12 @@
  */
 package com.nextcloud.talk.remotefilebrowser.activities
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -18,6 +22,8 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,7 +31,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import autodagger.AutoInjector
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityRemoteFileBrowserBinding
 import com.nextcloud.talk.remotefilebrowser.SelectionInterface
 import com.nextcloud.talk.remotefilebrowser.adapters.RemoteFileBrowserItemsAdapter
@@ -83,6 +88,7 @@ class RemoteFileBrowserActivity :
         viewThemeUtils.material.colorMaterialTextButton(binding.pathNavigationBackButton)
         viewThemeUtils.platform.themeStatusBar(this)
         setContentView(binding.root)
+        initSystemBars()
 
         DisplayUtils.applyColorToNavigationBar(
             this.window,
@@ -240,6 +246,21 @@ class RemoteFileBrowserActivity :
 
     private fun showList() {
         binding.recyclerView.visibility = View.VISIBLE
+    }
+
+    fun initSystemBars() {
+        val decorView = window.decorView
+        decorView.setOnApplyWindowInsetsListener { view, insets ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                val systemBars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() or
+                        WindowInsetsCompat.Type.displayCutout()
+                )
+                view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            }
+            insets
+        }
+        ViewCompat.requestApplyInsets(decorView)
     }
 
     override fun onRefresh() {

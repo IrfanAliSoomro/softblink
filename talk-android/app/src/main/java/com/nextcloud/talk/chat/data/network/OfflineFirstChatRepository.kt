@@ -29,7 +29,6 @@ import com.nextcloud.talk.models.json.chat.ChatOverall
 import com.nextcloud.talk.models.json.chat.ChatOverallSingleMessage
 import com.nextcloud.talk.models.json.converters.EnumActorTypeConverter
 import com.nextcloud.talk.models.json.participants.Participant
-import com.nextcloud.talk.serverstatus.ServerStatusRepository
 import com.nextcloud.talk.utils.bundle.BundleKeys
 import com.nextcloud.talk.utils.database.user.CurrentUserProviderNew
 import com.nextcloud.talk.utils.message.SendMessageUtils
@@ -52,13 +51,12 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-@Suppress("LargeClass", "TooManyFunctions", "LongParameterList")
+@Suppress("LargeClass", "TooManyFunctions")
 class OfflineFirstChatRepository @Inject constructor(
     private val chatDao: ChatMessagesDao,
     private val chatBlocksDao: ChatBlocksDao,
     private val network: ChatNetworkDataSource,
     private val networkMonitor: NetworkMonitor,
-    private val serverStatusRepository: ServerStatusRepository,
     userProvider: CurrentUserProviderNew
 ) : ChatMessageRepository {
 
@@ -165,11 +163,8 @@ class OfflineFirstChatRepository @Inject constructor(
             } else {
                 if (!weAlreadyHaveSomeOfflineMessages) {
                     Log.d(TAG, "An online request for newest 100 messages is made because offline chat is empty")
-                    // Prioritize internet connectivity error over server reachability error
                     if (networkMonitor.isOnline.value.not()) {
                         _generalUIFlow.emit(ChatActivity.NO_OFFLINE_MESSAGES_FOUND)
-                    } else if (!serverStatusRepository.isServerReachable.value) {
-                        _generalUIFlow.emit(ChatActivity.UNABLE_TO_LOAD_MESSAGES)
                     }
                 } else {
                     Log.d(
@@ -482,6 +477,9 @@ class OfflineFirstChatRepository @Inject constructor(
         return fieldMap
     }
 
+    override suspend fun getNumberOfThreadReplies(threadId: Long): Int =
+        chatDao.getNumberOfThreadReplies(internalConversationId, threadId)
+
     override suspend fun getMessage(messageId: Long, bundle: Bundle): Flow<ChatMessage> {
         Log.d(TAG, "Get message with id $messageId")
         val loadFromServer = hasToLoadPreviousMessagesFromServer(messageId, 1)
@@ -509,10 +507,6 @@ class OfflineFirstChatRepository @Inject constructor(
     @Suppress("UNCHECKED_CAST", "MagicNumber", "Detekt.TooGenericExceptionCaught")
     private fun getMessagesFromServer(bundle: Bundle): Pair<Int, List<ChatMessageJson>>? {
         val fieldMap = bundle.getSerializable(BundleKeys.KEY_FIELD_MAP) as HashMap<String, Int>
-        
-        Log.d(TAG, "getMessagesFromServer called with fieldMap: $fieldMap")
-        Log.d(TAG, "credentials: ${credentials.take(10)}...")
-        Log.d(TAG, "urlForChatting: $urlForChatting")
 
         var attempts = 1
         while (attempts < 5) {
@@ -522,7 +516,6 @@ class OfflineFirstChatRepository @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { it ->
-                        Log.d(TAG, "HTTP response received: ${it.code()}")
                         when (it.code()) {
                             HTTP_CODE_OK -> {
                                 Log.d(TAG, "getMessagesFromServer HTTP_CODE_OK")
@@ -555,7 +548,6 @@ class OfflineFirstChatRepository @Inject constructor(
                             }
 
                             else -> {
-                                Log.e(TAG, "getMessagesFromServer unexpected status code: ${it.code()}")
                                 return@map Pair(
                                     HTTP_CODE_PRECONDITION_FAILED,
                                     listOf<ChatMessageJson>()
@@ -582,25 +574,16 @@ class OfflineFirstChatRepository @Inject constructor(
     }
 
     private suspend fun sync(bundle: Bundle): List<ChatMessageEntity>? {
-        Log.d(TAG, "sync() called")
-
         if (!networkMonitor.isOnline.value) {
             Log.d(TAG, "Device is offline, can't load chat messages from server")
             return null
         }
-        if (!serverStatusRepository.isServerReachable.value) {
-            Log.d(TAG, "Server is not reachable, can't load chat messages")
-            return null
-        }
 
-        Log.d(TAG, "Calling getMessagesFromServer...")
         val result = getMessagesFromServer(bundle)
         if (result == null) {
-            Log.e(TAG, "No result from server - getMessagesFromServer returned null")
+            Log.d(TAG, "No result from server")
             return null
         }
-
-        Log.d(TAG, "Got result from server: statusCode=${result.first}, messageCount=${result.second.size}")
 
         var chatMessagesFromSync: List<ChatMessageEntity>? = null
 
@@ -628,7 +611,6 @@ class OfflineFirstChatRepository @Inject constructor(
         }
 
         if (result.second.isNotEmpty()) {
-            Log.d(TAG, "Processing ${result.second.size} messages from server")
             chatMessagesFromSync = updateMessagesData(
                 result.second,
                 blockContainingQueriedMessage,
@@ -639,7 +621,6 @@ class OfflineFirstChatRepository @Inject constructor(
             Log.d(TAG, "no data is updated...")
         }
 
-        Log.d(TAG, "sync() returning ${chatMessagesFromSync?.size ?: 0} messages")
         return chatMessagesFromSync
     }
 

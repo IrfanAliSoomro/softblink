@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.callnotification
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
@@ -21,8 +24,6 @@ import com.nextcloud.talk.R
 import com.nextcloud.talk.activities.CallActivity
 import com.nextcloud.talk.activities.CallBaseActivity
 import com.nextcloud.talk.api.NcApi
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.CallNotificationActivityBinding
 import com.nextcloud.talk.extensions.loadUserAvatar

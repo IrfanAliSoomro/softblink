@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.polls.ui
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -23,7 +26,6 @@ import autodagger.AutoInjector
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.DialogPollVoteBinding
 import com.nextcloud.talk.polls.model.Poll
 import com.nextcloud.talk.polls.viewmodels.PollMainViewModel

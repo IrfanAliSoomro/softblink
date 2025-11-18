@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
@@ -24,7 +27,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.data.network.NetworkMonitor
@@ -59,6 +61,7 @@ import java.util.Date
 import javax.inject.Inject
 
 @AutoInjector(NextcloudTalkApplication::class)
+@Suppress("LongParameterList", "TooManyFunctions")
 class MessageActionsDialog(
     private val chatActivity: ChatActivity,
     private val message: ChatMessage,
@@ -153,7 +156,6 @@ class MessageActionsDialog(
                     currentConversation?.type != ConversationEnums.ConversationType.ROOM_TYPE_ONE_TO_ONE_CALL &&
                     isOnline
             )
-            initMenuStartThread(!message.isThread)
             initMenuOpenThread(message.isThread && chatActivity.conversationThreadId == null)
             initMenuEditMessage(isMessageEditable)
             initMenuDeleteMessage(showMessageDeletionButton && isOnline)
@@ -446,17 +448,6 @@ class MessageActionsDialog(
         }
 
         dialogMessageActionsBinding.menuReplyPrivately.visibility = getVisibility(visible)
-    }
-
-    private fun initMenuStartThread(visible: Boolean) {
-        if (visible) {
-            dialogMessageActionsBinding.menuStartThread.setOnClickListener {
-                chatActivity.createThread(message)
-                dismiss()
-            }
-        }
-
-        dialogMessageActionsBinding.menuStartThread.visibility = getVisibility(visible)
     }
 
     private fun initMenuOpenThread(visible: Boolean) {

@@ -6,6 +6,9 @@
  */
 package com.nextcloud.talk.adapters.messages
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -22,8 +25,6 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import autodagger.AutoInjector
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.chat.data.model.ChatMessage
 import com.nextcloud.talk.databinding.ItemSystemMessageBinding
 import com.nextcloud.talk.utils.DateUtils

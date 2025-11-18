@@ -9,6 +9,8 @@
  */
 package com.nextcloud.talk.fullscreenfile
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -36,7 +38,6 @@ import androidx.media3.ui.PlayerView
 import autodagger.AutoInjector
 import com.nextcloud.talk.BuildConfig
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.databinding.ActivityFullScreenMediaBinding
 import com.nextcloud.talk.ui.dialog.SaveToStorageDialogFragment
 import com.nextcloud.talk.utils.Mimetype.VIDEO_PREFIX_GENERIC

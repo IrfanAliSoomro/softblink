@@ -31,7 +31,7 @@
             android:layout_marginBottom="@dimen/standard_margin"
             android:contentDescription="@string/nc_app_product_name"
             android:scaleType="centerInside"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/ic_logo" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -65,7 +65,6 @@
                     android:minLines="1"
                     android:paddingStart="16dp"
                     android:paddingEnd="55dp"
-                    android:text = 'https://nc.softblinktech.com'
                     android:scrollbars="vertical"
                     android:textColor="@color/white"
                     android:textColorHint="#80FFFFFF">
@@ -170,7 +169,6 @@
                 android:layout_marginTop="42dp"
                 android:lineSpacingMultiplier="1.2"
                 android:lines="2"
-                android:visibility="gone"
                 android:minHeight="@dimen/min_size_clickable_area"
                 android:padding="@dimen/standard_padding"
                 android:text="@string/nc_get_from_provider"
@@ -184,7 +182,6 @@
                 android:layout_marginTop="@dimen/standard_margin"
                 android:lineSpacingMultiplier="1.2"
                 android:lines="2"
-                android:visibility="gone"
                 android:minHeight="@dimen/min_size_clickable_area"
                 android:padding="@dimen/standard_padding"
                 android:text="@string/nc_configure_cert_auth"

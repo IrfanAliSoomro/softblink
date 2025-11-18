@@ -1,10 +1,7 @@
 /*
  * Nextcloud Talk - Android Client
  *
- * SPDX-FileCopyrightText: 2022 Andy Scherzinger <info@andy-scherzinger.de>
- * SPDX-FileCopyrightText: 2022 Marcel Hibbe <dev@mhibbe.de>
- * SPDX-FileCopyrightText: 2022 Tim Krüger <t@timkrueger.me>
- * SPDX-FileCopyrightText: 2017 Mario Danic <mario@lovelyhq.com>
+ * SPDX-FileCopyrightText: 2025 Your Name <your@email.com>
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 package com.nextcloud.talk.application
@@ -49,6 +46,7 @@ import com.nextcloud.talk.jobs.SignalingSettingsWorker
 import com.nextcloud.talk.jobs.WebsocketConnectionsWorker
 import com.nextcloud.talk.ui.theme.ThemeModule
 import com.nextcloud.talk.utils.ClosedInterfaceImpl
+    // .utils.ClosedInterfaceImpl
 import com.nextcloud.talk.utils.DeviceUtils
 import com.nextcloud.talk.utils.NotificationUtils
 import com.nextcloud.talk.utils.database.arbitrarystorage.ArbitraryStorageModule
@@ -115,7 +113,6 @@ class NextcloudTalkApplication :
 
     //endregion
 
-
     //region Overridden methods
     override fun onCreate() {
         Log.d(TAG, "onCreate")
@@ -136,14 +133,7 @@ class NextcloudTalkApplication :
         componentApplication.inject(this)
 
         Coil.setImageLoader(buildDefaultImageLoader())
-        // Ensure default theme is set to light mode on first install
-        val currentTheme = appPreferences.theme
-        if (currentTheme.isEmpty() || currentTheme == "follow_system") {
-            appPreferences.setTheme("night_no")
-            setAppTheme("night_no")
-        } else {
-            setAppTheme(currentTheme)
-        }
+        setAppTheme(appPreferences.theme)
         super.onCreate()
 
         ClosedInterfaceImpl().providerInstallerInstallIfNeededAsync()

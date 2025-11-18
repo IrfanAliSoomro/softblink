@@ -7,6 +7,9 @@
  */
 package com.nextcloud.talk.ui.dialog
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -16,7 +19,6 @@ import autodagger.AutoInjector
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication
 import com.nextcloud.talk.chat.ChatActivity
 import com.nextcloud.talk.databinding.DialogAttachmentBinding
 import com.nextcloud.talk.ui.theme.ViewThemeUtils
@@ -84,7 +86,8 @@ class AttachmentDialog(val activity: Activity, var chatActivity: ChatActivity) :
         if (!CapabilitiesUtil.hasSpreedFeatureCapability(
                 chatActivity.spreedCapabilities,
                 SpreedFeatures.THREADS
-            )
+            ) ||
+            chatActivity.conversationThreadId != null
         ) {
             dialogAttachmentBinding.menuCreateThread.visibility = View.GONE
         }

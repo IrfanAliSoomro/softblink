@@ -6,10 +6,12 @@
  */
 package com.nextcloud.talk.adapters
 
+import com.nextcloud.talk.application.NextcloudTalkApplication
+import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
+
 import android.text.TextUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.nextcloud.talk.R
-import com.nextcloud.talk.application.NextcloudTalkApplication.Companion.sharedApplication
 import com.nextcloud.talk.data.user.model.User
 import com.nextcloud.talk.databinding.ReactionItemBinding
 import com.nextcloud.talk.extensions.loadGuestAvatar
