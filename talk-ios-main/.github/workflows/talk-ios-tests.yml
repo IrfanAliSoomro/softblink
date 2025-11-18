@@ -1,0 +1,239 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Build main target
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - Podfile
+      - NextcloudTalk.xcodeproj/**
+      - NextcloudTalk/**
+      - NextcloudTalkTests/**
+      - NotificationServiceExtension/**
+      - ShareExtension/**
+      - BroadcastUploadExtension/**
+
+    push:
+      branches:
+        - main
+        - stable*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  WORKSPACE: NextcloudTalk.xcworkspace
+  DESTINATION: platform=iOS Simulator,name=iPhone 16,OS=18.5
+  SCHEME: NextcloudTalk
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-15
+
+    steps:
+      # Workaround for eliminating iOS 17 simulators stalling issue
+      # Runs deamon which kills CPU intensive tasks which affects simulator performance
+      # See https://github.com/actions/runner-images/issues/11509#issuecomment-2703308482
+    - name: Install and run yeetd
+      run: |
+        wget https://github.com/biscuitehh/yeetd/releases/download/1.0/yeetd-normal.pkg
+        sudo installer -pkg yeetd-normal.pkg -target /
+        defaults write dev.biscuit.yeetd killapsd true
+        yeetd & 
+            
+    - name: Checkout app
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        persist-credentials: false
+        submodules: true
+
+    - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+
+    - name: Setup Cocoapods
+      uses: maxim-lobanov/setup-cocoapods@8e97e1e98e6ccf42564fdf5622c8feec74199377 # v1.4.0
+      with:
+        version: latest      
+
+    - name: Set up dependencies talk-ios
+      run: |
+        pod install
+
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
+      with:
+        xcode-version: latest-stable
+
+    - name: Install iOS 18.5
+      run: |
+        xcrun simctl list > /dev/null # Required to prevent the next command from sometimes not working
+        xcodebuild -downloadPlatform iOS -buildVersion 18.5
+
+    - name: Build NextcloudTalk iOS for testing
+      run: |
+        set -o pipefail && \
+        xcodebuild build-for-testing \
+        -workspace '${{ env.WORKSPACE }}' \
+        -scheme '${{ env.SCHEME }}' \
+        -destination '${{ env.DESTINATION }}' \
+        -derivedDataPath 'DerivedData' \
+        | xcbeautify --quieter
+
+    - name: Upload test build
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: Products
+        path: DerivedData/Build/Products
+        retention-days: 4
+
+  test:
+    name: Test
+    runs-on: macos-15
+    needs: [build]
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Test with stable23 as well to find regressions in older versions
+        configs: [
+          { talkbranch: 'stable23', serverbranch: 'stable23', phpversion: '8.0' },
+          { talkbranch: 'stable29', serverbranch: 'stable29', phpversion: '8.3' },
+          { talkbranch: 'stable30', serverbranch: 'stable30', phpversion: '8.3' },
+          { talkbranch: 'stable31', serverbranch: 'stable31', phpversion: '8.3' },
+          { talkbranch: 'main', serverbranch: 'master', phpversion: '8.3' }
+        ]
+
+    steps:
+      # Workaround for eliminating iOS 17 simulators stalling issue
+      # Runs deamon which kills CPU intensive tasks which affects simulator performance
+      # See https://github.com/actions/runner-images/issues/11509#issuecomment-2703308482
+    - name: Install and run yeetd
+      run: |
+        wget https://github.com/biscuitehh/yeetd/releases/download/1.0/yeetd-normal.pkg
+        sudo installer -pkg yeetd-normal.pkg -target /
+        defaults write dev.biscuit.yeetd killapsd true
+        yeetd & 
+
+    - name: Checkout app
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        persist-credentials: false
+        submodules: true
+
+    - name: Set up php ${{ matrix.configs.phpversion }}
+      uses: shivammathur/setup-php@bf6b4fbd49ca58e4608c9c89fba0b8d90bd2a39f # v2.35.5
+      with:
+        php-version: ${{ matrix.configs.phpversion }}
+        # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+        extensions: apcu, bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, pgsql, pdo_pgsql
+        coverage: none
+        ini-file: development
+        # Temporary workaround for missing pcntl_* in PHP 8.3: ini-values: apc.enable_cli=on
+        ini-values: apc.enable_cli=on, disable_functions=
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Checkout server
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        persist-credentials: false
+        submodules: true
+        repository: nextcloud/server
+        path: server
+        ref: ${{ matrix.configs.serverbranch }}
+
+    - name: Checkout Talk
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      with:
+        persist-credentials: false
+        repository: nextcloud/spreed
+        path: server/apps/spreed
+        ref: ${{ matrix.configs.talkbranch }}
+
+    - name: Set up production dependencies
+      working-directory: server/apps/spreed
+      run: composer i --no-dev 
+
+    - name: Set up Nextcloud
+      run: |
+        mkdir server/data
+        ./server/occ maintenance:install --verbose --database=sqlite --admin-user admin --admin-pass admin --admin-email admin@local.invalid
+        ./server/occ config:system:set hashing_default_password --value=true --type=boolean
+        ./server/occ config:system:set auth.bruteforce.protection.enabled --value false --type bool
+        ./server/occ config:system:set ratelimit.protection.enabled --value false --type bool
+        ./server/occ config:system:set memcache.local --value='\OC\Memcache\APCu'
+        ./server/occ config:system:set memcache.distributed --value='\OC\Memcache\APCu'
+        ./server/occ app:enable --force spreed
+        ./server/occ background:cron
+        OC_PASS=alice ./server/occ user:add --password-from-env alice
+        PHP_CLI_SERVER_WORKERS=10 php -S localhost:8080 -t server/ &
+
+    - name: Download test-build
+      uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+      with:
+        name: Products
+
+    - name: Check status.php
+      run: curl -s --retry 5 --retry-delay 5 --retry-all-errors http://localhost:8080/status.php || true
+
+    - name: Setup test-specific rooms
+      run: |
+        source ./ci-setup-rooms.sh
+
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
+      with:
+        xcode-version: latest-stable
+
+    - name: Install iOS 18.5
+      run: |
+        xcrun simctl list > /dev/null # Required to prevent the next command from sometimes not working
+        xcodebuild -downloadPlatform iOS -buildVersion 18.5        
+
+    - name: Test NextcloudTalk iOS
+      run: |
+        set -o pipefail && \
+        xcodebuild test-without-building \
+        -xctestrun $(find . -type f -name '*.xctestrun') \
+        -destination '${{ env.DESTINATION }}' \
+        -derivedDataPath 'DerivedData' \
+        -test-iterations 3 \
+        -retry-tests-on-failure \
+        -resultBundlePath 'testResult.xcresult'
+
+    - name: Print logs
+      if: always()
+      run: |
+        cat server/data/nextcloud.log        
+
+    - name: Upload test results
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      if: ${{ !cancelled() }}
+      with:
+        name: testResults-${{ matrix.configs.talkbranch }}.xcresult
+        path: 'testResult.xcresult'
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [test]
+
+    if: always()
+
+    name: build-and-test-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.test.result != 'success' }}; then exit 1; fi
